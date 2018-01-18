@@ -1,5 +1,5 @@
-# pirateisland
-Pirate Puzzle Game
+# Pirate Island
+A Pirate Puzzle Game using spatial objects to create a challening puzzle that will keep the user engaged.
 
 ## Primary Concept
 A puzzle game that challenges a user to navigate a pirates ship through treaturous waters through a lightening storm. There will be obstacles such as islands, crocodiles, whirlpools. The user will get 2 seconds to see the obstacles while lightening strikes and then have to enter their moves (left 5, up 6, right 4 etc) to get to the treasure island without hitting an obstacle. They will submit there moves and the game engine will return their result, highlighting if they hit an obstacle. This obstacle will then remain visibile and the user will get another go.
