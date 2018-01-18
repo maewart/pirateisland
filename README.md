@@ -16,9 +16,9 @@ Github will be used for code. A framework, object model and data model will be d
 This project will contain a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
 
 ## Team Structure
-Overall Architecture: Martin
-Html/Javascript: Livia
-Python & Database: Marco & Callum
-Level Design: All
+* Overall Architecture: Martin
+* Html/Javascript: Livia
+* Python & Database: Marco & Callum
+* Level Design: All
 
 
