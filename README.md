@@ -1,24 +1,54 @@
-# Pirate Island
-A Pirate Puzzle Game using spatial objects to create a challening puzzle that will keep the user engaged.
+# Project Proposal: Pirate Island Game
 
-## Primary Concept
-A puzzle game that challenges a user to navigate a pirates ship through treaturous waters during a lightening storm. There will be obstacles such as islands, crocodiles, whirlpools. The user will get 2 seconds to see the obstacles while lightening strikes and then have to enter their moves (left 5, up 6, right 4 etc) to get to the treasure island without hitting an obstacle. They will submit their moves and the game engine will return their result, highlighting if they hit an obstacle. This obstacle will then remain visibile and the user will get another go.
+**Group Members:** S1790173 ......
 
-## Optional Extras
-Every unsuccessful attempt to navigate will results in less treasure points awarded for the level. Bonuses will be awarded if you collect the floating booty on the route. The aim is to complete all levels with the highest overall score. An overall scoreboard will be displayed.
+**Project Summary:** The goal of this project is to create an online puzzle game using spatial objects stored in a database that will keep the user engaged.
 
-## How
-A database structure that stores multiple spatial objects that define a level. These objects will be polygons, lines or circles and image objects. Different levels will reference different objects. A python script will load and display the objects into an SVG grid for the user display. All user interaction will then be in javascript handling the screen changes and submitting the requested moves back to the database via python. There will then be a stored procedure that determines whether the user path successfully gets to the other side of the grid. If not, it will return the object that was struck. The python script will return this back to the user display and the cycle will repeat.
+**Technical Reasoning:** This project will contain a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
 
-Github will be used for code. A framework, object model and data model will be defined upfront, splitting the work in to components. Each team member will take a different component, such as the database structure, navigation stored procedure, python script, html/styling and javascript.
+## 1 Game Description
 
-## Technical Reasoning
-This project will contain a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
-
-## Team Structure
-* Overall Architecture: Martin
-* Html/Javascript: Livia
-* Python & Database: Marco & Callum
-* Level Design: All
+### 1.1 Primary Concept
+*Pirate Island* is a puzzle game that challenges a user to navigate a pirate ship through treacherous waters during a lightening storm. Each level consists of a piece of sea with obstacles such as rocks, crocodiles and whirlpools that will complicate the navigation. The user gets to see the obstacles only for a short time while lightening strikes (e.g. for two seconds) and then has to enter moves (left 5, up 6, right 4 etc.) to get to the treasure island without hitting an obstacle. He submits his moves and the game engine returns the result visually, highlighting if he hit an obstacle. This obstacle then remains visible and the user gets another go. Every unsuccessful attempt to navigate results in less treasure points awarded for the level. The aim is to complete as many levels as possible with the highest overall score.
 
 
+### 1.2 Optional Functionalities
+* An overall scoreboard is kept and displayed
+* Obstacles have more complex characteristics (e.g. hitting a rock doesn't bring the pirate ship to sink completely but throws a man overboard which results in a loss of points)
+* Bonuses are awarded if the user collects the floating booty on the route
+
+
+## 2 Project Plan
+
+
+### 2.1 Technologies and Architecture
+An Oracle database structure stores multiple spatial objects that define a level. These objects are polygons, lines or circles and image objects. Different levels reference different objects. A python script loads and displays the objects into an SVG grid for the user display. Screen changes and animations are handled within JavaScript. After the user submits moves the requested path is passed back to the database via python. A stored procedure determines whether the user path successfully navigates the ship to the other side of the grid. If not, the object that was struck is returned over the python script back to the user display resulting in an animation and the cycle will repeat.
+
+### 2.2 Team Organisation
+A framework, object model and data model will be defined upfront, splitting the work into components. Each team member will be responsible for a different component, such as the database structure, stored procedure for the user navigation, python script, data display and animation. Github will be used to share code between team members and place it under version control (see <https://github.com/maewart/pirateisland/>).
+
+**Responsibilities:**
+
+* Martin: Overall architecture and coordination between components
+* Marco and Callum: Database structure and python script
+* Livia: Web display and animation effects
+* All: Level design
+
+### 2.4 Time plan
+
+An iterative software development model will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game.
+
+**We create a Gantt chart with the following tasks:**
+
+* Clarification of architecture, responsibilities of components and their interactions (first week?)
+* Data Model (first week – third week)
+* First cycle with minimal requirements (until second/third week?)
+* User Interface Design testing (third week?)
+* Level design (first week – due)
+* ..
+* ..
+
+
+# Notes for squadra!!!
+* maybe describe technical aspects in more detail (e.g. that we're using templates...) ??
+* I'm a pirate!
