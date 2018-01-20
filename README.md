@@ -49,7 +49,6 @@ An iterative software development model will be applied. In a first cycle the mi
 * ..
 
 
-
-# Notes!!!
+# Notes for squadra!!!
 * maybe describe technical aspects in more detail (e.g. that we're using templates...) ??
 * I'm a pirate!
