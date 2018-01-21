@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-__all__ = ['genHTMLElement','genTextElement','genTableElements','genImageElements']
+__all__ = ['genHTMLElement']
 
 def genHTMLElement(elementName,paramNames,paramValues,elementValue=""):
 	"""Function to generate a html element of the form <element params=values>text</element>
@@ -30,24 +30,6 @@ def genHTMLElement(elementName,paramNames,paramValues,elementValue=""):
 		text = text + '>' + elementValue + '</' + elementName + '>'
 		
 	return text
-
-def genImageElement(imageHref,preserveAspectRatio,width,height,x,y):
-	"""Create an image svg element
-	
-	Keyword arguments:
-	imageHref -- http location of image
-	preserveAspectRatio -- true or false
-	width -- width in percent or absolute
-	height -- height in percent or absolute
-	x -- x location within view box
-	y -- y location within view box
-	"""
-
-	imageLink = genHTMLElement('image',['href','width','height','preserveAspectRatio'],[imageHref,'100%','100%',preserveAspectRatio])
-	imageSVG = genHTMLElement('svg',['width','height','x','y'],[width,height,x,y],imageLink)
-	imageElement = imageSVG
-	return imageElement
-	
 	
 	
 	
