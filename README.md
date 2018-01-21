@@ -46,15 +46,7 @@ A framework, object model and data model will be defined upfront, splitting the 
 
 An iterative software development model will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game.
 
-**We create a Gantt chart with the following tasks:**
-
-* Clarification of architecture, responsibilities of components and their interactions (first week?)
-* Data Model (first week – third week)
-* First cycle with minimal requirements (until second/third week?)
-* User Interface Design testing (third week?)
-* Level design (first week – due)
-* ..
-* ..
+<span style="color:blue">I've added a Gantt chart - its fairly big so we may want as an appendix</span>
 
 ### 2.5 References
 
