@@ -57,7 +57,7 @@ An iterative software development model (see Tsai et al. 1997) will be applied. 
 ### Tools and Technologies
 * Bootstrap - Available at https://getbootstrap.com/ [Accessed 20.01.2018]
 * Jinja - Available at http://jinja.pocoo.org/ [Accessed 20.01.2018]
-* SVG Documentation, Available at [http://www.w3.org/TR/SVG/](http://www.w3.org/TR/SVG/) [Accessed 04.01.2018].
+* SVG Documentation – Available at [http://www.w3.org/TR/SVG/](http://www.w3.org/TR/SVG/) [Accessed 04.01.2018].
 * Tutorials Point - Available at https://www.tutorialspoint.com/svg/ [Accessed 20.01.2018]
 * W3C Schools - Available at https://www.w3schools.com/ [Accessed 20.01.2018]
 
