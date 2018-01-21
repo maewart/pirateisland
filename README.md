@@ -1,8 +1,8 @@
 # Project Proposal: Pirate Island Game
 
-**Group Members:** S1790173, S1783947 ......
+**Group Members:** S1790173, S1783947, s1788971, s1138056
 
-**Project Summary:** The goal of this project is to create an online puzzle game using spatial objects stored in a database that will keep the user engaged.
+**Project Summary:** The goal of this project is to create an online puzzle game that will keep the user engaged. The game wil make use of spatial objects stored in a database.
 
 **Technical Reasoning:** This project will contain a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
 
@@ -10,6 +10,7 @@
 
 ### 1.1 Primary Concept
 *Pirate Island* is a puzzle game that challenges a user to navigate a pirate ship through treacherous waters during a lightening storm. Each level consists of a piece of sea with obstacles such as rocks, crocodiles and whirlpools that will complicate the navigation. The user gets to see the obstacles only for a short time while lightening strikes (e.g. for two seconds) and then has to enter moves (left 5, up 6, right 4 etc.) to get to the treasure island without hitting an obstacle. They submit their moves and the game engine returns the result visually, highlighting if they hit an obstacle. This obstacle then remains visible and the user gets another go. Every unsuccessful attempt to navigate the water results in less treasure points awarded for the level. The aim is to complete as many levels as possible with the highest overall score.
+Images of different stages of the basic concept are provided in the attachments.
 
 
 ### 1.2 Optional Functionalities
@@ -25,7 +26,7 @@
 An Oracle database structure stores multiple spatial objects that define a level. These objects are polygons, lines or circles and image objects. Different levels reference different objects. A python script loads and displays the objects into an SVG grid for the user display. Screen changes and animations are handled within JavaScript. After the user submits moves the requested path is passed back to the database via python. A stored procedure determines whether the user path successfully navigates the ship to the other side of the grid. If not, the object that was struck is returned over the python script back to the user display resulting in an animation and the cycle will repeat. New levels will be added to the database using a stored procedure that validates the inputs and calculates game parameters using spatial and regular operations.
 
 ### 2.2 Technologies
-* Oracle Spatial - spatial data plus stored procs and views
+* Oracle Spatial - spatial data plus stored procedures and views
 * SVG - game display
 * Python - db interaction and SVG rendering
 * Jinja2 - html templates
@@ -45,8 +46,7 @@ A framework, object model and data model will be defined upfront, splitting the 
 ### 2.4 Time plan
 
 An iterative software development model will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game.
-
-*I've added a Gantt chart with all the actions we know so far- its fairly big so we may want as an appendix*
+A Gantt chart is attached as appendix.
 
 ### 2.5 References
 * Oracle Spatial - https://docs.oracle.com/en/database/oracle/oracle-database/12.2/spatl/spatial-concepts.html#GUID-67E4037F-C40F-442A-8662-837DD5539784
@@ -54,8 +54,3 @@ An iterative software development model will be applied. In a first cycle the mi
 * Tutorials Point - https://www.tutorialspoint.com/svg/
 * Bootstrap - https://getbootstrap.com/
 * Jinja - http://jinja.pocoo.org/
-
-
-# Notes for squadra!!!
-* maybe describe technical aspects in more detail (e.g. that we're using templates...) ?? - DONE BRIEFLY
-* I'm a pirate! - Arrrrrrr!
