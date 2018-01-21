@@ -46,7 +46,7 @@ A framework, object model and data model will be defined upfront, splitting the 
 
 An iterative software development model will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game.
 
-<span style="color:blue">I've added a Gantt chart - its fairly big so we may want as an appendix</span>
+<span style="color:red">*I've added a Gantt chart - its fairly big so we may want as an appendix*</span>
 
 ### 2.5 References
 
