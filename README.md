@@ -49,6 +49,12 @@ An iterative software development model will be applied. In a first cycle the mi
 *I've added a Gantt chart with all the actions we know so far- its fairly big so we may want as an appendix*
 
 ### 2.5 References
+Oracle Spatial - https://docs.oracle.com/en/database/oracle/oracle-database/12.2/spatl/spatial-concepts.html#GUID-67E4037F-C40F-442A-8662-837DD5539784
+W3C Schools - https://www.w3schools.com/
+Tutorials Point - https://www.tutorialspoint.com/svg/
+Bootstrap - https://getbootstrap.com/
+Jinja - http://jinja.pocoo.org/
+
 
 # Notes for squadra!!!
 * maybe describe technical aspects in more detail (e.g. that we're using templates...) ??
