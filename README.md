@@ -1,15 +1,16 @@
 # Project Proposal: Pirate Island Game
 
-**Group Members:** S1790173, S1783947 ......
+**Group Members:** S1790173, S1783947, S1788971, S1138056
 
-**Project Summary:** The goal of this project is to create an online puzzle game using spatial objects stored in a database that will keep the user engaged.
+**Project Summary:** The goal of this project is to create an online puzzle game that will keep the user engaged. The game will make use of spatial objects stored in a database.
 
 **Technical Reasoning:** This project will contain a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
 
 ## 1 Game Description
 
 ### 1.1 Primary Concept
-*Pirate Island* is a puzzle game that challenges a user to navigate a pirate ship through treacherous waters during a lightning storm. Each level consists of a piece of sea with obstacles such as rocks, crocodiles and whirlpools that will complicate the navigation. The user gets to see the obstacles only for a short time while lightning strikes (e.g. for two seconds) and then has to enter moves (left 5, up 6, right 4 etc.) to get to the treasure island without hitting an obstacle. They submit their moves and the game engine returns the result visually, highlighting if they hit an obstacle. This obstacle then remains visible and the user gets another go. Every unsuccessful attempt to navigate the water results in less treasure points awarded for the level. The aim is to complete as many levels as possible with the highest overall score.
+*Pirate Island* is a puzzle game that challenges a user to navigate a pirate ship through treacherous waters during a lightening storm. Each level consists of a piece of sea with obstacles such as rocks, crocodiles and whirlpools that will complicate the navigation. The user gets to see the obstacles only for a short time while lightening strikes (e.g. for two seconds) and then has to enter moves (left 5, up 6, right 4 etc.) to get to the treasure island without hitting an obstacle. They submit their moves and the game engine returns the result visually, highlighting if they hit an obstacle. This obstacle then remains visible and the user gets another go. Every unsuccessful attempt to navigate the water results in less treasure points awarded for the level. The aim is to complete as many levels as possible with the highest overall score.
+Simple mockups of the different stages of the level are provided at the end of this document.
 
 
 ### 1.2 Optional Functionalities
@@ -33,7 +34,7 @@ An Oracle database structure stores multiple spatial objects that define a level
 * JavaScript - client side controls and animations
 
 ### 2.3 Team Organisation
-A framework, object model and data model will be defined upfront, splitting the work into components. Each team member will be responsible for a different component, such as the database structure, stored procedure for the user navigation, python script, data display and animation. GitHub will be used to share code between team members and place it under version control (see <https://github.com/maewart/pirateisland/>). 
+A framework, object model and data model will be defined upfront, splitting the work into components. Each team member will be responsible for a different component, such as the database structure, stored procedure for the user navigation, python script, data display and animation. GitHub will be used to share code between team members and place it under version control (see <https://github.com/maewart/pirateisland/>).
 
 **Responsibilities:**
 
@@ -44,9 +45,8 @@ A framework, object model and data model will be defined upfront, splitting the 
 
 ### 2.4 Time plan
 
-An iterative software development model (see Tsai et al. 1997) will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game.
+An iterative software development model (see Tsai et al. 1997) will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game. A Gantt chart is attached as appendix.
 
-*I've added a Gantt chart with all the actions we know so far- its fairly big so we may want as an appendix*
 
 ## 3 Sources
 
@@ -60,3 +60,29 @@ An iterative software development model (see Tsai et al. 1997) will be applied. 
 * SVG Documentation, Available at [http://www.w3.org/TR/SVG/](http://www.w3.org/TR/SVG/) [Accessed 04.01.2018].
 * Tutorials Point - Available at https://www.tutorialspoint.com/svg/ [Accessed 20.01.2018]
 * W3C Schools - Available at https://www.w3schools.com/ [Accessed 20.01.2018]
+
+
+## Appendix
+
+### Figure 1:  First view
+
+![Fail Image](First%20View.PNG)
+
+### Figure 2: Blank view
+
+![Fail Image](Five%20seconds%20up.PNG)
+
+### Figure 3: Fail
+
+![Fail Image](Fail.PNG)
+
+### Figure 4: Second attempt
+
+![Fail Image](Second%20go.PNG)
+
+### Figure 5: Completed level
+
+![Fail Image](Complete.PNG)
+
+### Table 1: Gantt chart
+*to be inserted*
