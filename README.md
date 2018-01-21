@@ -37,7 +37,7 @@ A framework, object model and data model will be defined upfront, splitting the 
 
 **Responsibilities:**
 
-* Martin: Overall architecture and component interfaces
+* Martin: Overall architecture and component coordination
 * Marco and Callum: Database structure and python script
 * Livia: Web display and animation effects
 * All: Level design, testing
