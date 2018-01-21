@@ -1,6 +1,6 @@
 # Project Proposal: Pirate Island Game
 
-**Group Members:** S1790173, S1783947, s1788971, s1138056
+**Group Members:** S1790173, S1783947, S1788971, S1138056
 
 **Project Summary:** The goal of this project is to create an online puzzle game that will keep the user engaged. The game wil make use of spatial objects stored in a database.
 
