@@ -64,23 +64,23 @@ An iterative software development model (see Tsai et al. 1997) will be applied. 
 
 ## Appendix
 
-### Figure 1:  First view
+### Figure 1:  First view - Shown for 5 seconds
 
 ![Fail Image](First%20View.PNG)
 
-### Figure 2: Blank view
+### Figure 2: Blank view - Begin to plot path to Treasure Island
 
 ![Fail Image](Five%20seconds%20up.PNG)
 
-### Figure 3: Fail
+### Figure 3: Fail - Object struck
 
 ![Fail Image](Fail.PNG)
 
-### Figure 4: Second attempt
+### Figure 4: Second attempt - Object remains as clue for next attempt
 
 ![Fail Image](Second%20go.PNG)
 
-### Figure 5: Completed level
+### Figure 5: Completed level - Next level attained
 
 ![Fail Image](Complete.PNG)
 
