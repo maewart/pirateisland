@@ -43,9 +43,9 @@ A framework, object model and data model will be defined upfront, splitting the 
 * Livia – Web display and animation effects
 * All – Level design, testing
 
-### 2.4 Time plan
+### 2.4 Time Plan
 
-An iterative software development model (see Tsai et al. 1997) will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game. A Gantt chart is attached as appendix.
+An iterative software development model (see Tsai et al. 1997) will be applied. In a first cycle the minimal requirements for the game will be implemented and tested. Further cycles will add more functionalities and complexity to the game. A Gantt chart is attached (Figure 6).
 
 
 ## 3 Sources
@@ -57,32 +57,19 @@ An iterative software development model (see Tsai et al. 1997) will be applied. 
 ### Tools and Technologies
 * Bootstrap - Available at https://getbootstrap.com/ [Accessed 20.01.2018]
 * Jinja - Available at http://jinja.pocoo.org/ [Accessed 20.01.2018]
-* SVG Documentation – Available at [http://www.w3.org/TR/SVG/](http://www.w3.org/TR/SVG/) [Accessed 04.01.2018].
+* SVG Documentation – Available at http://www.w3.org/TR/SVG/ [Accessed 04.01.2018].
 * Tutorials Point - Available at https://www.tutorialspoint.com/svg/ [Accessed 20.01.2018]
 * W3C Schools - Available at https://www.w3schools.com/ [Accessed 20.01.2018]
 
 
-## Appendix
+![First view - Shown for 5 seconds](FirstView.PNG)
 
-### Figure 1:  First view - Shown for 5 seconds
+![Blank view - Begin to plot path to Treasure Island](Fivesecondsup.PNG)
 
-![Fail Image](First%20View.PNG)
+![Fail - Object struck](Fail.PNG)
 
-### Figure 2: Blank view - Begin to plot path to Treasure Island
+![Second attempt - Object remains as clue for next attempt](Secondgo.PNG)
 
-![Fail Image](Five%20seconds%20up.PNG)
+![Completed level - Next level attained](Complete.PNG)
 
-### Figure 3: Fail - Object struck
-
-![Fail Image](Fail.PNG)
-
-### Figure 4: Second attempt - Object remains as clue for next attempt
-
-![Fail Image](Second%20go.PNG)
-
-### Figure 5: Completed level - Next level attained
-
-![Fail Image](Complete.PNG)
-
-### Table 1: Gantt chart
 ![Gantt chart](ProjectGantt.png)
