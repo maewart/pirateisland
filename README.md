@@ -85,4 +85,4 @@ An iterative software development model (see Tsai et al. 1997) will be applied. 
 ![Fail Image](Complete.PNG)
 
 ### Table 1: Gantt chart
-*to be inserted*
+![Gantt chart](ProjectGantt.png)
