@@ -5,7 +5,7 @@ GIT CHEATSHEET
 git init
 
 ## set origin
-git remote add origin <url>
+git remote add origin https://github.com/maewart/pirateisland
 
 ## pull files down
 git pull origin master
@@ -15,7 +15,7 @@ git pull origin master
 
 # AFTER CHANGES
 ## 1. add file to a commit
-git add <filename>
+git add filename
 
 ## 2. commit
 git commit -m "Message"
