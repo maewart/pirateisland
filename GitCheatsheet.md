@@ -1,5 +1,3 @@
-GIT CHEATSHEET
-
 # SET UP
 ## initialise (creates folder .init)
 git init
@@ -13,7 +11,7 @@ git pull origin master
 
 
 
-# AFTER CHANGES
+# AFTER CHANGES (TO UPLOAD)
 ## 1. add file to a commit
 git add filename
 
