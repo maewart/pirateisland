@@ -55,11 +55,12 @@ class Website(object):
 		
 		assert self._level != None
 		
-		something = ''
-		for i in self._params:
-			something  =  i +' '+ self._params[i].value + '<br>' + something
-		something = 'Hello Everyone <br><br>' + something
-			
+		#Demonstration purposes for reading params
+		#something = ''
+		#for i in self._params:
+		#	something  =  i +' '+ self._params[i].value + '<br>' + something
+		#something = 'Hello Everyone <br><br>' + something	
+		
 		return self._mainTemplate.render(
 										paramList = self._level.render(500,500)
 										)

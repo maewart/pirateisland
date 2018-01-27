@@ -19,9 +19,12 @@ class Database(object):
 		"""Open Connection"""
 	
 		pwdPath = "../../../oracle/mainpwd"
+		userPath = "../../../oracle/username"
 		with open(pwdPath,'r') as pwdRaw:
 			pwd = pwdRaw.read().strip()
-		self._conn = cx_Oracle.connect(dsn="geosgen",user="s1783947",password=pwd)
+		with open(userPath,'r') as userRaw:
+			username = userRaw.read().strip()
+		self._conn = cx_Oracle.connect(dsn="geosgen",user=username,password=pwd)
 		pwd = None #Keep Pwd in memory for a short as possible	
 		
 	def closeConnection(self):
