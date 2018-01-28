@@ -5,7 +5,7 @@ Content-Type: text/html
 <html lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Fields & Finds Mapping Service</title>
+    <title>Pirate Island</title>
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -29,11 +29,40 @@ Content-Type: text/html
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- control Script for sending information to python code -->
-       
+    <script>
+      $(function()
+      {
+        $('#clickme').click(function(){
+          alert('Im going to start processing');
+                
+          $.ajax({
+            url: "validate.py",
+            type: "post",
+            datatype:"json",
+            data: {'Person1':'Marco','Person2':'Livia','Person3':'Callum'},
+            success: function(response){
+              alert(response.message);
+              //alert(response.keys);
+              for (var key in response.data) {
+                alert(response.data[key]);
+              };
+            //alert(response.data['Person1']);
+            //alert(response.data['Person2']);
+            }
+          })
+        });
+      });
+    </script>  
   </head>
-  <body>
-  
-	{{paramList}}
     
+  <body>
+  <br>
+  Arrrrr me hearties, welcome to Pirate Island
+  <br>
+  <br>
+  <button id="clickme"> Validate Route </button>
+  <br>
+  <br>
+  {{paramList}}
   </body>
 </html>
