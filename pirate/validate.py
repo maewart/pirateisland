@@ -4,26 +4,25 @@ import sys
 import json
 import cgi
 
-fs = cgi.FieldStorage()
+import pirate as pLib
+#from .moveValidation import MoveValidation
+
+""" Entry to the move validation
+This instance creates a MoveValidation to evaluate the users moves and send back an instruction for
+"""
+
+
+inp = cgi.FieldStorage()
 
 sys.stdout.write("Content-Type: application/json")
-
 sys.stdout.write("\n")
 sys.stdout.write("\n")
 
+validation = pLib.MoveValidation(inp)
+validation.validate()
+sys.stdout.write(str(validation))
 
-result = {}
-result['success'] = True
-result['message'] = "The command Completed Successfully"
-result['keys'] = ",".join(fs.keys())
 
-d = {}
-for k in fs.keys():
-    d[k] = fs.getvalue(k) + ' is cool'
-
-result['data'] = d
-
-sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
 
 sys.stdout.close()
