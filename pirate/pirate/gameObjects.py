@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import numpy as np
 from .htmlHelper import genHTMLElement
-from .cssHelper import genCSSElement
 from datetime import datetime
 __all__ = ['Level']
 
@@ -28,6 +27,7 @@ Islandpath5 = 'M-430.6,772.7c-4.2,0-8.6-4.4-8.6-4.4l-1.1-1.1l-1.2,1.1c0,0-4.5,4.
 Seapath2 = 'M-1164,667.9c36.2,52.5,83.8,81.3,134.4,81.3c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3 c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3s98.1-28.8,134.4-81.3v-14l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8 s-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5 c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5L-1164,667.9L-1164,667.9z'
 Seapath1 = 'M-162,382.3v3.5c-7-6.9-14,6.9-22,0c-7-6.9-14,6.9-21,0s-14,6.9-21,0c-8-6.9-15,6.9-22,0v-3.5 c7,6.9,14-6.9,22,0c7,6.9,14-6.9,21,0s14-6.9,21,0C-176,389.2-169,375.3-162,382.3z'
 Obstacle1 = 'M 0 10 L10 10 L5 15 L5 20 L0 20 Z'
+Obstacle2 = 'M 0 0 L0 2 L5 2 L7 1 Z'
 
 class Level(object):
 	"""The full map area
@@ -36,25 +36,27 @@ class Level(object):
 	
 	"""
 
-	def __init__(self,levelId,maxX,maxY):
+	def __init__(self,levelId,levelName,maxX,maxY,startX,startY):
 		"""Initialise object
 		
 		Keyword arguments:
-		levelId,maxX,maxY
+		levelId,levelName,maxX,maxY,startX,startY
 		"""
 		
 		self._levelId = str(levelId)
 		self._maxX = int(maxX)
 		self._maxY = int(maxY)
-		self._htmlId = 'LevelSVG'
+		self._levelName = levelName
+		self._startX = float(startX)
+		self._startY = float(startY)
+		self._htmlId = 'Level_' + self._levelId
+		self._objectList = []
 		
 		#Define view boxes
-		#Marco Deprecated the Outer box as left over from Martin's old code
-		#self._viewBoxMapOuter = '0 0 ' + str(self._maxX + 2) + ' ' + str(self._maxY + 2) #NOT USED
 		self._viewBoxMapInner = '0 0 ' + str(self._maxX) + ' ' + str(self._maxY) 
 	
 	
-	def addObstacle(self,obstacleList,cssClass): #NEED to DEFINE
+	def addObject(self,obstacle,type): #NEED to DEFINE
 		"""Attach finds to area
 		
 		Keyword arguments:
@@ -62,12 +64,20 @@ class Level(object):
 		cssClass -- css Class
 		"""
 		
-		self._obstacleList = obstacleList
-		self._cssClass = cssClass
-	def style(self):
-		style1 = genCSSElement ('st4',['fill'],['#C62405'])
-		styles = style1
-		return styles
+		island = Island(25,'sandpattern',Obstacle1)
+		self._objectList.append(island)
+		island2 = Island(25,'sandpattern',Obstacle2)
+		self._objectList.append(island2)
+		octopus = Icon(99,'ship',10,10,2,2)
+		self._objectList.append(octopus)
+
+		
+	def _renderObjects(self):
+		output = ''
+		for i in self._objectList:
+			output = output + i.render()
+		return output
+
 	def render(self,width,height):
 		"""Renders the svg map and returns the svg element for display
 		
@@ -78,6 +88,71 @@ class Level(object):
 		
 		#Render all and combine - EXAMPLE BOX
 		viewBox = self._viewBoxMapInner
+
+		#simple svg elements
+		seaWaves = genHTMLElement('rect',
+							['x','y','width','height','fill','fill-opacity'],
+							[0,0,self._maxX,self._maxY,'url(#wavepattern)',1])		
+		seaBlue = genHTMLElement('rect',
+							['x','y','width','height','fill','fill-opacity'],
+							[0,0,self._maxX,self._maxY,'#cceeff',0.5])
+		sea = seaWaves + seaBlue					
+		
+		
+		# Render all obstables
+		#island = Island(25,'sandpattern',Obstacle1)
+		#island2 = Island(25,'sandpattern',Obstacle2)
+		#octopus = Icon(1,'octopus',4,5,2,2)
+		#obstacles = island.render() + island2.render() + octopus.render()
+		objects = self._renderObjects()			
+		
+		# Render Ship
+		shipIcon = Icon(99,'ship',self._startX-0.5,self._startY-0.5,1,1)
+		ship = shipIcon.render()
+		
+		# Create Grid
+		lines = ''
+		for i in range(1,self._maxX):
+			lineDef =  str(i) + ',0,' + str(i) + ','+ str(self._maxY)
+			lineNew = genHTMLElement('polyline',
+							['points','stroke','stroke-width'],
+							[lineDef,'lightgrey',0.02])
+			lines = lines + lineNew
+		for i in range(1,self._maxY):
+			lineDef =  '0,' + str(i) + ',' + str(self._maxX) + ',' + str(i)
+			lineNew = genHTMLElement('polyline',
+							['points','stroke','stroke-width'],
+							[lineDef,'lightgrey',0.02])
+			lines = lines + lineNew
+			
+		# Create Boundary box
+		boundary = genHTMLElement('rect',
+					['x','y','width','height','fill','fill-opacity','stroke','stroke-width'],
+					[0,0,self._maxX,self._maxY,'none',1,'black',0.02])	
+				
+		#Combination of all the SVGs
+		combined = sea + lines + objects + ship + boundary
+		
+		svgRoot = genHTMLElement('svg',
+								['width','height','viewBox'],
+								[width,height,viewBox],combined)
+		
+		#Return the root svg element for display
+		return svgRoot
+		
+		
+		
+	def renderOld(self,width,height):
+		"""Renders the svg map and returns the svg element for display
+		
+		Keyword arguments:
+		width -- the svg width - can be percent or absolute
+		height -- the svg height - can be percent or absolute
+		"""
+		
+		#Render all and combine - EXAMPLE BOX
+		viewBox = self._viewBoxMapInner
+		#patterns
 		sandElement = genHTMLElement('circle',
 							['class','id','cx','cy','r'],
 							['islandsand',3,5,5,1.5])
@@ -106,6 +181,7 @@ class Level(object):
 							[],
 							[],
 							patternSea1 + patternSea2 + patternIsland)
+		#simple svg elements
 		rectElementBound = genHTMLElement('rect',
 							['class','id','x','y','width','height','fill','fill-opacity','stroke','stroke-width'],
 							['',1,0,0,20,20,'none',1,'black',0.02])	
@@ -121,9 +197,12 @@ class Level(object):
 		rectElement2 = genHTMLElement('rect',
 							['class','id','x','y','width','height','fill','fill-opacity','stroke','stroke-width'],
 							['island',1,15,15,3,3,'url( #sand1)',1,'black',0.01])
+							
+							
 		obstacleElement1 = genHTMLElement('path',
 							['class','d','fill'],
 							['island',Obstacle1,'url( #sand1)'])
+		#grid
 		linesX = ''
 		linesY = ''
 		for i in range(1,self._maxX):
@@ -265,4 +344,89 @@ class Level(object):
 	@property
 	def maxY(self):
 		return self._maxY
+		
+		
+class Icon(object):
+	"""Create Icon with imagary
+	
+	"""
+
+	def __init__(self,id,fill,x,y,width,height):
+		self._id = int(id)
+		self._fill = str(fill)
+		self._x = float(x)
+		self._y = float(y)
+		self._width = float(width)
+		self._height = float(height)
+		self._htmlId = 'obj_' + str(self._id)
+		
+	def render(self):
+		
+		icon = ''
+		if self._fill == 'ship':
+			icon = self._pirateShip()
+			self._htmlId = 'OurShip'
+		elif self._fill == 'octopus':
+			icon == ''
+		
+		outerSVG = genHTMLElement('svg',
+					['id','x','y','height','width'],
+					[self._htmlId,self._x,self._y,self._width,self._height],
+					icon)
+		
+		return outerSVG
+		
+		
+
+	def _pirateShip(self):
+		pathPirateship1 = genHTMLElement('path',
+							['class','d'],
+							['st1_pirateship',Pirateshippath1])
+		pathPirateship2 = genHTMLElement('path',
+							['class','d'],
+							['st3_pirateship',Pirateshippath2])
+		circlePirateship1 = genHTMLElement('circle',
+							['class','id','cx','cy','r'],
+							['st0_pirateship','','-702.5','1118.3','2.1'])
+		circlePirateship2 = genHTMLElement('circle',
+							['class','id','cx','cy','r'],
+							['st0_pirateship','','-734.4','1118.3','2.1'])
+		circlePirateship3 = genHTMLElement('circle',
+							['class','id','cx','cy','r'],
+							['st0_pirateship','','-718.5','1118.3','2.1'])
+		circlePirateship4 = genHTMLElement('circle',
+							['class','id','cx','cy','r'],
+							['st3_pirateship','','-699.3','1067.2','3.6'])
+		circlePirateship5 = genHTMLElement('circle',
+							['class','id','cx','cy','r'],
+							['st3_pirateship','','-709.6','1067.2','3.6'])
+							
+		combine = pathPirateship1 + pathPirateship2 + circlePirateship1 + circlePirateship2 + circlePirateship3 + circlePirateship4 + circlePirateship5
+		
+		svgPirateship = genHTMLElement('svg',
+							['version','viewBox','xml:space','xmlns',],
+							[1.1,'-771 1033.5 107 112','preserve','http://www.w3.org/2000/svg'],
+							combine)
+							
+		return svgPirateship
+		
+
+class Island(object):
+	"""Create Island
+	
+	"""
+
+	def __init__(self,id,fill,path):		
+		self._id = int(id)
+		self._fill = 'url(#' + str(fill) +')'
+		self._path = path #Conversion code will be needed once we're loading form the db to convert to SVG syntax
+		self._htmlId = 'obj_' + str(self._id)
+		
+	def render(self):
+		island = genHTMLElement('path',
+						['class','id','d','fill'],
+						['island',self._htmlId, self._path,self._fill])
+		return island
+		
+	
 		

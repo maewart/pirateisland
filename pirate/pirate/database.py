@@ -48,7 +48,8 @@ class Database(object):
 		#for row in cursor:
 			#area = MapArea(row[0],row[1],row[2],row[3],row[4])
 			
-		level = Level(levelId,20,20)
+		level = Level(levelId,'Bongo',20,20,0.5,0.5)
+		level.addObject(1,2)
 			
 		return level
 

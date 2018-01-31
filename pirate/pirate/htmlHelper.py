@@ -25,9 +25,9 @@ def genHTMLElement(elementName,paramNames,paramValues,elementValue=""):
 		
 	#Add element value if not empty
 	if elementValue=="":
-		text = text + '/>'
+		text = text + '/>\n'
 	else:
-		text = text + '>' + elementValue + '</' + elementName + '>'
+		text = text + '>\n' + elementValue + '</' + elementName + '>\n'
 		
 	return text
 
