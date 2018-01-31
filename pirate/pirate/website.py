@@ -38,16 +38,25 @@ class Website(object):
 		#Status - default empty line
 		self._status = '<br>'
 		
-		self._level = None
+		
 		
 		#Parameters
 		self._params = params
-			
+
+		#set level 1 as default
+		self._levelNo = 1
+		self._level = None
+		
+		#if level param entered then set to that level
+		if 'level' in self._params:
+			self._levelNo = self._params['level'].value
+		
+		
 	def run(self):
 		"""Run all actions requested and generate the website"""
 	
 		self._db.openConnection()
-		self._level = self._db.getLevel(1)
+		self._level = self._db.getLevel(self._levelNo)
 		self._db.closeConnection()
 	
 	def __str__(self):
@@ -62,6 +71,8 @@ class Website(object):
 		#something = 'Hello Everyone <br><br>' + something	
 		
 		return self._mainTemplate.render(
+										#Deprecated since we are using the external CSS
+										#styleList = self._level.style(),
 										paramList = self._level.render(500,500)
 										)
 		
