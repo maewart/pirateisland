@@ -71,8 +71,6 @@ class Website(object):
 		#something = 'Hello Everyone <br><br>' + something	
 		
 		return self._mainTemplate.render(
-										#Deprecated since we are using the external CSS
-										#styleList = self._level.style(),
 										paramList = self._level.render(500,500)
 										)
 		
