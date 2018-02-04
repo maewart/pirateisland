@@ -42,14 +42,30 @@ class Database(object):
 		"""
 	
 		assert self._conn != None #Check connection open
-		#cursor = self._conn.cursor()
-		#sql = "Select * from s1783947.FF_AREA where AREA_NAME=:Area"
-		#cursor.execute(sql,Area=areaName)
-		#for row in cursor:
-			#area = MapArea(row[0],row[1],row[2],row[3],row[4])
-			
-		level = Level(levelId,'Bongo',20,20,0.5,0.5)
-		level.addObject(1,2)
-			
+		cursor = self._conn.cursor()
+		sql = "Select * from s1138056.PIRATE_LEVELS_VIEW where LEVEL_ID=:Id"
+		cursor.execute(sql,Id=levelId)
+		for row in cursor:
+			level = Level(levelId,row[1],row[4],row[5],row[2],row[3])
+				
 		return level
-
+	
+	def addObjects(self,levelObject):
+		"""Get Level
+		
+		Keyword arguments:
+		levelId -- Level Id
+		"""
+	
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		sql = "Select * from s1138056.PIRATE_ISLAND_VIEW where LEVEL_ID=:Id"
+		cursor.execute(sql,Id=levelObject.levelId)
+		for row in cursor:
+			levelObject.addIsland(row[1],row[2],row[4])
+		
+		sql = "Select * from s1138056.PIRATE_ICONS_VIEW where LEVEL_ID=:Id"
+		cursor.execute(sql,Id=levelObject.levelId)
+		for row in cursor:
+			levelObject.addIcon(row[1],row[2],row[4],row[5],row[6],row[7])
+		
