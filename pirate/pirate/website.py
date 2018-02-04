@@ -56,7 +56,9 @@ class Website(object):
 		"""Run all actions requested and generate the website"""
 	
 		self._db.openConnection()
+		#print(str(self._levelNo))
 		self._level = self._db.getLevel(self._levelNo)
+		self._db.addObjects(self._level)
 		self._db.closeConnection()
 	
 	def __str__(self):
