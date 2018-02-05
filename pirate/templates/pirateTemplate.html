@@ -6,59 +6,121 @@ Content-Type: text/html
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Pirate Island</title>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
+
     <!-- Styles for Fields and Finds -->
     <link rel="stylesheet" href="https://www.geos.ed.ac.uk/~s1788971/piratestylesheet.css">
     <link rel="stylesheet" href="https://www.geos.ed.ac.uk/~s1783947/webmapping/pagestyles.css">
-    
+
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
     <!-- Load Support for Javascript datepicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
+
     <!-- Enable Mobile Support -->
-    <meta charset="utf-8"> 
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- control Script for sending information to python code -->
     <script>
       $(function()
       {
         $('#clickme').click(function(){
-          alert('Im going to start processing');
-                
+          //alert('Im going to start processing');
+          ste=JSON.stringify([2,-4,3,-6,5, 2])
+          dir=JSON.stringify(["x", "x", "y", "x", "y", "x"])
+          level=5
+
           $.ajax({
             url: "validate.py",
             type: "post",
             datatype:"json",
-            data: {'Person1':'Marco','Person2':'Livia','Person3':'Callum'},
+            data: {'level':level,'steps': ste,'direction': dir},
             success: function(response){
-              alert(response.message);
-              //alert(response.keys);
-              for (var key in response.data) {
-                alert(response.data[key]);
-              };
-            //alert(response.data['Person1']);
+            //alert(response.data['endactionarray'])
+            //alert(response.data['level']);
             //alert(response.data['Person2']);
+
+            moveObject(response.data['steps'], response.data['direction']);
             }
           })
         });
       });
-    </script>  
+
+        /*hard coded moves*/
+        function init(){
+          var steps =[-1, 1, 1, -1, -1];
+          var dir=['y', 'x', 'x', 'x', 'y'];
+          moveObject(steps, dir, 'crash');
+        }
+
+        function turn(arr){
+          var elem = document.getElementById("OurShip");
+          if(arr[1]==='y'){ // determine turn direction
+            var degree=90*arr[0];
+          }else if(arr[0]===1){
+            var degree=0;
+          }else{
+            var degree=0;
+          }
+          elem.style.transform='rotate('+degree+'deg)';
+          //elem.setAttribute('transform','translate(30,100)');
+          //elem.setAttributeNS(null, 'transform', 'translate(30,100)');
+        }
+
+        /*Animates the end of the move path*/
+        function animateEnd(endAction){
+          if (endAction==='crash'){
+            //boom();
+          }
+          else if (endAction==='not_crash') {
+            //sink();
+          }
+          else if (endAction==='end') {
+            //reachEnd();
+          }
+        }
+
+
+        /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
+        function moveObject(steps, dirArr, endAction) {
+          var elem = document.getElementById("OurShip"); // get element to move
+          var position = Number.parseInt(elem.getAttribute(dirArr[0]));
+          var arrived = position + steps[0]; //end position
+          var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
+          //turn([dir, dirArr[0]]);
+          var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
+          function step() { //small
+            if (position == arrived) { // check if element has arrived
+              clearInterval(moving); // stop the element from moving
+              dirArr.shift(); // remove first element of array
+              steps.shift(); // remove second element of array
+              if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
+                moveObject(steps, dirArr); // calls itself with new array
+                 }else{
+                animateEnd(endAction)
+              }
+            } else {
+              position+=dir*0.05; //dir increment (either +1 or -1)
+              position= Math.round(position*100)/100;
+              elem.setAttributeNS(null, dirArr[0], position); //change attributes
+            }
+          }
+        }
+    </script>
   </head>
-    
+
   <body>
-  
+
   <!-- SVG Patterns -->
-  <svg width=0 height=0>  
+  <svg width=0 height=0>
   <defs>
 	<pattern id="wavepattern" class="wavepattern" x="0" y="0" width="2" height="0.8" patternUnits="userSpaceOnUse" viewBox="-1164 653.8 806.1 95.3">
       <path d="M-1164,667.9c36.2,52.5,83.8,81.3,134.4,81.3c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3 c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3s98.1-28.8,134.4-81.3v-14l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8 s-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5 c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5L-1164,667.9L-1164,667.9z"/>
@@ -70,12 +132,13 @@ Content-Type: text/html
   </defs>
   </svg>
    <!-- End Patterns -->
-  
+
   <br>
   Arrrrr me hearties, welcome to Pirate Island
   <br>
   <br>
   <button id="clickme"> Validate Route </button>
+  <button id="testmovement" onclick="init()"> Move Ship </button>
   <br>
   <br>
   {{paramList}}
