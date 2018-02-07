@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import cx_Oracle
+import math
 from .gameObjects import Level
 __all__ = ['Database']
 
@@ -53,7 +54,6 @@ class Database(object):
 
 	def addObjects(self,levelObject):
 		""" Adds Object to a level
-
 		Keyword arguments:
 		levelObject
 
@@ -82,7 +82,7 @@ class Database(object):
 		##hardcoded, will be retrieved from database
 		return (0,0)
 
-	def validatePath(self,levelId,start_x,start_y,end_x,end_y):
+	def validatePath(self,level_id,start_x,start_y,end_x,end_y):
 		"""validates a line within a level
 
 		Keyword arguments:
@@ -91,15 +91,112 @@ class Database(object):
 		start_y -- start y coordinate of the line
 		end_x -- end x coordinate of the line
 		end_y -- end y coordinate of the line
-
+		
 		returns an array containig two objects:
 		array [1] (int) -- distance to the action
 		array [0] (string) -- action at the end of the given distance; 'end', 'crash' or 'not_crash'
 		"""
-		# hardcoded at the moment
-		if (end_y-start_y==1):
-			return [abs((start_x-end_x)+(start_y-end_y)), 'end']
-		elif (end_y-start_y==2):
-			return [abs((start_x-end_x)+(start_y-end_y)), 'crash']
+	
+		objId = 0
+		objType = ''
+		objDist = 1000
+	
+		iconIntersects = self._intersectIcons(level_id,start_x,start_y,end_x,end_y)
+		if len(iconIntersects) > 0:
+			objId = iconIntersects[0][0]
+			objType = iconIntersects[0][1]
+			objDist = iconIntersects[0][2]
+
+		islandIntersects = self._intersectIslands(level_id,start_x,start_y,end_x,end_y)	
+		if len(islandIntersects) > 0:		
+			if islandIntersects[2] < objDist:
+				objId = islandIntersects[0]
+				objType = islandIntersects[1]
+				objDist = islandIntersects[2]
+				
+		#Boundary code here
+		if (objType=='end'):
+			return [objDist, 'end', objId]
+		elif (objType!=''):
+			return [objDist, 'crash', objId]
 		else:
-			return [abs((start_x-end_x)+(start_y-end_y)), 'not_crash']
+			objDist = math.sqrt((end_y-start_y)**2+(end_x-start_x)**2)
+			return [objDist, 'not_crash', -1]
+			
+	def _intersectIcons(self,level_id,start_x,start_y,end_x,end_y):
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		
+		#Icons
+		sql = "	select \
+				OBJECT_ID,TYPE_NAME,Dist from \
+					(select \
+					OBJECT_ID,TYPE_NAME,Dist,MIN(Dist) over () as MinDist from \
+						(select \
+						a.OBJECT_ID, \
+						c.TYPE_NAME, \
+						SDO_GEOM.SDO_DISTANCE(a.OBJECT, MDSYS.SDO_GEOMETRY(2001,NULL,MDSYS.SDO_POINT_TYPE(&startX, &startY, NULL),NULL,NULL), 0.005) as Dist \
+						from S1138056.PIRATE_OBJECTS a \
+						join S1138056.PIRATE_MAPPING b on a.OBJECT_ID = b.OBJECT_ID \
+						join S1138056.PIRATE_TYPES c on a.TYPE_ID = c.TYPE_ID \
+						where a.TYPE_ID!=1 and b.LEVEL_ID=:levelId and SDO_GEOM.RELATE(a.OBJECT,'ANYINTERACT',MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(:startX,:startY,:endX,:endY)),0.05)='TRUE') \
+					) \
+				where Dist=MinDist"
+		cursor.execute(sql,levelId=level_id,startX=start_x,startY=start_y,endX=end_x,endY=end_y)
+		return cursor.fetchall()
+	
+	def _intersectIslands(self,level_id,start_x,start_y,end_x,end_y):
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		
+		#Islands
+		sql = "	select \
+				a.OBJECT_ID \
+				from S1138056.PIRATE_OBJECTS a \
+				join S1138056.PIRATE_MAPPING b on a.OBJECT_ID = b.OBJECT_ID \
+				join S1138056.PIRATE_TYPES c on a.TYPE_ID = c.TYPE_ID \
+				where a.TYPE_ID=1 and b.LEVEL_ID=:levelId and SDO_GEOM.RELATE(a.OBJECT,'ANYINTERACT',MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(:startX,:startY,:endX,:endY)),0.05)='TRUE'"
+
+		cursor.execute(sql,levelId=level_id,startX=start_x,startY=start_y,endX=end_x,endY=end_y)
+		islands = cursor.fetchall()
+			
+		if len(islands) > 0:
+			sql = "	select \
+				a.OBJECT_ID \
+				from S1138056.PIRATE_OBJECTS a \
+				join S1138056.PIRATE_MAPPING b on a.OBJECT_ID = b.OBJECT_ID \
+				join S1138056.PIRATE_TYPES c on a.TYPE_ID = c.TYPE_ID \
+				where a.TYPE_ID=1 and a.OBJECT_ID=:objId and b.LEVEL_ID=:levelId and SDO_GEOM.RELATE(a.OBJECT,'ANYINTERACT',MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(:startX,:startY,:endX,:endY)),0.05)='TRUE'"
+		
+			closestId = 0
+			closestDist = 1000
+			step = 0.1
+			for id in islands[0]:
+				if abs(start_y - end_y) <= 0.01:
+					inter_x = start_x + step
+					tempDist = step
+					while inter_x <= end_x + 0.05:
+						cursor.execute(sql,levelId=level_id,objId=id,startX=start_x,startY=start_y,endX=inter_x,endY=end_y)
+						temp = cursor.fetchall()
+						if len(temp) > 0:
+							if tempDist <= closestDist:
+								closestDist = tempDist
+								closestId = id
+								break
+						inter_x = inter_x + step
+						tempDist = tempDist + step
+				if abs(start_x - end_x) <= 0.01:
+					inter_y = start_y + step
+					tempDist = step
+					while inter_y <= end_y + 0.05:
+						cursor.execute(sql,levelId=level_id,objId=id,startX=start_x,startY=start_y,endX=end_x,endY=inter_y)
+						temp = cursor.fetchall()
+						if len(temp) > 0:
+							if tempDist <= closestDist:
+								closestDist = tempDist
+								closestId = id
+								break				
+						inter_y = inter_y + step
+						tempDist = tempDist + step
+			return [closestId,'island',closestDist]
+		return []
