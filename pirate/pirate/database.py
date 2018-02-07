@@ -68,4 +68,38 @@ class Database(object):
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIcon(row[1],row[2],row[4],row[5],row[6],row[7])
-		
+			
+	def getLevelStart(self, levelId):
+		"""queries the database for the startpoint of a certain level
+
+		Keyword arguments:
+		levelId -- Level Id
+
+		returns an tuple with x and y coordinate of level start point
+
+		"""
+		##hardcoded, will be retrieved from database
+		return (0,0)
+
+	def validatePath(self,levelId,start_x,start_y,end_x,end_y):
+		"""validates a line within a level
+
+		Keyword arguments:
+		levelId -- Level Id
+		start_x -- start x coordinate of the line
+		start_y -- start y coordinate of the line
+		end_x -- end x coordinate of the line
+		end_y -- end y coordinate of the line
+
+		returns an array containig two objects:
+		array [1] (int) -- distance to the action
+		array [0] (string) -- action at the end of the given distance; 'end', 'crash' or 'not_crash'
+		"""
+		# hardcoded at the moment
+		if (end_y-start_y==5):
+			return [3, 'end']
+		elif (end_y-start_y==4):
+			return [5, 'crash']
+		else:
+			return [2, 'not_crash']
+
