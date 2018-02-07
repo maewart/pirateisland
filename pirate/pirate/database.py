@@ -51,8 +51,8 @@ class Database(object):
 		return level
 
 
-  def addObjects(self,levelObject):
-    """ Adds Object to a level
+  	def addObjects(self,levelObject):
+    	""" Adds Object to a level
 
 		Keyword arguments:
 		levelObject
