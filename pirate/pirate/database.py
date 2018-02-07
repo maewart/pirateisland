@@ -47,12 +47,12 @@ class Database(object):
 		cursor.execute(sql,Id=levelId)
 		for row in cursor:
 			level = Level(levelId,row[1],row[4],row[5],row[2],row[3])
-				
+
 		return level
 
 
-  def addObjects(self,levelObject):
-    """ Adds Object to a level
+	def addObjects(self,levelObject):
+		""" Adds Object to a level
 
 		Keyword arguments:
 		levelObject
@@ -64,12 +64,12 @@ class Database(object):
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIsland(row[1],row[2],row[4])
-		
+
 		sql = "Select * from s1138056.PIRATE_ICONS_VIEW where LEVEL_ID=:Id"
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIcon(row[1],row[2],row[4],row[5],row[6],row[7])
-			
+
 	def getLevelStart(self, levelId):
 		"""queries the database for the startpoint of a certain level
 
@@ -97,9 +97,9 @@ class Database(object):
 		array [0] (string) -- action at the end of the given distance; 'end', 'crash' or 'not_crash'
 		"""
 		# hardcoded at the moment
-		if (end_y-start_y==5):
-			return [3, 'end']
-		elif (end_y-start_y==4):
-			return [5, 'crash']
+		if (end_y-start_y==1):
+			return [abs((start_x-end_x)+(start_y-end_y)), 'end']
+		elif (end_y-start_y==2):
+			return [abs((start_x-end_x)+(start_y-end_y)), 'crash']
 		else:
-			return [2, 'not_crash']
+			return [abs((start_x-end_x)+(start_y-end_y)), 'not_crash']

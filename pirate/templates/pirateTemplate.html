@@ -20,105 +20,72 @@ Content-Type: text/html
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- Load Support for Javascript datepicker -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
     <!-- Enable Mobile Support -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- control Script for sending information to python code -->
-    <script>
-      $(function()
-      {
-        $('#clickme').click(function(){
-          //alert('Im going to start processing');
-          ste=JSON.stringify([2,-4,3,-6,5, 2])
-          dir=JSON.stringify(["x", "x", "y", "x", "y", "x"])
-          level=5
+    <style>
 
-          $.ajax({
-            url: "validate.py",
-            type: "post",
-            datatype:"json",
-            data: {'level':level,'steps': ste,'direction': dir},
-            success: function(response){
-            //alert(response.data['endactionarray'])
-            //alert(response.data['level']);
-            //alert(response.data['Person2']);
+    .form-steps{
+      height: 40px;
+      margin-right: 2px;
+      background-color: #cceeff;
+      padding-left: 5px;
+      box-sizing: border-box;
+      border: none;
+      font-size: 16px;
+      width: 40px;
+    }
 
-            moveObject(response.data['steps'], response.data['direction']);
-            }
-          })
-        });
-      });
+    .form-steps:focus{
+      background-color: lightsteelblue;
+    }
 
-        /*hard coded moves*/
-        function init(){
-          var steps =[-1, 1, 1, -1, -1];
-          var dir=['y', 'x', 'x', 'x', 'y'];
-          moveObject(steps, dir, 'crash');
-        }
+    .form-dir{
+      height: 40px;
+      margin-left: 5px;
+      margin-right: 0px;
+      background-color: #cceeff;
+      box-sizing: border-box;
+      border: none;
+      font-size: 16px;
+    }
 
-        function turn(arr){
-          var elem = document.getElementById("OurShip");
-          if(arr[1]==='y'){ // determine turn direction
-            var degree=90*arr[0];
-          }else if(arr[0]===1){
-            var degree=0;
-          }else{
-            var degree=0;
-          }
-          elem.style.transform='rotate('+degree+'deg)';
-          //elem.setAttribute('transform','translate(30,100)');
-          //elem.setAttributeNS(null, 'transform', 'translate(30,100)');
-        }
+    .form-dir:focus{
+      background-color: lightsteelblue;
+    }
 
-        /*Animates the end of the move path*/
-        function animateEnd(endAction){
-          if (endAction==='crash'){
-            //boom();
-          }
-          else if (endAction==='not_crash') {
-            //sink();
-          }
-          else if (endAction==='end') {
-            //reachEnd();
-          }
-        }
+    .btn-default{
+      height: 40px;
+      border-radius: 0px;
+      background-color: #fbf3d4;
+      border: none;
+      font-size: 16px;
+    }
 
+    .btn-default:hover,
+    .btn-default:focus{
+      background-color: lightsteelblue;
 
-        /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
-        function moveObject(steps, dirArr, endAction) {
-          var elem = document.getElementById("OurShip"); // get element to move
-          var position = Number.parseInt(elem.getAttribute(dirArr[0]));
-          var arrived = position + steps[0]; //end position
-          var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
-          //turn([dir, dirArr[0]]);
-          var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
-          function step() { //small
-            if (position == arrived) { // check if element has arrived
-              clearInterval(moving); // stop the element from moving
-              dirArr.shift(); // remove first element of array
-              steps.shift(); // remove second element of array
-              if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
-                moveObject(steps, dirArr); // calls itself with new array
-                 }else{
-                animateEnd(endAction)
-              }
-            } else {
-              position+=dir*0.05; //dir increment (either +1 or -1)
-              position= Math.round(position*100)/100;
-              elem.setAttributeNS(null, dirArr[0], position); //change attributes
-            }
-          }
-        }
-    </script>
+    }
+
+    .round {
+      border-radius: 50%;
+      height: 30px;
+      margin-left: 10px;
+    }
+
+    </style>
+
   </head>
 
   <body>
+ <!-- Background Music -->
+  <audio id="pirateAudio" autoplay="autoplay">
+      <source src="https://www.geos.ed.ac.uk/~s1790173/music/he_is_a_pirate.mp3" type="audio/mp3">
+  </audio>
 
+  <div>
   <!-- SVG Patterns -->
   <svg width=0 height=0>
   <defs>
@@ -133,14 +100,179 @@ Content-Type: text/html
   </svg>
    <!-- End Patterns -->
 
-  <br>
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12"></div>
   Arrrrr me hearties, welcome to Pirate Island
   <br>
-  <br>
-  <button id="clickme"> Validate Route </button>
-  <button id="testmovement" onclick="init()"> Move Ship </button>
-  <br>
+  <!--button id="clickme"> Validate Route </button-->
+  <!--button id="testmovement" onclick="init()"> Move Ship </button-->
+  <!--button id="moreMoves">Add Move</button-->
   <br>
   {{paramList}}
+  <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
+  <div id="form-messages"></div>
+  <form id="pirateForm"> Moves:<br>
+    <select class="form-dir" name="direction" class="form-control">
+      <option selected disabled>&#8634;</option>
+      <option value="u">&#8679;</option>
+      <option value="d">&#8681;</option>
+      <option value="l">&#8678;</option>
+      <option value="r">&#8680;</option>
+    </select>
+    <input class="form-steps" type="number" size="1" min="1" max="20" name="step" value="" placeholder="0">
+    <select class="form-dir" name="direction">
+      <option selected disabled>&#8634;</option>
+      <option value="u">&#8679;</option>
+      <option value="d">&#8681;</option>
+      <option value="l">&#8678;</option>
+      <option value="r">&#8680;</option>
+    </select>
+    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <select class="form-dir" name="direction">
+      <option selected disabled>&#8634;</option>
+      <option value="u">&#8679;</option>
+      <option value="d">&#8681;</option>
+      <option value="l">&#8678;</option>
+      <option value="r">&#8680;</option>
+    </select>
+    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="btn btn-default" id="submit" type="submit">
+  </form>
+  <br>
+
+
+<br>
+<br>
+<br>
+</div>
+</div>
+</div>
+  <!-- control Script for sending information to python code -->
+  <script>
+
+    $(function()
+    {
+      var form = $('#pirateForm');
+      // Get the messages div.
+      var formMessages = $('#form-messages');
+      $(form).submit(function(event) {
+        event.preventDefault();
+        //alert('Im going to start processing');
+        //ste=JSON.stringify([2,-4,3,-6,5, 2])
+        //dir=JSON.stringify(["x", "x", "y", "x", "y", "x"])
+        level=5
+        //console.log(ste)
+        //console.log(dir)
+
+        var formData = $(form).serializeArray();
+        console.log(formData);
+        var steps=[]
+        var directions=[]
+        $.each(formData, function(i, field){
+          if(field.name==='step' & field.value.length>0){
+            steps.push(parseInt(field.value));
+          }
+          else if(field.name==='direction' & field.value.length>0){
+            directions.push(field.value);
+          }
+        });
+
+        steps=JSON.stringify(steps)
+        directions=JSON.stringify(directions)
+        //console.log(steps);
+        //console.log(directions);
+
+        $.ajax({
+          url: "validate.py",
+          type: "post",
+          datatype:"json",
+          data: {'level':level,'steps': steps,'direction': directions},
+          success: function(response){
+          console.log(response.data['steps']);
+          //alert(response.data['level']);
+          //alert(response.data['Person2']);
+
+          moveObject(response.data['steps'], response.data['direction']);
+          }
+        })
+      });
+    });
+
+      /*hard coded moves*/
+      /*function init(){
+        var steps =[-1, 1, 1, -1, -1];
+        var dir=['y', 'x', 'x', 'x', 'y'];
+        moveObject(steps, dir, 'crash');
+      }*/
+
+      function turn(arr){
+        var elem = document.getElementById("OurShip");
+        if(arr[1]==='y'){ // determine turn direction
+          var degree=90*arr[0];
+        }else if(arr[0]===1){
+          var degree=0;
+        }else{
+          var degree=0;
+        }
+        elem.style.transform='rotate('+degree+'deg)';
+        //elem.setAttribute('transform','translate(30,100)');
+        //elem.setAttributeNS(null, 'transform', 'translate(30,100)');
+      }
+
+      /*Animates the end of the move path*/
+      function animateEnd(endAction){
+        if (endAction==='crash'){
+          //boom();
+        }
+        else if (endAction==='not_crash') {
+          //sink();
+        }
+        else if (endAction==='end') {
+          //reachEnd();
+        }
+      }
+
+
+      /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
+      function moveObject(steps, dirArr, endAction) {
+        var elem = document.getElementById("OurShip"); // get element to move
+        var position = Number.parseInt(elem.getAttribute(dirArr[0]));
+        var arrived = position + steps[0]; //end position
+        var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
+        //turn([dir, dirArr[0]]);
+        var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
+        function step() { //small
+          if (position == arrived) { // check if element has arrived
+            clearInterval(moving); // stop the element from moving
+            dirArr.shift(); // remove first element of array
+            steps.shift(); // remove second element of array
+            if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
+              moveObject(steps, dirArr); // calls itself with new array
+               }else{
+              animateEnd(endAction)
+            }
+          } else {
+            position+=dir*0.05; //dir increment (either +1 or -1)
+            position= Math.round(position*100)/100;
+            elem.setAttributeNS(null, dirArr[0], position); //change attributes
+          }
+        }
+      }
+
+      function enableMute() {
+        document.getElementById("pirateAudio").muted = true;
+      }
+
+
+      /*document.getElementById("moreMoves").addEventListener("click", function(){
+          dirField = '<select name="direction"><option selected disabled>Select Direction</option><option value="u">Up</option><option value="d">Down</option><option value="l">Left</option><option value="r">Right</option></select>'
+          stepsField = '<input type="number" min="1" max="20" name="step" value="">'
+          document.getElementById("selections").innerHTML += (dirField+stepsField);
+          console.log(document.getElementById("form").innerHTML);
+      });*/
+
+  </script>
+
   </body>
 </html>
