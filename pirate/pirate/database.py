@@ -113,12 +113,12 @@ class Database(object):
 		
 		# hardcoded at the moment
 		if (objType=='end'):
-			return [objDist, 'end', objId]
+			return [round(objDist,1), 'end', objId]
 		elif (objType!=''):
-			return [objDist, 'crash', objId]
+			return [round(objDist,1), 'crash', objId]
 		else:
 			objDist = math.sqrt((end_y-start_y)**2+(end_x-start_x)**2)
-			return [objDist, 'not_crash', -1]
+			return [round(objDist,1), 'not_crash', -1]
 			
 	def _intersectIcons(self,level_id,start_x,start_y,end_x,end_y):
 		assert self._conn != None #Check connection open
