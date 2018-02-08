@@ -48,13 +48,12 @@ class Database(object):
 		cursor.execute(sql,Id=levelId)
 		for row in cursor:
 			level = Level(levelId,row[1],row[4],row[5],row[2],row[3])
-				
+
 		return level
 
 
 	def addObjects(self,levelObject):
 		""" Adds Object to a level
-		
 		Keyword arguments:
 		levelObject
 
@@ -65,12 +64,12 @@ class Database(object):
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIsland(row[1],row[2],row[4])
-		
+
 		sql = "Select * from s1138056.PIRATE_ICONS_VIEW where LEVEL_ID=:Id"
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIcon(row[1],row[2],row[4],row[5],row[6],row[7])
-			
+
 	def getLevelStart(self, levelId):
 		"""queries the database for the startpoint of a certain level
 
@@ -116,8 +115,6 @@ class Database(object):
 				objDist = islandIntersects[2]
 				
 		#Boundary code here
-		
-		# hardcoded at the moment
 		if (objType=='end'):
 			return [objDist, 'end', objId]
 		elif (objType!=''):
@@ -203,6 +200,3 @@ class Database(object):
 						tempDist = tempDist + step
 			return [closestId,'island',closestDist]
 		return []
-		
-
-		

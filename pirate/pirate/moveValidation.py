@@ -30,10 +30,11 @@ class MoveValidation(object):
 		#Setup DB Connection
 		self._db = Database()
 
-		#Input cgiFieldStorage Parameters
-		#self._inp = inp
-
 		self._coords = None
+		#validated Moves, will be filled with DB info
+		self._validatedSteps = []
+		self._validatedDirections = []
+		self._endActions = []
 
 		self._levelNo=1
 		if "level" in inp:
@@ -51,13 +52,6 @@ class MoveValidation(object):
 			#converting the input into an array
 			self._steps = ast.literal_eval(inp['steps'].value)
 
-		#validated Moves, will be filled with DB info
-		self._validatedSteps = []
-		self._validatedDirections = []
-		self._endActions = []
-
-
-
 
 	def _toLineCoords(self, dire, steps, start):
 		"""Recursive function to convert a direction array and a step array into line coordinates"""
@@ -65,10 +59,16 @@ class MoveValidation(object):
 		col=len(self._coords)-len(dire)
 		self._coords[col][0]=start[0]
 		self._coords[col][1]=start[1]
-		if dire[0]=='x':
+		if dire[0]=='l':
+		    self._coords[col][2]=start[0]-steps[0]
+		    self._coords[col][3]=start[1]
+		elif dire[0]=='r':
 		    self._coords[col][2]=start[0]+steps[0]
 		    self._coords[col][3]=start[1]
-		elif dire[0]=='y':
+		elif dire[0]=='u':
+			self._coords[col][3]=start[1]-steps[0]
+			self._coords[col][2]=start[0]
+		elif dire[0]=='d':
 			self._coords[col][3]=start[1]+steps[0]
 			self._coords[col][2]=start[0]
 		start=(self._coords[col][2], self._coords[col][3])
@@ -76,6 +76,7 @@ class MoveValidation(object):
 		steps.pop(0)
 		if(len(dire)>0):
 		    self._toLineCoords(dire, steps, start)
+
 
 	def _validatePaths(self):
 		"""Validates the lines in self._coords by connecting to the database"""
@@ -114,7 +115,7 @@ class MoveValidation(object):
 			self._validatedSteps.append(sign*distance)
 		elif (line[1]!=line[3]):
 			self._validatedDirections.append('y')
-			sign = 1 if line[2]-line[0] >= 0 else -1 #indicates if steps must be positive or negative numbers (depending on the direction along axis)
+			sign = 1 if line[3]-line[1] >= 0 else -1 #indicates if steps must be positive or negative numbers (depending on the direction along axis)
 			self._validatedSteps.append(sign*distance)
 
 
@@ -129,5 +130,4 @@ class MoveValidation(object):
 		d['endaction']=self._endActions[-1]
 		d['endactionarray']=self._endActions
 		result['data'] = d
-
 		return json.dumps(result,indent=1)
