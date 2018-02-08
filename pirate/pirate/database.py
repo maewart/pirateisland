@@ -48,12 +48,13 @@ class Database(object):
 		cursor.execute(sql,Id=levelId)
 		for row in cursor:
 			level = Level(levelId,row[1],row[4],row[5],row[2],row[3])
-
+				
 		return level
 
 
 	def addObjects(self,levelObject):
 		""" Adds Object to a level
+		
 		Keyword arguments:
 		levelObject
 
@@ -64,24 +65,12 @@ class Database(object):
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIsland(row[1],row[2],row[4])
-
+		
 		sql = "Select * from s1138056.PIRATE_ICONS_VIEW where LEVEL_ID=:Id"
 		cursor.execute(sql,Id=levelObject.levelId)
 		for row in cursor:
 			levelObject.addIcon(row[1],row[2],row[4],row[5],row[6],row[7])
-
-	def getLevelStart(self, levelId):
-		"""queries the database for the startpoint of a certain level
-
-		Keyword arguments:
-		levelId -- Level Id
-
-		returns an tuple with x and y coordinate of level start point
-
-		"""
-		##hardcoded, will be retrieved from database
-		return (0,0)
-
+			
 	def validatePath(self,level_id,start_x,start_y,end_x,end_y):
 		"""validates a line within a level
 
@@ -97,7 +86,7 @@ class Database(object):
 		array [0] (string) -- action at the end of the given distance; 'end', 'crash' or 'not_crash'
 		"""
 	
-		objId = 0
+		objId = -1
 		objType = ''
 		objDist = 1000
 	
@@ -115,6 +104,14 @@ class Database(object):
 				objDist = islandIntersects[2]
 				
 		#Boundary code here
+		if objId == -1:
+			boundaryIntersects = self._intersectBoundary(level_id,start_x,start_y,end_x,end_y)	
+			if len(boundaryIntersects) > 0:		
+				objId = boundaryIntersects[0]
+				objType = boundaryIntersects[1]
+				objDist = boundaryIntersects[2]		
+		
+		# hardcoded at the moment
 		if (objType=='end'):
 			return [objDist, 'end', objId]
 		elif (objType!=''):
@@ -200,3 +197,24 @@ class Database(object):
 						tempDist = tempDist + step
 			return [closestId,'island',closestDist]
 		return []
+		
+	def _intersectBoundary(self,level_id,start_x,start_y,end_x,end_y):
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		
+		if end_x <=0:
+			return [-2,'boundary',abs(start_x)]
+		elif end_y <=0:
+			return [-2,'boundary',abs(start_y)]	
+		
+		level = self.getLevel(level_id)
+		
+		if end_x >= level.maxX:
+			return [-2,'boundary',abs(level.maxX - start_x)]
+		elif end_y >= level.maxY:
+			return [-2,'boundary',abs(level.maxY - start_y)]
+
+		return []
+		
+
+		

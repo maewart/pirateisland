@@ -47,7 +47,27 @@ class Level(object):
 	@property
 	def levelId(self):
 		return self._levelId
-	
+		
+	@property
+	def maxX(self):
+		return self._maxX
+		
+	@property
+	def maxY(self):
+		return self._maxY
+		
+	@property
+	def levelName(self):
+		return self._levelName
+		
+	@property
+	def startX(self):
+		return self._startX
+		
+	@property
+	def startY(self):
+		return self._startY
+		
 	def addIsland(self,objectId,fill,polygon): ##Comments waiting the wiring up!!
 		"""Attach finds to area
 		
