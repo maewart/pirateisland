@@ -109,7 +109,9 @@ Content-Type: text/html
   <!--button id="testmovement" onclick="init()"> Move Ship </button-->
   <!--button id="moreMoves">Add Move</button-->
   <br>
-  {{paramList}}
+  Level name : {{levelName}}
+  <br>
+  {{gameDisplay}}
   <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
   <div id="form-messages"></div>
   <form id="pirateForm"> Moves:<br>
@@ -172,10 +174,13 @@ Content-Type: text/html
   <script>
 
 /*TODO: Read in from Python*/
-  var levelId = 1;
-  var startX = 0;
-  var startY = 0;
-  var maxLevelNumber = 5;
+  var levelId = {{levelId}};
+  var startX = {{startX}};
+  var startY = {{startY}};
+  var maxX = {{maxX}};
+  var maxY = {{maxY}};
+  var maxLevelNumber = {{maxLevelNumber}};
+  var score = {{score}};
 
   var onMove = false;
 

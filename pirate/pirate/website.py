@@ -51,12 +51,18 @@ class Website(object):
 		if 'level' in self._params:
 			self._levelNo = self._params['level'].value
 		
+		self._score = 0		
+		#if score param entered then set to that score
+		if 'score' in self._params:
+			self._score = self._params['score'].value
+		
+		self._maxLevelId = 0
 		
 	def run(self):
 		"""Run all actions requested and generate the website"""
 	
 		self._db.openConnection()
-		#print(str(self._levelNo))
+		self._maxLevelId = self._db.getMaxLevelId()
 		self._level = self._db.getLevel(self._levelNo)
 		self._db.addObjects(self._level)
 		self._db.closeConnection()
@@ -73,7 +79,15 @@ class Website(object):
 		#something = 'Hello Everyone <br><br>' + something	
 		
 		return self._mainTemplate.render(
-										paramList = self._level.render(500,500)
+										gameDisplay = self._level.render(500,500),
+										levelId = self._level.levelId,
+										levelName = self._level.levelName,
+										startX = self._level.startX-0.5,
+										startY = self._level.startY-0.5,
+										maxX = self._level.maxX,
+										maxY = self._level.maxY,
+										maxLevelNumber = self._maxLevelId,
+										score = self._score										
 										)
 		
 	def _getParam(self,key):
