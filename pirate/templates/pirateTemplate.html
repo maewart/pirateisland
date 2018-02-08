@@ -137,8 +137,28 @@ Content-Type: text/html
       <option value="r">&#8680;</option>
     </select>
     <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <select class="form-dir" name="direction">
+      <option selected disabled>&#8634;</option>
+      <option value="u">&#8679;</option>
+      <option value="d">&#8681;</option>
+      <option value="l">&#8678;</option>
+      <option value="r">&#8680;</option>
+    </select>
+    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <select class="form-dir" name="direction">
+      <option selected disabled>&#8634;</option>
+      <option value="u">&#8679;</option>
+      <option value="d">&#8681;</option>
+      <option value="l">&#8678;</option>
+      <option value="r">&#8680;</option>
+    </select>
+    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <br>
+    <br>
     <input class="btn btn-default" id="submit" type="submit">
   </form>
+  <br>
+  <button class="btn btn-default" onclick="resetBoatPosition()">Reset Boat Position</button>
   <br>
 
 
@@ -151,6 +171,14 @@ Content-Type: text/html
   <!-- control Script for sending information to python code -->
   <script>
 
+/*TODO: Read in from Python*/
+  var levelId = 1;
+  var startX = 0;
+  var startY = 0;
+  var maxLevelNumber = 5;
+
+  var onMove = false;
+
     $(function()
     {
       var form = $('#pirateForm');
@@ -158,53 +186,51 @@ Content-Type: text/html
       var formMessages = $('#form-messages');
       $(form).submit(function(event) {
         event.preventDefault();
-        //alert('Im going to start processing');
-        //ste=JSON.stringify([2,-4,3,-6,5, 2])
-        //dir=JSON.stringify(["x", "x", "y", "x", "y", "x"])
-        level=5
-        //console.log(ste)
-        //console.log(dir)
-
-        var formData = $(form).serializeArray();
-        console.log(formData);
-        var steps=[]
-        var directions=[]
-        $.each(formData, function(i, field){
-          if(field.name==='step' & field.value.length>0){
-            steps.push(parseInt(field.value));
+          if (onMove == true){
+            return;
           }
-          else if(field.name==='direction' & field.value.length>0){
-            directions.push(field.value);
-          }
-        });
 
-        steps=JSON.stringify(steps)
-        directions=JSON.stringify(directions)
-        //console.log(steps);
-        //console.log(directions);
+          onMove=true;
+          resetBoatPosition();
+          //console.log(ste)
+          //console.log(dir)
 
-        $.ajax({
-          url: "validate.py",
-          type: "post",
-          datatype:"json",
-          data: {'level':level,'steps': steps,'direction': directions},
-          success: function(response){
-          console.log(response.data['steps']);
-          //alert(response.data['level']);
-          //alert(response.data['Person2']);
+          var formData = $(form).serializeArray();
+          console.log(formData);
+          var steps=[]
+          var directions=[]
+          $.each(formData, function(i, field){
+            if(field.name==='step' & field.value.length>0){
+              steps.push(parseInt(field.value));
+            }
+            else if(field.name==='direction' & field.value.length>0){
+              directions.push(field.value);
+            }
+          });
 
-          moveObject(response.data['steps'], response.data['direction']);
-          }
-        })
+          //console.log('dir int: '+directions);
+          //console.log('steps int: '+steps);
+          steps=JSON.stringify(steps)
+          directions=JSON.stringify(directions)
+          //console.log(steps);
+          //console.log(directions);
+
+          $.ajax({
+            url: "validate.py",
+            type: "post",
+            datatype:"json",
+            data: {'level':levelId,'steps': steps,'direction': directions},
+            success: function(response){
+            //console.log(response.message)
+            //console.log('steps: '+response.data['steps']);
+            //console.log('dir: '+response.data['direction']);
+            //console.log('dir: '+response.data['endactionarray']);
+            moveObject(response.data['steps'], response.data['direction']);
+            }
+          })
       });
     });
 
-      /*hard coded moves*/
-      /*function init(){
-        var steps =[-1, 1, 1, -1, -1];
-        var dir=['y', 'x', 'x', 'x', 'y'];
-        moveObject(steps, dir, 'crash');
-      }*/
 
       function turn(arr){
         var elem = document.getElementById("OurShip");
@@ -251,6 +277,7 @@ Content-Type: text/html
               moveObject(steps, dirArr); // calls itself with new array
                }else{
               animateEnd(endAction)
+              onMove=false; //not locked for next move anymore
             }
           } else {
             position+=dir*0.05; //dir increment (either +1 or -1)
@@ -265,12 +292,12 @@ Content-Type: text/html
       }
 
 
-      /*document.getElementById("moreMoves").addEventListener("click", function(){
-          dirField = '<select name="direction"><option selected disabled>Select Direction</option><option value="u">Up</option><option value="d">Down</option><option value="l">Left</option><option value="r">Right</option></select>'
-          stepsField = '<input type="number" min="1" max="20" name="step" value="">'
-          document.getElementById("selections").innerHTML += (dirField+stepsField);
-          console.log(document.getElementById("form").innerHTML);
-      });*/
+      function resetBoatPosition(){
+          ship = document.getElementById("OurShip");
+          ship.setAttributeNS(null, 'x', startX);
+          ship.setAttributeNS(null, 'y', startY);
+      }
+
 
   </script>
 

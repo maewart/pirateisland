@@ -52,6 +52,34 @@ class MoveValidation(object):
 			#converting the input into an array
 			self._steps = ast.literal_eval(inp['steps'].value)
 
+	def validate(self):
+		"""Opens database Connection and runs all validations"""
+		self._db.openConnection()
+		startPoint = self._db.getLevel(self._levelNo).startPoint
+		self._coords = [[None for x in range(4)] for y in range(len(self._directions))]
+		if len(self._coords)>0:
+			self._toLineCoords(self._directions+[], self._steps+[], startPoint)
+			self._validatePaths()
+		self._db.closeConnection()
+
+
+
+	def __str__(self):
+		"""returns JSON
+		JSON contains the following data:
+		direction - array validated directions (x or y)
+		steps – 
+		"""
+		result = {}
+		result['success'] = True
+		result['message'] = "The command Completed Successfully"
+		d = {}
+		d['direction']=self._validatedDirections
+		d['steps']=self._validatedSteps
+		d['endaction']=self._endActions[-1]
+		d['endactionarray']=self._endActions
+		result['data'] = d
+		return json.dumps(result,indent=1)
 
 	def _toLineCoords(self, dire, steps, start):
 		"""Recursive function to convert a direction array and a step array into line coordinates"""
@@ -89,16 +117,6 @@ class MoveValidation(object):
 				break
 
 
-	def validate(self):
-		"""Opens database Connection and runs all validations"""
-		self._db.openConnection()
-		startPoint = self._db.getLevelStart(self._levelNo)
-		self._coords = [[None for x in range(4)] for y in range(len(self._directions))]
-		if len(self._coords)>0:
-			self._toLineCoords(self._directions+[], self._steps+[], startPoint)
-			self._validatePaths()
-		self._db.closeConnection()
-
 
 	def _toJsInstructions(self, line, distance):
 		"""Converts distance and line coordinate information to JavaScript instructions
@@ -117,17 +135,3 @@ class MoveValidation(object):
 			self._validatedDirections.append('y')
 			sign = 1 if line[3]-line[1] >= 0 else -1 #indicates if steps must be positive or negative numbers (depending on the direction along axis)
 			self._validatedSteps.append(sign*distance)
-
-
-	def __str__(self):
-		"""returns JSON output as string"""
-		result = {}
-		result['success'] = True
-		result['message'] = "The command Completed Successfully"
-		d = {}
-		d['direction']=self._validatedDirections
-		d['steps']=self._validatedSteps
-		d['endaction']=self._endActions[-1]
-		d['endactionarray']=self._endActions
-		result['data'] = d
-		return json.dumps(result,indent=1)

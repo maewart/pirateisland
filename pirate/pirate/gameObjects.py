@@ -7,17 +7,17 @@ __all__ = ['Level']
 
 class Level(object):
 	"""The full map area
-	
-	The Level class contains all information needed to render the Level
-	
-	"""
-	
 
-		
+	The Level class contains all information needed to render the Level
+
+	"""
+
+
+
 
 	def __init__(self,levelId,levelName,maxX,maxY,startX,startY):
 		"""Initialize object
-		
+
 		Keyword arguments:
 		levelId,levelName,maxX,maxY,startX,startY
 		where:
@@ -28,7 +28,7 @@ class Level(object):
 		startX: Starting X point of the boat
 		startY: Starting X point of the boat
 		"""
-		
+
 		#Initialize the variables with the KeyWords arguments
 		self._levelId = levelId
 		self._maxX = int(maxX)
@@ -37,39 +37,64 @@ class Level(object):
 		self._startX = float(startX)
 		self._startY = float(startY)
 		#Create 3 additional variables:
-		#1. A string containing the name of the level 
+		#1. A string containing the name of the level
 		self._htmlId = 'Level_' + str(self._levelId)
 		#2. An empty list whereto store the svg objects
 		self._objectList = []
-		#Define view box size according to the maxX and MaxY KeyWords arguments 
-		self._viewBoxMapInner = '0 0 ' + str(self._maxX) + ' ' + str(self._maxY) 
-	
+		#Define view box size according to the maxX and MaxY KeyWords arguments
+		self._viewBoxMapInner = '0 0 ' + str(self._maxX) + ' ' + str(self._maxY)
+
 	@property
 	def levelId(self):
 		return self._levelId
-	
+
+	@property
+	def maxX(self):
+		return self._maxX
+
+	@property
+	def maxY(self):
+		return self._maxY
+
+	@property
+	def levelName(self):
+		return self._levelName
+
+	@property
+	def startX(self):
+		return self._startX
+
+	@property
+	def startY(self):
+		return self._startY
+
+	@property
+	def startPoint(self):
+			return (self._startX, self._startY)
+
+
 	def addIsland(self,objectId,fill,polygon): ##Comments waiting the wiring up!!
 		"""Attach finds to area
-		
+
 		Keyword arguments:
 		obstacleList -- list of obstacles
-		type -- 
-		
+		type --
+
 		"""
 		obj = Island(objectId,fill,polygon)
 		self._objectList.append(obj)
-	
+
 	def addIcon(self,objectId,fill,lowX,lowY,highX,highY): ##Comments waiting the wiring up!!
 		"""Attach finds to area
-		
+
 		Keyword arguments:
 		obstacleList -- list of obstacles
-		type -- 
-		
+		type --
+
 		"""
 		obj = Icon(objectId,fill,lowX,lowY,highX,highY)
 		self._objectList.append(obj)
-	
+
 
 	def _renderObjects(self):
 		""" Renders the svg elements listed in the objectList wrapping together the appropriate html code
@@ -82,13 +107,13 @@ class Level(object):
 
 	def render(self,width,height):
 		"""Renders the svg map with the svg element representing the obstacles for display
-		
+
 		Keyword arguments:
 		width -- the svg width - can be percent or absolute
 		height -- the svg height - can be percent or absolute
-		
+
 		"""
-		
+
 		# Creation of new variable "viewBox" with the dimension of the viewbox determined by the Level KeyWords
 		viewBox = self._viewBoxMapInner
 
@@ -96,26 +121,26 @@ class Level(object):
 		# The sea pattern (#wavepattern) is stored in the pirate Template.html
 		seaWaves = genHTMLElement('rect',
 							['x','y','width','height','fill','fill-opacity'],
-							[0,0,self._maxX,self._maxY,'url(#wavepattern)',1])		
+							[0,0,self._maxX,self._maxY,'url(#wavepattern)',1])
 		seaBlue = genHTMLElement('rect',
 							['x','y','width','height','fill','fill-opacity'],
 							[0,0,self._maxX,self._maxY,'#cceeff',0.5])
-		sea = seaWaves + seaBlue					
-		
+		sea = seaWaves + seaBlue
+
 		#Call the function renderObjects which renders the svg elements listed
 		#in the objectList creating the appropriate html code.
 		#The variable object will result with the proper html code to render the svgs
-		objects = self._renderObjects()			
-		
+		objects = self._renderObjects()
+
 		# Render starting pirate ship generating the appropriate html code calling the:
-		# Object: ICON and method: RENDER 
+		# Object: ICON and method: RENDER
 		# The initial ship will use the startX and startY coordinates. They need to be adjusted of 0.5
 		# since the coordinates will refer to a line laying in the middle of a grid square, meanwhile
 		# the svg is rendered according to his left upper corner
 		shipIcon = Icon(0,'ship',self._startX-0.5,self._startY-0.5,self._startX+0.5,self._startY+0.5)
 		ship = shipIcon.render()
-		
-	
+
+
 		# Render the grid using two loops that reiterate according to MaxX and MaxY
 		lines = ''
 		for i in range(1,self._maxX):
@@ -130,35 +155,35 @@ class Level(object):
 							['points','stroke','stroke-width'],
 							[lineDef,'lightgrey',0.02])
 			lines = lines + lineNew
-			
+
 		# Render the boundary box as a rectangle which size varies according to MaxX and MaxY
 		boundary = genHTMLElement('rect',
 					['x','y','width','height','fill','fill-opacity','stroke','stroke-width'],
-					[0,0,self._maxX,self._maxY,'none',1,'black',0.02])	
-				
+					[0,0,self._maxX,self._maxY,'none',1,'black',0.02])
+
 		# Combination of all the SVGs code generated so far in the variable "combined"
 		combined = sea + lines + objects + ship + boundary
-		
-		# Creation of the final HTML code that wraps all the SVGs elements previously created 
+
+		# Creation of the final HTML code that wraps all the SVGs elements previously created
 		svgRoot = genHTMLElement('svg',
 								['width','height','viewBox'],
 								[width,height,viewBox],combined)
-		
+
 		# Return the svgRoot element for display
 		return svgRoot
-		
-	
-		
+
+
+
 class Icon(object):
 	"""Create Icon
-	
+
 	The Icon class contains all information needed to render the obstacles
-	
+
 	"""
 
 	def __init__(self,id,fill,lowX,lowY,highX,highY):
 		"""Initialize object
-		
+
 		Keyword arguments:
 		id,fill,x,y,width,height
 		where:
@@ -169,7 +194,7 @@ class Icon(object):
 		width: size of the svg
 		height:  size of the svg
 		"""
-		
+
 		self._id = int(id)
 		self._fill = str(fill)
 		self._htmlId = 'obj_' + str(self._id)
@@ -177,15 +202,15 @@ class Icon(object):
 		self._y = float(lowY)
 		self._width = float(highX) - self._x
 		self._height = float(highY) - self._y
-		
+
 	def render(self):
 		"""Renders the svg obstacles wrapping together the appropriate html code
-		
+
 		Type of svg obstacles: ship, seagull, octopus, diamond, iceberg, pirate, island, maelstrom, treasure
-		
+
 		"""
 
-		#Structure of if-elif that calls the specific svg creation method according to the content of the KeyWord "Fill" 		
+		#Structure of if-elif that calls the specific svg creation method according to the content of the KeyWord "Fill"
 		icon = ''
 		if self._fill == 'ship':
 			icon = self._pirateShip()
@@ -206,28 +231,28 @@ class Icon(object):
 			icon = self._maelstrom()
 		elif self._fill == 'treasure':
 			icon = self._treasure()
-		
+
 		# Get the SVGs code for an obstacle, generated with the specific method, wrapped in an outer general <SVG>
-		# which has the htmlId value and controls the X,Y position together with the width and height 
+		# which has the htmlId value and controls the X,Y position together with the width and height
 		outerSVG = genHTMLElement('svg',
 					['id','x','y','height','width'],
 					[self._htmlId,self._x,self._y,self._width,self._height],
 					icon)
-		
+
 		return outerSVG
 
 	def _pirateShip(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: ship
-		
+
 		"""
-		
+
 		#Creation of the variable(s) with the svg path
-		Pirateshippath1 = 'M-699.7,1090.8c0,6.8-5.5,14-12.4,14h-15v-58h-3v57.7c-5.7-1.1-10.1-6.1-10.1-12.2v-4.8h-19.7v5.8h5.3v22.4c0,9.4,7.6,17,17,17h36.7c9.4,0,17-7.6,17-17v-22h13.8v-3.1L-699.7,1090.8L-699.7,1090.8z M-734.4,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3s5.3,2.4,5.3,5.3C-729.1,1121.2-731.5,1123.6-734.4,1123.6z M-718.5,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3c2.9,0,5.3,2.4,5.3,5.3C-713.1,1121.2-715.5,1123.6-718.5,1123.6z M-702.5,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3c3-0.1,5.3,2.3,5.3,5.3C-697.2,1121.2-699.6,1123.6-702.5,1123.6z' 
+		Pirateshippath1 = 'M-699.7,1090.8c0,6.8-5.5,14-12.4,14h-15v-58h-3v57.7c-5.7-1.1-10.1-6.1-10.1-12.2v-4.8h-19.7v5.8h5.3v22.4c0,9.4,7.6,17,17,17h36.7c9.4,0,17-7.6,17-17v-22h13.8v-3.1L-699.7,1090.8L-699.7,1090.8z M-734.4,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3s5.3,2.4,5.3,5.3C-729.1,1121.2-731.5,1123.6-734.4,1123.6z M-718.5,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3c2.9,0,5.3,2.4,5.3,5.3C-713.1,1121.2-715.5,1123.6-718.5,1123.6z M-702.5,1123.6c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3c3-0.1,5.3,2.3,5.3,5.3C-697.2,1121.2-699.6,1123.6-702.5,1123.6z'
 		Pirateshippath2 = 'M-691.3,1049.2h-35.6c6.3,11.7,6.3,25.6,0,37.3h35.6C-684,1075.1-684,1060.7-691.3,1049.2z M-699.9,1075.8c-0.4,1.3-1.5,2.3-3,2.3h-3.1c-1.4,0-2.6-1-3-2.3c-4.5-0.5-8.1-4.3-8.1-9c0-5,4.1-9.1,9.1-9.1h7.1c5,0,9.1,4.1,9.1,9.1C-691.8,1071.5-695.4,1075.3-699.9,1075.8z'
-		
-		#Generation of the html code for the different elements that make up the svg 
+
+		#Generation of the html code for the different elements that make up the svg
 		pathPirateship1 = genHTMLElement('path',
 							['class','d'],
 							['st1_pirateship',Pirateshippath1])
@@ -249,31 +274,31 @@ class Icon(object):
 		circlePirateship5 = genHTMLElement('circle',
 							['class','id','cx','cy','r'],
 							['st3_pirateship','','-709.6','1067.2','3.6'])
-		
+
 		#Union of all the elements of the svg within the variable "combine"
 		combine = pathPirateship1 + pathPirateship2 + circlePirateship1 + circlePirateship2 + circlePirateship3 + circlePirateship4 + circlePirateship5
-		
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgPirateship = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-771 1033.5 107 112','preserve','http://www.w3.org/2000/svg'],
 							combine)
-		
+
 		#Return of the html code that represent the svg
 		return svgPirateship
-	
+
 	def _seagull(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: seagull
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Seagullpath = 'm-220.1 378.5c0 0.6-0.5 1.1-1.1 1.1s-1.1-0.5-1.1-1.1 0.5-1.1 1.1-1.1 1.1 0.5 1.1 1.1zm67.1 44.4c-3 1.8-8.4 0.6-11.8 0.3-4.4-0.3-8.7-0.9-13.1-1.4-3.5-0.4-7-0.9-10.5-1.3-1.7-0.1-3.3-0.3-4-1.4-0.3-0.5-0.4-1.1-0.5-1.7-0.1-0.5-0.2-1.1-0.4-1.6-0.5-1.4-1.7-2.4-2.9-3.3l-0.5-0.4c-4.3-3.2-8.8-6.6-10.5-11.5-0.5-1.3 0.3-3.2-0.2-4.3-0.5-1.3-1.5-0.6-1.8 0.5-0.3 1.3 0.3 3.1 0.8 4.3 1.9 5.3 6.5 8.8 11 12.1l0.5 0.4c1.1 0.8 2.1 1.6 2.5 2.7 0.2 0.4 0.2 0.8 0.3 1.3 0.1 0.7 0.3 1.5 0.7 2.2 0.5 0.8 1.3 1.3 2.2 1.6-1.6 0.5-3.2 1-4.8 1.4-1.2 0.3-2.5 0.6-3.7 0.8 0 0.1-0.1 0.2-0.1 0.3-0.5 1.4-0.2 2.9-0.5 4.4-0.3 1.4-0.7 2.6-0.7 4 0 1.6-0.1 3.1-0.1 4.7 0 1.1 0 2.3 0.1 3.4 0.3 2.5 1.2 5 2.7 7.1-1.6 0.9-2.6-0.5-4.3-0.5-1.3 0-2.1 1-3.2 1.2s-0.8-0.8-1.6-0.9c-1.1-0.2-2.2 0.7-3.4 0.4-0.2-0.1-0.3-0.1-0.5-0.2-1 0.4-2 0.8-2.9 0.3-0.1-0.1-0.2-0.1-0.2-0.2-0.1-0.2 0-0.4-0.1-0.5-0.1-0.2-0.3-0.4-0.6-0.4h-0.1-0.7c-1.8-0.1-0.5-0.9 0.3-1.2 1-0.3 2-0.5 3-0.9 1.3-0.6 2.8-1.2 3.5-2.5 1-1.8 1-4.6 1.2-6.5 0.2-2.4 0.1-4.5-0.6-6.8-0.4-1.3-0.1-2.7-0.3-4 0-0.3-0.1-0.6-0.2-0.9-3.3-0.4-6.4-1.5-9.4-3.5-3.8-2.6-6.7-5.9-8.5-9.6-2-2.8-3.3-6.4-3.3-10.5 0-2.1 0.3-4.2 1-6.2s2.8-4.2 2.1-6.4c-0.5-1.7-1.8-2.7-3.6-2.6-1.7 0.1-2.9 0.9-4.6 1.4-1.6 0.4-3.2 0.6-4.8 0.7s-2.1-0.8-1.5-2.2c0.3-0.6 0.7-1.2 1.2-1.7 1.1-1.3 3.1-1.7 4.7-2.2 1.5-0.4 3-1.1 4.5-1.7 2.9-1.2 3.1-2.9 4.3-5.2 1.3-2.3 4.1-3.9 6.6-4.6 4-1.1 8.7 0.1 11 3.5 2.2 3.2 2.5 7.6 2.7 11.3 0.1 0.9 0.2 1.7 0.6 2.5 2.7 0.3 5.3 0.9 7.8 1.7 3.9 1.3 7.3 3.1 9.8 5.2 4.4 3.8 9.3 6.2 14.1 9.4 3 2 6 4 9.3 5.5 2.8 1.3 5.7 2.4 8.7 3.2 0.6 0.2 1.2 0.4 1.3 1 0 0.7-0.8 1-1.5 1.1-3.4 0.5-6.8 0.8-10.1 1.5-1.7 0.4-3.4 0.4-5.1 0.6 3 0.8 6 1.5 9 2.1 0.8 0.5 14.4 1.9 9.7 4.7zm-67.9-46.3c-0.9 0-3.2 1.9-2.1 2.8 0.7 0.7 1.5 1.4 2.5 1 0.8-0.3 1.4-0.9 1.8-1.6 0.1-0.1 0.1-0.2 0.1-0.3 0.5-0.9-1.5-1.9-2.3-1.9zm14.2 65.6c0.1 0.7 0.3 1.3 0.7 1.9 0.1 0.2 0.2 0.3 0.2 0.5 0.3-0.2 0.6-0.3 0.8-0.6 1.6-1.6 1.1-4.3 1.3-6.3 0.2-1.8 0.2-3.6 0.1-5.5v-2.3c-0.1-1.4-0.3-2.5-0.1-3.9 0.1-0.6 0.1-1.3 0-1.9-0.8 0.1-1.5 0.1-2.3 0.1 0.1 1.2 0.5 2.4 0.4 3.7 0 1.4-0.4 2.8-0.6 4.2-0.3 2.7-0.5 5.4-0.7 8.1 0.1 0.6 0.1 1.3 0.2 2z'
 
-		#Generation of the html code for the different elements that make up the svg 
-		
+		#Generation of the html code for the different elements that make up the svg
+
 		pathSeagull = genHTMLElement('path',
 							['class','d'],
 							['st0_seagull',Seagullpath])
@@ -282,17 +307,17 @@ class Icon(object):
 		svgSeagull = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-247 358.9 100 105.4','preserve','http://www.w3.org/2000/svg'],
-							pathSeagull)		
+							pathSeagull)
 		#Return of the html code that represent the svg
 		return svgSeagull
-	
+
 	def _octopus(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: octopus
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Octopuspath1 = 'M-483.7,693.4c-2.2,2.9-5.9,5-10.9,6.4c-3.6-1.9-6.2-4.8-9.1-7.9c-0.8-0.9-1.6-1.7-2.4-2.7 c2.5-1.3,3.7-3.3,4.3-5c1.3-3.7,0.4-8.8-2.3-12.2c-3.3-4.2-8-7.1-12.5-9.6c-10.9-6.1-13-14.5-13.7-21.2c-0.6-5.8,2.6-13.5,13.4-16 c5.7-1.3,10.3,1.8,12.7,5.2c2.2,3.2,2.8,6.8,1.3,9.1c-1.1,1.7-2.3,2.7-3.7,3c0.8-1.1,1.2-2.5,1.1-4.1c-0.2-4-3.8-8.1-10-7.9 c-3.7,0.2-7.4,3.3-8.6,7.3c-1.3,4.3,0.3,8.5,4.4,11.5c3.4,2.5,7.4,3.7,11.7,5.1c6.5,2,13.2,4.1,18,10.8c-3.9,3.8-5.5,9-5.6,13.4 c-0.2,6.3,2.6,11.7,7.1,13.6C-486.8,692.9-485.2,693.3-483.7,693.4z'
 		Octopuspath2 = 'M-539.2,641.1c-0.7,6.7-2.9,15.1-13.7,21.2c-4.5,2.6-9.2,5.5-12.4,9.6c-2.8,3.5-3.7,8.5-2.4,12.2 c0.6,1.7,1.8,3.8,4.3,5.1c-0.8,0.9-1.6,1.8-2.4,2.6c-2.9,3.2-5.5,6-9.1,8c-4.9-1.4-8.6-3.6-10.9-6.4c1.5-0.1,3.1-0.5,4.7-1.2 c4.5-1.9,7.3-7.2,7.1-13.6c-0.2-4.4-1.7-9.5-5.6-13.4c4.9-6.8,11.6-8.8,18.1-10.9c4.2-1.3,8.3-2.6,11.7-5.1 c4.1-3.1,5.7-7.2,4.4-11.5c-1.2-4-4.9-7.1-8.6-7.3c-6.2-0.3-9.8,3.9-10,7.9c-0.1,1.6,0.4,3,1.1,4.1c-1.3-0.3-2.6-1.3-3.7-3 c-1.4-2.2-0.9-5.9,1.3-9.1c2.3-3.4,6.9-6.5,12.7-5.2C-541.8,627.7-538.6,635.3-539.2,641.1z'
@@ -300,7 +325,7 @@ class Icon(object):
 		Octopuspath4 = 'M-542.4,710.2c0,3.4-2.8,6.2-6.2,6.2c-3.4,0-6.2-2.8-6.2-6.2c0-3.6,2.8-6.2,6.2-6.2 C-545.2,704-542.4,706.6-542.4,710.2z'
 		Octopuspath5 = 'M-514.7,710.2c0,3.4-2.8,6.2-6.2,6.2c-3.4,0-6.2-2.8-6.2-6.2c0-3.6,2.8-6.2,6.2-6.2 C-517.5,704-514.7,706.6-514.7,710.2z'
 
-		#Generation of the html code for the different elements that make up the svg 
+		#Generation of the html code for the different elements that make up the svg
 		pathOctopus1 = genHTMLElement('path',
 							['class','d'],
 							['st0_octopus',Octopuspath1])
@@ -318,31 +343,31 @@ class Icon(object):
 							['st1_octopus',Octopuspath5])
 
 		#Union of all the elements of the svg within the variable "combine"
-		combine = pathOctopus1 + pathOctopus2 + pathOctopus3 + pathOctopus4 + pathOctopus5		
-			
+		combine = pathOctopus1 + pathOctopus2 + pathOctopus3 + pathOctopus4 + pathOctopus5
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgOctopus = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-629.9 613.3 193.9 212.9','preserve','http://www.w3.org/2000/svg'],
 							combine)
-							
+
 		#Return of the html code that represent the svg
 		return svgOctopus
-		
+
 	def _diamond(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: diamond
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Diamondpath1 = 'M-74.8,349.3c3.7,6.9,12.2,9.4,19.1,5.8c6.9-3.7,9.4-12.2,5.8-19.1l-22.5-39.4c-3.7-6.9-12.2-9.4-19.1-5.8c-6.9,3.6-9.4,12.2-5.8,19.1L-74.8,349.3z'
 		Diamondpath2 = 'M353.1,474.6l-42.3-89.9c-2.3-4.9-7.3-8.1-12.8-8.1H-97c-5.5,0-10.4,3.2-12.8,8.1l-42.3,89.9 c-2.4,5.1-1.5,11.1,2.2,15.3L90,762.6c6.5,6.7,15.8,6.2,21.2,0l239.9-272.7C354.7,485.8,355.5,479.8,353.1,474.6z M43.1,404.8 h114.7l10.2,61.7H32.9L43.1,404.8z M-88.1,404.8H14.5L4.3,466.5h-121.4L-88.1,404.8z M-108.2,494.8H5.9l61.7,199.8L-108.2,494.8z M100.5,705.5L35.4,494.8h130.1L100.5,705.5z M133.4,694.5l61.7-199.8h114.1L133.4,694.5z M196.7,466.5l-10.2-61.7h102.6l29.1,61.7 H196.7z'
 		Diamondpath3 = 'M100.5,328.6c7.8,0,14.1-6.3,14.1-14.1v-40.9c0-7.8-6.3-14.1-14.1-14.1s-14.1,6.3-14.1,14.1v40.9 C86.4,322.3,92.7,328.6,100.5,328.6z'
 		Diamondpath4 = 'M256.5,355.3c6.9,3.7,15.4,1.1,19.1-5.8L298,310c3.7-6.9,1.1-15.4-5.8-19.1c-6.9-3.7-15.4-1.1-19.1,5.8 l-22.4,39.4C247.1,342.9,249.6,351.5,256.5,355.3z'
 
-		#Generation of the html code for the different elements that make up the svg 
+		#Generation of the html code for the different elements that make up the svg
 		pathDiamond1 = genHTMLElement('path',
 							['class','d'],
 							['st0_diamond',Diamondpath1])
@@ -355,26 +380,26 @@ class Icon(object):
 		pathDiamond4 = genHTMLElement('path',
 							['class','d'],
 							['st0_diamond',Diamondpath4])
-		
+
 		#Union of all the elements of the svg within the variable "combine"
 		combine = pathDiamond1 + pathDiamond2 + pathDiamond3 + pathDiamond4
-		
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgDiamond = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-153.4 259.5 507.9 507.9','preserve','http://www.w3.org/2000/svg'],
 							combine)
-							
-		#Return of the html code that represent the svg	
+
+		#Return of the html code that represent the svg
 		return svgDiamond
-	
+
 	def _iceberg(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: iceberg
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Icebergpath = 'M-950,1411.6h-23.5l6.6,11.7c0,0.1,0.1,0.2,0.1,0.3l1.3,12.1c0,0.4-0.2,0.7-0.5,0.8l-5.8,2.3l-1.9,14.8 c0,0.1-0.1,0.2-0.1,0.3l-14.4,25.4c-0.1,0.2-0.3,0.4-0.6,0.4c-0.2,0-0.5-0.2-0.6-0.4l-11.1-19.2l-11.9-11.3 c-0.1-0.1-0.2-0.4-0.2-0.6l2.5-23.1l-4.1-3.4c-0.3-0.2-0.3-0.6-0.2-0.9l4.3-9.3h-19.9v-1.5h20.6l5.4-11.7c0.1-0.2,0.3-0.4,0.5-0.4 c0.3-0.1,0.5,0,0.7,0.2l1.4,1.4l6.6-11c0.2-0.3,0.4-0.4,0.7-0.4c0.2,0,0.5,0.1,0.6,0.4l3.4,6.6l2.1-0.5c0.3-0.1,0.6,0.1,0.8,0.3 l6.3,9.1l2.4-0.3c0.4,0,0.6,0.1,0.8,0.4l3.4,6h24.3V1411.6z'
 
@@ -387,23 +412,23 @@ class Icon(object):
 		svgIceberg = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-1030 1388.1 80 91.6','preserve','http://www.w3.org/2000/svg'],
-							pathIceberg)		
-		
+							pathIceberg)
+
 		#Return of the html code that represent the svg
 		return svgIceberg
-		
+
 	def _pirate(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: pirate
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Piratepath1 = 'M-799.8,2049.2c-9.1,3.4-17.2,9.2-23.3,17.1l-6.8,8.9c-6.6,8.6-15.3,15.4-25.2,19.8l-14.2,6.3l3.3,19.5h43.9v-13 c25.7-9.6,56.6-9.4,81.4,0v13h43.9l3.3-17.9l-15.9-8c-8.8-4.4-16.5-10.7-22.5-18.5l-7.8-10.1c-6.1-7.9-14.2-13.7-23.3-17.1 c-2.7,11.7-10.1,19.5-18.4,19.6C-789.7,2068.8-797,2060.9-799.8,2049.2L-799.8,2049.2z M-789.6,2078.5c0.6,0,1.2,0.2,1.8,0.5 l6.4,3.9l6.4-3.9c0.6-0.3,1.2-0.5,1.9-0.5c1.8,0.1,3.2,1.6,3.1,3.4c-0.1,1.1-0.7,2.1-1.6,2.7l-3.4,2.1l3.4,2.1 c1.5,0.9,2,2.9,1.1,4.5c-0.9,1.5-2.9,2-4.5,1.1l-6.4-3.9l-6.4,3.9c-1.5,0.9-3.5,0.4-4.5-1.1c-0.9-1.5-0.4-3.5,1.1-4.5l3.4-2.1 l-3.4-2.1c-1.6-0.9-2.1-2.9-1.2-4.5C-791.8,2079.2-790.7,2078.5-789.6,2078.5L-789.6,2078.5z'
 		Piratepath2 = 'M-781.4,2105.7c-12.1,0-24.3,2.3-35.7,7h-0.1v29.6l10.7-10.7c-0.6-1.3-1-2.7-1-4.2c0-5.4,4.4-9.7,9.8-9.8 c1.5,0,2.9,0.3,4.2,1l12.8-12.8C-780.9,2105.7-781.1,2105.7-781.4,2105.7L-781.4,2105.7z M-771.9,2106.2l-17,17c0.6,1.3,1,2.7,1,4.2 c0,5.4-4.4,9.8-9.8,9.8c-1.5,0-2.9-0.3-4.2-1l-15.3,15.3v11.7l10.7,9.7c1.6-4.2,2.4-8.7,2.4-13.3v-2.7c0-5.3,4.2-9.6,9.2-10 c0.7-0.1,1.5,0,2.2,0.1l11.4,2l11.4-2c6-1,11.4,3.8,11.4,9.9v3.2c0,4.4,0.8,8.7,2.3,12.8l10.8-9.8v-50.5h-0.1 C-754.1,2109.2-763,2107.1-771.9,2106.2L-771.9,2106.2z M-758.7,2117.6c1.8-0.1,3.3,1.4,3.4,3.2c0,1.3-0.7,2.6-2,3.1l-14.6,6.5 c-1.6,0.8-3.6,0.2-4.4-1.4c-0.8-1.6-0.2-3.6,1.4-4.4c0.1-0.1,0.2-0.1,0.3-0.2l14.6-6.5C-759.5,2117.7-759.1,2117.6-758.7,2117.6 L-758.7,2117.6z M-761.9,2130.6c1.8-0.1,3.3,1.3,3.4,3.1c0.1,1.5-0.9,2.8-2.3,3.2l-4.9,1.6c-1.7,0.7-3.6-0.2-4.2-1.8 c-0.7-1.7,0.2-3.6,1.8-4.2c0.1,0,0.2-0.1,0.3-0.1l4.9-1.6C-762.6,2130.7-762.3,2130.6-761.9,2130.6L-761.9,2130.6z M-793.9,2153.4 c-2-0.3-3.8,1.2-3.8,3.4v2.7c0,6.2-1.3,12.3-3.8,17.9l20,18.2l19.9-18.1c-2.3-5.5-3.6-11.5-3.6-17.5v-3.2c0-2.3-1.8-3.8-3.8-3.4 l-11.9,2.1c-0.4,0.1-0.7,0.1-1.1,0L-793.9,2153.4L-793.9,2153.4z M-788.1,2159.9h0.2h13c1.8,0,3.3,1.4,3.3,3.2 c0,1.8-1.4,3.3-3.2,3.3h-0.1h-13c-1.8,0.1-3.3-1.3-3.4-3.1C-791.3,2161.5-789.9,2160-788.1,2159.9z'
 
-		#Generation of the html code for the different elements that make up the svg 
+		#Generation of the html code for the different elements that make up the svg
 		pathPirate1 = genHTMLElement('path',
 							['class','d'],
 							['st0_pirate',Piratepath1])
@@ -417,18 +442,18 @@ class Icon(object):
 		svgPirate = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-869.3 2049.2 175.8 146.4','preserve','http://www.w3.org/2000/svg'],
-							combine)	
-							
+							combine)
+
 		#Return of the html code that represent the svg
 		return svgPirate
-		
+
 	def _island(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: Island
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Islandpath1 = 'M-474.1,715.3c0.2-0.1,0.4-0.1,0.6-0.2c0.4-0.1,0.7-0.3,1.1-0.5s0.8-0.3,1.2-0.5c0.4-0.2,0.8-0.3,1.2-0.5 c0.4-0.1,0.8-0.3,1.2-0.4c0.4-0.1,0.8-0.3,1.2-0.4c0.2,0,0.4-0.1,0.6-0.2c0.2,0,0.4-0.1,0.6-0.1c0.4-0.1,0.8-0.2,1.2-0.2 c0.2,0,0.4-0.1,0.6-0.1s0.4,0,0.6-0.1c0.4,0,0.7-0.1,1.1-0.1c0.3,0,0.6-0.1,0.9-0.1c0.5-0.1,0.8-0.1,0.8-0.1s-0.2-0.3-0.5-0.7 c-0.2-0.2-0.4-0.5-0.7-0.7c-0.3-0.3-0.6-0.5-1-0.7c-0.2-0.1-0.4-0.2-0.6-0.4c-0.2-0.1-0.5-0.2-0.7-0.3c-0.3-0.1-0.5-0.2-0.8-0.2 c-0.3-0.1-0.6-0.1-0.9-0.1s-0.6,0-0.9-0.1c-0.3,0-0.6,0-0.9,0.1c-0.6,0-1.2,0.2-1.8,0.4c-0.6,0.2-1.2,0.5-1.7,0.8 c0.2-0.3,0.5-0.7,0.7-1c0.3-0.4,0.6-0.8,0.8-1.2c0.1-0.2,0.3-0.4,0.4-0.6c0.1-0.2,0.3-0.3,0.4-0.5c0.6-0.7,1.1-1.3,1.7-1.8 c0.3-0.3,0.6-0.5,0.8-0.7c0.3-0.2,0.5-0.4,0.8-0.5c0.5-0.3,0.7-0.5,0.7-0.5s-0.3-0.2-0.8-0.4c-0.3-0.1-0.6-0.2-1-0.2 c-0.4-0.1-0.9-0.1-1.4,0c-1,0.1-2.2,0.5-3.3,1.2c-0.5,0.4-1.1,0.8-1.5,1.2c-0.5,0.5-0.9,1-1.2,1.5c-0.4,0.5-0.7,1.1-0.9,1.7 c-0.1,0.2-0.2,0.5-0.3,0.8v-0.5c0-0.4-0.1-0.9-0.1-1.3c0-0.4-0.1-0.8-0.1-1.2s-0.1-0.8-0.1-1.2s-0.1-0.8,0-1.1v-1v-0.8V701 c0,0-0.3,0.1-0.7,0.4c-0.2,0.1-0.5,0.3-0.8,0.5l-0.8,0.8c-0.3,0.3-0.5,0.7-0.8,1.2c-0.3,0.4-0.4,0.9-0.6,1.4s-0.3,1-0.3,1.6 c-0.1,0.6-0.1,1.1-0.1,1.7c0,0.5,0.1,1.1,0.2,1.6c-0.2-0.1-0.4-0.3-0.6-0.4c-0.5-0.3-1.1-0.6-1.7-0.8c-0.6-0.2-1.2-0.4-1.8-0.4 c-0.3,0-0.6-0.1-0.9-0.1s-0.6,0-0.9,0.1c-0.6,0-1.2,0.2-1.7,0.4c-0.3,0.1-0.5,0.2-0.7,0.3c-0.2,0.1-0.5,0.2-0.7,0.4 c-0.4,0.3-0.8,0.5-1,0.7s-0.5,0.5-0.6,0.7c-0.3,0.4-0.5,0.7-0.5,0.7s0.3,0.1,0.8,0.1h0.9c0.4,0,0.7,0.1,1.1,0.1c0.2,0,0.4,0,0.5,0.1 c0.2,0,0.4,0.1,0.6,0.1s0.4,0.1,0.6,0.1s0.4,0.1,0.6,0.1c0.2,0.1,0.4,0.1,0.6,0.1c0.2,0.1,0.4,0.1,0.6,0.2c0.4,0.1,0.8,0.2,1.2,0.4 c0.4,0.1,0.8,0.3,1.2,0.4c0.4,0.2,0.8,0.3,1.2,0.5c0.1,0.1,0.3,0.1,0.4,0.2h-1.2c-0.6,0-1.2,0.1-1.8,0.3c-0.6,0.1-1.2,0.4-1.7,0.6 c-0.6,0.2-1.1,0.6-1.6,0.9c-0.5,0.3-0.9,0.7-1.4,1.1c-0.4,0.4-0.8,0.8-1.1,1.2c-0.3,0.4-0.6,0.9-0.8,1.2c-0.2,0.4-0.4,0.8-0.5,1.1 c-0.1,0.4-0.2,0.7-0.3,0.9c-0.1,0.5-0.1,0.8-0.1,0.8s0.3-0.1,0.8-0.3c0.2-0.1,0.5-0.2,0.8-0.4c0.3-0.2,0.7-0.3,1-0.5 c0.4-0.2,0.7-0.4,1.1-0.6l1.2-0.6l1.2-0.6c0.4-0.2,0.8-0.4,1.3-0.6c0.4-0.2,0.8-0.3,1.1-0.5c-0.1,0.1-0.2,0.2-0.3,0.2 c-0.4,0.4-0.8,0.8-1.1,1.3c-0.3,0.5-0.7,1-0.9,1.5c-0.3,0.5-0.5,1-0.6,1.6c-0.1,0.3-0.1,0.5-0.2,0.8c0,0.3-0.1,0.5-0.1,0.8v0.7 c0,0.2,0,0.5,0.1,0.7c0.1,0.4,0.1,0.8,0.2,1.2c0.1,0.3,0.2,0.6,0.4,0.9c0.2,0.5,0.4,0.7,0.4,0.7s0.2-0.3,0.5-0.7 c0.1-0.2,0.3-0.5,0.4-0.7l0.6-0.9c0.2-0.3,0.4-0.6,0.6-1c0.1-0.2,0.2-0.3,0.3-0.5s0.2-0.3,0.4-0.5c0.1-0.2,0.2-0.4,0.3-0.5 c0.1-0.2,0.3-0.3,0.4-0.5c0.2-0.4,0.5-0.7,0.8-1.1c0.2-0.4,0.5-0.7,0.8-1.1c0.3-0.3,0.5-0.7,0.8-1.1c0.5-0.7,1-1.4,1.4-2.1 c0.1-0.1,0.1-0.2,0.2-0.3c1.6,2.7,6.2,10.9,7.4,19.8c1.7,0,2.7,0,4.2-0.7C-467.1,726.8-472.7,717.5-474.1,715.3L-474.1,715.3z'
 		Islandpath2 = 'M-454.5,737.7c0.8-19.7,6.7-30.8,7.9-32.9c0.3,0.3,0.7,0.7,1.1,1l1.2,1.2c0.4,0.4,0.8,0.9,1.3,1.3 c0.4,0.5,0.8,0.9,1.3,1.4c0.4,0.5,0.9,0.9,1.2,1.5l0.6,0.7c0.2,0.3,0.4,0.5,0.5,0.8c0.2,0.3,0.4,0.5,0.5,0.8 c0.2,0.3,0.3,0.5,0.5,0.8c0.4,0.5,0.6,1,0.9,1.5c0.1,0.2,0.3,0.5,0.4,0.7s0.2,0.5,0.3,0.7c0.2,0.5,0.5,0.9,0.6,1.3 c0.2,0.4,0.3,0.8,0.5,1.1l0.5,1c0,0,0.2-0.4,0.4-1c0.1-0.3,0.2-0.7,0.3-1.2s0.1-1,0.1-1.6v-0.9c0-0.3-0.1-0.6-0.1-1 c-0.1-0.7-0.2-1.4-0.5-2.1c-0.2-0.7-0.5-1.5-0.9-2.1c-0.2-0.3-0.4-0.7-0.6-1l-0.7-1c-0.5-0.6-1.1-1.2-1.6-1.7 c-0.3-0.3-0.6-0.5-0.9-0.7c-0.3-0.2-0.6-0.5-0.9-0.7c-0.6-0.4-1.2-0.7-1.9-1c-0.6-0.3-1.1-0.5-1.6-0.6c0.3,0,0.6,0.1,0.9,0.1 c0.5,0,1.1,0.2,1.6,0.2c0.5,0.1,1.1,0.1,1.7,0.3c0.6,0.1,1.1,0.2,1.7,0.3c0.6,0.1,1.1,0.3,1.7,0.4s1.1,0.3,1.6,0.4 c0.6,0.1,1,0.3,1.5,0.5c0.5,0.1,1,0.3,1.4,0.5c0.4,0.2,0.9,0.3,1.3,0.4c0.4,0.2,0.7,0.3,1,0.4c0.6,0.2,1,0.3,1,0.3s-0.1-0.4-0.4-0.9 c-0.1-0.3-0.3-0.6-0.5-1c-0.2-0.4-0.5-0.7-0.9-1.2c-0.4-0.4-0.7-0.9-1.2-1.2c-0.5-0.4-1-0.8-1.6-1.2c-0.3-0.2-0.6-0.3-0.9-0.5 s-0.6-0.3-1-0.4c-0.7-0.3-1.4-0.5-2.1-0.6c-0.4-0.1-0.7-0.1-1.1-0.2c-0.4,0-0.7-0.1-1.1-0.1h-1.1c-0.3,0-0.7,0-1,0.1 c0.3-0.2,0.7-0.3,1-0.5l1.2-0.6l0.6-0.3l0.6-0.3c0.4-0.2,0.8-0.4,1.2-0.5c0.4-0.1,0.8-0.3,1.1-0.4c0.4-0.1,0.7-0.3,1-0.4 c0.3-0.1,0.6-0.2,0.8-0.3c0.5-0.2,0.8-0.3,0.8-0.3s-0.2-0.2-0.6-0.5c-0.2-0.2-0.5-0.4-0.8-0.6c-0.3-0.2-0.7-0.3-1.2-0.5 s-0.9-0.2-1.5-0.3c-0.5-0.1-1.1-0.1-1.7,0c-0.6,0-1.2,0.2-1.8,0.3s-1.1,0.4-1.7,0.7c-0.5,0.3-1.1,0.6-1.6,0.9 c-0.1,0.1-0.3,0.2-0.4,0.3c0-0.2,0.1-0.4,0.1-0.7c0.1-0.6,0.2-1.2,0.2-1.8v-0.9c0-0.3-0.1-0.6-0.1-0.9c-0.1-0.6-0.2-1.2-0.4-1.7 c-0.1-0.6-0.4-1.1-0.6-1.6c-0.1-0.2-0.2-0.5-0.3-0.7c-0.1-0.2-0.3-0.4-0.4-0.6c-0.3-0.4-0.5-0.7-0.8-1l-0.7-0.7 c-0.4-0.4-0.7-0.5-0.7-0.5s-0.1,0.3-0.1,0.9c0,0.5-0.1,1.2-0.1,2.1v1.3v1.4v1.4v1.5v1.5c-0.2-0.5-0.5-1.1-0.9-1.6 c-0.4-0.6-0.9-1.1-1.4-1.6s-1.1-0.9-1.7-1.3c-0.6-0.3-1.2-0.7-1.8-0.9s-1.2-0.4-1.8-0.5c-0.6-0.1-1.1-0.2-1.7-0.2h-1.4 c-0.4,0.1-0.8,0.1-1.1,0.2c-0.6,0.1-0.9,0.2-0.9,0.2s0.3,0.3,0.7,0.6c0.2,0.2,0.5,0.4,0.8,0.6s0.7,0.5,1,0.7 c0.4,0.3,0.8,0.5,1.2,0.8l1.2,0.9c0.4,0.3,0.8,0.7,1.2,1c0.4,0.4,0.8,0.7,1.2,1c0.4,0.4,0.8,0.7,1.1,1.1c0.2,0.2,0.3,0.4,0.5,0.6 c0.2,0.2,0.3,0.4,0.5,0.6c0.3,0.4,0.6,0.8,0.9,1.2s0.5,0.7,0.8,1.1c-0.1-0.2-0.3-0.3-0.4-0.5c-0.4-0.4-0.9-0.8-1.4-1.2 s-1.1-0.8-1.8-1.1s-1.3-0.7-2.1-0.9c-0.4-0.1-0.7-0.3-1.1-0.4l-1.2-0.3c-0.8-0.2-1.6-0.2-2.3-0.3h-1.2c-0.4,0-0.8,0-1.1,0.1 c-0.7,0.1-1.4,0.3-2.1,0.4s-1.2,0.4-1.8,0.6c-0.5,0.2-1,0.4-1.4,0.7c-0.4,0.3-0.7,0.5-1,0.7c-0.5,0.4-0.8,0.7-0.8,0.7 s0.4,0.1,1.1,0.1c0.3,0,0.7,0.1,1.2,0.1c0.4,0,0.9,0.1,1.5,0.1c0.5,0.1,1.1,0,1.7,0.1c0.6,0.1,1.2,0.1,1.8,0.2 c0.6,0.1,1.2,0.1,1.9,0.3c0.6,0.1,1.3,0.2,1.9,0.3l1,0.2c0.3,0.1,0.6,0.2,0.9,0.2c0.6,0.1,1.2,0.3,1.8,0.5c1.2,0.3,2.3,0.7,3.3,1 c0.5,0.2,1,0.3,1.4,0.4c-1.5,2.5-7.7,14.1-8.5,34.8'
@@ -454,47 +479,47 @@ class Icon(object):
 							['st2_island',Islandpath5])
 		#Union of all the elements of the svg within the variable "combine"
 		combine = pathIsland1 + pathIsland2 + pathIsland3 + pathIsland4 + pathIsland5
-		
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgIsland = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-505 684 91 95.5','preserve','http://www.w3.org/2000/svg'],
 							combine)
-	
+
 		#Return of the html code that represent the svg
 		return svgIsland
-		
+
 	def _maelstrom(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg obstacles: maelstrom
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Maelstrompath1 = 'M-192.5,401.5c0.6,0.7,1.1,1.5,1.7,2.3c1.3,1.5,1.4,3.2,0.2,4.7c-1.2,1.6-2.7,3-4.2,4.4c-0.5,0.4-1.4,0.6-2.1,0.6 c-5.5-0.1-10-3.2-10.8-8.9c-0.2-1.6,0.2-3.5,1.1-4.9c1.5-2.6,3.6-4.7,6.8-5.5c1.9-0.5,3.7-1.1,5.7-1.1c5.2-0.2,10,2.9,11.8,7.7 c1.3,3.5,1.6,7.2,0.5,10.8c-0.6,2-1.8,4.1-3.2,5.6c-1.2,1.3-3.2,1.8-4.8,2.8c-0.7,0.4-1.6,0.9-2.1,1.6c-1.4,1.9-3.4,2.3-5.6,2.3 c-1.1,0-2.3-0.1-3.4-0.1c-7.8-0.3-14.4-3.3-18.5-9.9c-3.8-6.2-5-13.1-1.2-19.9c1.7-2.9,4.2-5.3,6.4-7.9c0.5-0.6,1.3-0.9,2.1-1.2 c4.4-1.6,8.9-2.6,13.5-2.9c3.6-0.2,7.1-0.3,10.7,0.4c4.4,0.8,8.1,2.6,11.2,5.9c3.5,3.7,6.3,7.8,8.1,12.6c2.2,6.2,1.5,12.2-1.8,17.8 c-2.7,4.5-5.9,8.7-9.6,12.5c-2.1,2.1-4.7,3.7-7.1,5.5c-0.6,0.5-1.5,0.8-2,1.3c-3.1,3.1-6.9,3.3-10.9,2.9c-3-0.4-6-1-9.1-1.5 c-1.5-0.3-3-0.6-4.2-1.8c-0.6-0.6-1.5-0.9-2.4-1.2c-5.6-2.4-10-6.5-14.7-10.2c-0.1-0.1-0.2-0.2-0.3-0.4c-2.7-3.5-5.5-7.1-7-11.3 c-1.5-4.2-2-8.5-1.2-12.9c1.1-5.8,3.2-11.3,5.9-16.4c1.5-2.8,3.8-5.3,6.1-7.5c2.7-2.5,5.8-4.8,9-6.6c2.3-1.3,5.1-1.9,7.8-2.6 c8-2.3,16.1-2.6,24.2-2c2.1,0.2,4.3,0.8,6.3,1.7c3.3,1.4,6.4,3.1,9.5,4.8c1.2,0.7,2,1.9,3,2.9c5.1,5.2,9.3,11,11.9,17.9 c1,2.7,2.3,5.4,2.9,8.3c0.8,4,0.2,8.1-1.3,11.9c-1.1,2.9-1.9,5.8-3.1,8.7c-0.6,1.5-1.6,3-2.5,4.4c-0.7,1.2-1.7,2.2-2.4,3.3 c-2,3-3.7,6.1-5.8,8.9c-3.8,5-8.5,8.9-14.9,10.2c-3.4,0.7-6.8,1.5-10.2,1.8c-4.1,0.4-8.1-0.3-12-1.3c-2.1-0.5-4.3-1-6.4-1.6 c-1.2-0.3-2.3-0.8-3.4-1.2c-0.7-0.2-1.4-0.5-2.1-0.6c-5.9-1.3-11.5-3.4-16.4-7c-2.6-1.9-5.5-3.5-7.5-6.1c-2-2.5-2-4.1,0.3-6.9 c0.4,0.6,0.9,1.1,1.2,1.7c1.5,2.7,3.5,4.8,6.3,6.3c0.6,0.3,1.2,0.8,1.8,1.2c3.1,2.4,6.5,4.3,10,5.9c0.5,0.2,1,0.5,1.6,0.6 c4.7,1,9.3,2.1,14,3c2.5,0.5,5,0.6,7.5,1.1s5,0.3,7.5-0.2c4.4-0.9,8.8-1.7,12.9-3.5c4.1-1.8,7.6-4.4,10.2-8.1 c2.7-3.8,5.5-7.6,8-11.6c0.7-1.1,1-2.6,1.4-3.9c0.5-1.5,0.8-3.1,1.5-4.6c1.1-2.6,1.7-5.2,1.3-8c0-0.2,0-0.3-0.1-0.5 c-2.3-4.9-2.7-10.6-6.1-15c-2.1-2.7-4.2-5.3-6.3-8c-0.5-0.6-0.9-1.2-1.3-1.8c-1-1.4-2.2-2.5-3.9-3.3c-3-1.4-6-2.9-8.9-4.4 c-2.3-1.2-4.7-1.5-7.3-1.7c-5-0.4-9.9-0.3-14.8,0.6c-4,0.7-8,1.5-11.8,3c-2.9,1.2-5.4,3.5-8.1,5.3c-2.8,1.8-4.6,4.2-6.6,6.4 c-0.8,0.9-1.3,2-1.9,3.1c-2,3.5-3.8,7-4.5,11c-0.2,1.6-0.1,3.2,0.1,4.8c0.8,5.3,3.8,9.6,6.9,13.8c3.8,5.1,8.8,8.5,14.5,11.1 c6.6,3,13.5,4.1,20.6,4.3c2,0.1,3.6-0.6,5.1-1.8c1.8-1.4,3.7-2.7,5.5-4c5.2-3.7,8.9-8.7,12.2-14c2-3.2,2.5-6.8,1.2-10.5 c-2-5.4-5.3-9.9-9.1-14c-1.6-1.7-3.7-2.3-5.9-2.8c-8.5-1.9-17-1.1-25.2,1.6c-2.4,0.8-4.5,2.5-6.6,4c-1.5,1.1-1.8,2.9-1.9,4.6 c-0.4,3.9,0.7,7.6,1.8,11.2c0.2,0.7,0.9,1.4,1.4,2c1.1,1.4,2.1,2.9,3.3,4.2c0.6,0.7,1.3,1.3,2.1,1.6c3.2,1.3,6.4,2.9,10,2.6 c1.1-0.1,2.3,0.1,3.4-0.1c1.3-0.2,2.7-0.5,3.9-1.2c2.2-1.3,4.5-2.7,6.5-4.3c2.4-1.9,4.7-6.9,2.7-10.8c-1.6-3.2-4.4-4.9-7.5-6.2 c-1-0.4-2-0.7-3-1c-0.5-0.1-1-0.3-1.4-0.3c-3,0.3-5.7,1.2-7.9,3.3c-1.6,1.5-1.7,4.4,0.7,7c1.3,1.4,3,2.9,5.2,3c0.9,0,1.9,0,2.8-0.4 c1.6-0.6,1.8-1.3,1.2-2.8c-0.2-0.5-0.5-1-0.8-1.5C-195.5,402.6-195,401.8-192.5,401.5z'
-		
+
 		#Generation of the html code for the different elements that make up the svg
 		pathMaelstrom1 = genHTMLElement('path',
 							['class','d'],
 							['st0_maelstrom',Maelstrompath1])
-							
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgMaelstrom = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-247 358.9 100 97.6','preserve','http://www.w3.org/2000/svg'],
-							pathMaelstrom1)		
-		
+							pathMaelstrom1)
+
 		#Return of the html code that represent the svg
 		return svgMaelstrom
-		
+
 	def _treasure(self):
 		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
-		
+
 		Type of svg end point: treasure
-		
-		"""	
-		
+
+		"""
+
 		#Creation of the variable(s) with the svg path
 		Treasurepath1 = '-469.3,822.7 -514.9,822.7 -523.1,810.6 -523.2,782.6 -527.1,780.4 -527,766.9 -522.8,764.7 -476.8,764.7 -476.9,776.3 -473.3,782.6 -475,785.9 -469.2,794.7'
 		Treasurepath2 = '-495,782.6 -492,776.9 -476.4,776.9 -473.3,782.6 -482,794.3 -486.1,794.3'
@@ -514,55 +539,55 @@ class Icon(object):
 		pathTreasure4 = genHTMLElement('path',
 							['class','d'],
 							['st4_treasure',Treasurepath4])
-		
+
 		#Union of all the elements of the svg within the variable "combine"
 		combine = pathTreasure1 + pathTreasure2 + pathTreasure3 + pathTreasure4
-		
+
 		#Generation of the html code for the svg, all svg element are wrapped into the variable combine
 		svgTreasure = genHTMLElement('svg',
 							['version','viewBox','xml:space','xmlns',],
 							[1.1,'-532.5 760.3 74 68','preserve','http://www.w3.org/2000/svg'],
-							combine)		
-				
+							combine)
+
 		#Return of the html code that represent the svg
 		return svgTreasure
-	
-	
-	
+
+
+
 class Island(object):
 	"""Create an Island
-	
+
 	The Icon class contains all information needed to render the obstacles
-	
+
 	"""
 
 	def __init__(self,id,fill,path):
 		"""Keyword arguments:
-			
+
 		id,fill,path
 		where:
 		id: Id of the island (e.g. 1,2,3,..)
 		fill: type of filling. It can be "#sandpattern"
-		path: polygon path 
-		
-		"""	
+		path: polygon path
+
+		"""
 		self._id = int(id)
 		self._fill = 'url(#' + str(fill) +')'
 		self._htmlId = 'obj_' + str(self._id)
-		
+
 		#pathTemp = str(path).replace(',',' ')
 		#pathTemp = pathTemp.replace(';',' L ')
 		#pathTemp = 'M ' + pathTemp + ' Z'
 		self._path = path
-		
+
 	def render(self):
 		"""Renders the Island obstacle wrapping the html code
 
-		"""	
+		"""
 		#Generation of the html code for the path that represent the island
 		island = genHTMLElement('path',
 						['class','id','d','fill'],
 						['island',self._htmlId, self._path,self._fill])
-						
+
 		#Return of the html code that represent the island
 		return island
