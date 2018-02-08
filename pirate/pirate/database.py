@@ -96,7 +96,7 @@ class Database(object):
 			objType = iconIntersects[0][1]
 			objDist = iconIntersects[0][2]
 
-		islandIntersects = self._intersectIslands(level_id,start_x,start_y,end_x,end_y)	
+		islandIntersects = self._intersectIslands(level_id,start_x,start_y,end_x,end_y)
 		if len(islandIntersects) > 0:		
 			if islandIntersects[2] < objDist:
 				objId = islandIntersects[0]
@@ -155,7 +155,9 @@ class Database(object):
 				where a.TYPE_ID=1 and b.LEVEL_ID=:levelId and SDO_GEOM.RELATE(a.OBJECT,'ANYINTERACT',MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(:startX,:startY,:endX,:endY)),0.05)='TRUE'"
 
 		cursor.execute(sql,levelId=level_id,startX=start_x,startY=start_y,endX=end_x,endY=end_y)
-		islands = cursor.fetchall()
+		islands = []
+		for row in cursor:
+			islands.append(row[0])
 			
 		if len(islands) > 0:
 			sql = "	select \
@@ -167,12 +169,17 @@ class Database(object):
 		
 			closestId = 0
 			closestDist = 1000
-			step = 0.1
-			for id in islands[0]:
+			stepAmount = 0.1
+			for id in islands:
 				if abs(start_y - end_y) <= 0.01:
+					if end_x > start_x:
+						direction = 1
+					else:
+						direction = -1
+					step = direction * stepAmount
 					inter_x = start_x + step
-					tempDist = step
-					while inter_x <= end_x + 0.05:
+					tempDist = abs(step)
+					while direction*inter_x <= direction*(end_x + 0.05):
 						cursor.execute(sql,levelId=level_id,objId=id,startX=start_x,startY=start_y,endX=inter_x,endY=end_y)
 						temp = cursor.fetchall()
 						if len(temp) > 0:
@@ -181,11 +188,16 @@ class Database(object):
 								closestId = id
 								break
 						inter_x = inter_x + step
-						tempDist = tempDist + step
+						tempDist = tempDist + abs(step)
 				if abs(start_x - end_x) <= 0.01:
+					if end_y > start_y:
+						direction = 1
+					else:
+						direction = -1
+					step = direction * stepAmount
 					inter_y = start_y + step
-					tempDist = step
-					while inter_y <= end_y + 0.05:
+					tempDist = abs(step)
+					while direction*inter_y <= direction*(end_y + 0.05):
 						cursor.execute(sql,levelId=level_id,objId=id,startX=start_x,startY=start_y,endX=end_x,endY=inter_y)
 						temp = cursor.fetchall()
 						if len(temp) > 0:
@@ -194,7 +206,7 @@ class Database(object):
 								closestId = id
 								break				
 						inter_y = inter_y + step
-						tempDist = tempDist + step
+						tempDist = tempDist + abs(step)
 			return [closestId,'island',closestDist]
 		return []
 		
