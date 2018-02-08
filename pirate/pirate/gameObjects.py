@@ -72,7 +72,6 @@ class Level(object):
 	def startPoint(self):
 			return (self._startX, self._startY)
 
-
 	def addIsland(self,objectId,fill,polygon): ##Comments waiting the wiring up!!
 		"""Attach finds to area
 

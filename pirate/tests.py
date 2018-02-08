@@ -58,31 +58,86 @@ class TestDatabase:
 		db = pp.Database()
 		assert_raises(AssertionError,db.closeConnection)
 
-		
 
-#class TestGameObjects:
-"""def test_mapArea(self):
-		""" Check mapArea rendering works """
-		ff = ffLib.DbFieldsFinds()
-		ff.openConnection()
-		area=ff.getMapArea('Default')
-		map=area.renderMap(500,500)
-		info=area.renderInfo(300,500)
-		assert map[:4] == '<svg'
-		assert info[:4] == '<svg'
-		assert map[-6:] == '</svg>'
-		assert info[-6:] == '</svg>'
-		ff.closeConnection()
+class TestValidate:
+	def test_boundMaxX(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(1,7.5,7.5,11.5,7.5)
+		expected = [2.5,'crash',-2]
+		db.closeConnection()
+		assert_equals(output,expected)
+		
+	def test_boundMaxY(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,7.2,11.3,7.2,25.1)
+		expected = [3.7,'crash',-2]
+		db.closeConnection()
+		assert_equals(output,expected)		
+		
+	def test_boundZeroX(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,3.5,2.5,-0.05,2.5)
+		expected = [3.5,'crash',-2]
+		db.closeConnection()
+		assert_equals(output,expected)
+		
+	def test_boundZeroY(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,3.5,2.5,3.5,-37)
+		expected = [2.5,'crash',-2]
+		db.closeConnection()
+		assert_equals(output,expected)
+
+	def test_End(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(1,8.5,5.5,8.5,9.5)
+		expected = [2.5,'end',5]
+		db.closeConnection()
+		assert_equals(output,expected)	
+		
+	def test_EndBeyondBound(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(1,8.5,5.5,8.5,11.5)
+		expected = [2.5,'end',5]
+		db.closeConnection()
+		assert_equals(output,expected)
+
+				
+	def test_Icon(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,2.5,0.5,2.5,14)
+		expected = [3.5,'crash',6]
+		db.closeConnection()
+		assert_equals(output,expected)
 	
-	def test_field(self):
-		""" Check field rendering works """
-		ff = ffLib.DbFieldsFinds()
-		ff.openConnection()
-		field=ff.getFields(1)[0]
-		geo=field.renderGeo('xxx',20)
-		info=field.renderInfo()
-		assert geo[:5] == '<text'
-		assert info[:4] == '<svg'
-		assert geo[-7:] == '</rect>'
-		assert info[-6:] == '</svg>'
-		ff.closeConnection()"""
+	def test_Island(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,2.5,3.5,46,3.5)
+		expected = [9.4,'crash',9]
+		db.closeConnection()
+		assert_equals(output,expected)	
+	
+	def test_Island2(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,14.5,5.5,0.5,5.5)
+		expected = [1.4,'crash',9]
+		db.closeConnection()
+		assert_equals(output,expected)
+		
+	def test_Island3(self):
+		db = pp.Database()
+		db.openConnection()
+		output = db.validatePath(2,14.5,6.5,0.5,6.5)
+		expected = [4.5,'crash',8]
+		db.closeConnection()
+		assert_equals(output,expected)		
+		
