@@ -50,6 +50,20 @@ class Database(object):
 			level = Level(levelId,row[1],row[4],row[5],row[2],row[3])
 				
 		return level
+		
+	def getMaxLevelId(self):
+		"""Get Max Level Id
+		"""
+
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		sql = "select max(LEVEL_ID) from S1138056.PIRATE_LEVELS"
+		cursor.execute(sql)
+		for row in cursor:
+			maxLevel = row[0]
+				
+		return maxLevel
+
 
 
 	def addObjects(self,levelObject):
