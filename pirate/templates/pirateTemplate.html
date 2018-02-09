@@ -102,13 +102,10 @@ Content-Type: text/html
    <div class="container">
      <div class="row">
        <div class="col-xs-7">
-  Arrrrr me hearties, welcome to Pirate Island
+  <p>Arrrrr me hearties, welcome to Pirate Island</p>
   <br>
-  <!--button id="clickme"> Validate Route </button-->
-  <!--button id="testmovement" onclick="init()"> Move Ship </button-->
-  <!--button id="moreMoves">Add Move</button-->
   <br>
-  {{paramList}}
+  {{gameDisplay}}
   <div id="form-messages"></div>
   <form id="pirateForm"> Moves:<br>
     <select class="form-dir" name="direction">
@@ -118,7 +115,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" size="1" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" size="1" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -126,7 +123,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -134,7 +131,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -142,7 +139,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -150,7 +147,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <br>
     <br>
     <select class="form-dir" name="direction">
@@ -160,7 +157,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -168,7 +165,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -176,7 +173,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -184,7 +181,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <select class="form-dir" name="direction">
       <option selected disabled>&#8634;</option>
       <option value="u">&#8679;</option>
@@ -192,7 +189,7 @@ Content-Type: text/html
       <option value="l">&#8678;</option>
       <option value="r">&#8680;</option>
     </select>
-    <input class="form-steps" type="number" min="1" max="20" name="step" value="" placeholder="0">
+    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
     <br>
     <br>
     <input class="btn btn-default" id="submit" type="submit">
@@ -202,21 +199,23 @@ Content-Type: text/html
   <div class="col-xs-5">
     <br>
     <br>
-    <br>
-    <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
-    <br>
+    <h2>Level name : {{levelName}}</h2>
   <!--button class="btn btn-default" onclick="resetBoatPosition()">Reset Boat Position</button-->
 
   <h1><span id="pointsleft"></span> Points</h1>
-  <br>
   <h1>Your score: <span id="total-score-display"></span></h1>
+  <br>
+  <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
+  <br>
   <br>
   <div id="completed-message"><p>Level Completed!</p><br><button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button></div>
   <br>
+  <div id="scoreboard-message">
   <form id="scoreboard-form" method="post"> Enter your name for the scoreboard:<br>
     <input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name...">
     <input class="btn btn-default" id="submitName" type="submit">
   <form>
+  </div>
 
 
 <br>
@@ -227,21 +226,37 @@ Content-Type: text/html
   <!-- control Script for sending information to python code -->
   <script>
 
-/*TODO: Read in from Python*/
-  var levelId = 1;
-  var startX = 0; // boat position x
-  var startY = 0; // boat position y
-  var maxLevelNumber = 5;
-  var totalScore = 0; // overall points from previous levels
+  var levelId = {{levelId}};
+  var startX = {{startX}}; // boat position x
+  var startY = {{startY}}; // boat position y
+  var maxLevelNumber = {{maxLevelNumber}};
+  var totalScore = {{score}}; // overall points from previous levels
+  var maxX = {{maxX}};
+  var maxY = {{maxY}};
+  var maxXY = Math.max({{maxX}}, {{maxY}});
+  setMaxSelection();
   document.getElementById("total-score-display").textContent = totalScore; //display initial Points
+
+
+  /*Hide level completed and scoreboard message*/
+  document.getElementById('completed-message').style.display = 'none';
+  document.getElementById('scoreboard-message').style.display = 'none';
 
   var lvlpoints = 100; // points achievable in current level, is counted down
   document.getElementById("pointsleft").textContent = lvlpoints; //display initial Points
 
   var onMove = false; // tracks if the user is currently on a move, helps to lock the submission until move was displayed properly
   var levelCompleted=false;
-  pointsCountdown(); // called when level starts; can be called from a start level button
+  pointsCountdown(); // called when level starts; should later on be called from a start level button
 
+
+/*fills in the maximum tinto the form*/
+  function setMaxSelection(){
+    fields = document.getElementsByClassName("form-steps")
+    for (var i = 0; i < fields.length; i++) {
+      fields[i].setAttribute("max", maxXY);
+    }
+  }
 
 
 /*function to submit new score to the scoreboard*/
@@ -351,10 +366,11 @@ Content-Type: text/html
       function displayLevelCompleted(){
         if(levelId===5){
           enterScoreBoard();
-          break;
+          return;
         }
         element = document.getElementById("completed-message");
-        element.innerHTML = '<p>Level Completed!</p><br><button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button>';
+        //TODO display level completed modal
+        element.style.display = 'block';
       }
 
       function getNextLevel(){
@@ -364,8 +380,9 @@ Content-Type: text/html
       }
 
       function enterScoreBoard(){
-        element = document.getElementById("completed-message");
-        element.innerHTML = '';
+        element = document.getElementById("scoreboard-message");
+        //TODO display Scoreboard modal
+        element.style.display = 'block';
       }
 
 
