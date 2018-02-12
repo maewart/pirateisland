@@ -10,3 +10,4 @@ from .website import *
 from .gameObjects import *
 from .htmlHelper import *
 from .moveValidation import *
+from .highScore import *
