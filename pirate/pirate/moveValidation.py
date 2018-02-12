@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#Import field and find library objects
+#Import objects
 from .database import Database
 import json
 import ast

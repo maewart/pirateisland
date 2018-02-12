@@ -259,5 +259,26 @@ class Database(object):
 		sb = ScoreBoard(scoreName,scorePoint)
 		
 		return sb
+		
+	def addHighScore(self,name,score):
+		"""Add the highscore to the database 
+		"""
+
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		
+		#Get position
+		sql = 	"SELECT COUNT(*) FROM S1138056.PIRATE_SCORE WHERE SCORE >= :score"
+		cursor.execute(sql,score=score)
+		pos = 0
+		for row in cursor:
+			pos = row[0]+1
+			
+		#Add Score
+		sql = "INSERT INTO S1138056.PIRATE_SCORE VALUES (:name, :score, 1)"
+		cursor.execute(sql,name=name,score=score)
+		self._conn.commit()
+		
+		return pos
 
 		
