@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import cx_Oracle
 import math
-from .gameObjects import Level
+from .gameObjects import Level, ScoreBoard
+
 __all__ = ['Database']
 
 class Database(object):
@@ -242,5 +243,21 @@ class Database(object):
 
 		return []
 		
+	def getScoreBoard(self):
+		"""Get the score list stored in the database 
+		"""
+
+		assert self._conn != None #Check connection open
+		cursor = self._conn.cursor()
+		sql = " select * from s1138056.pirate_top_ten"
+		cursor.execute(sql)
+		scoreName = []
+		scorePoint = []
+		for row in cursor:
+			scoreName.append(row[0])
+			scorePoint.append(row[1])	
+		sb = ScoreBoard(scoreName,scorePoint)
+		
+		return sb
 
 		

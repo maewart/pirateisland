@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import numpy as np
+import copy as cp
 from .htmlHelper import genHTMLElement
 from datetime import datetime
 __all__ = ['Level']
@@ -590,3 +591,33 @@ class Island(object):
 
 		#Return of the html code that represent the island
 		return island
+
+class ScoreBoard (object):
+
+	def __init__(self,scoreName,scorePoint):
+		
+		#cp.deepcopy to create a copy of the list and not pass only the pointer
+		#self._scoreName = cp.deepcopy(scoreName)
+		#self._scorePoint = cp.deepcopy(scorePoint)
+
+		self._scoreName = scoreName
+		self._scorePoint = scorePoint
+		
+		#self._scoreName = ['A','B','C','D','E']
+		#self._scorePoint = [1,2,3,4,5]
+
+	def __str__(self):
+		#10 reiteration are hard coded
+		scoreHtml = ''
+		tableRow = ''
+		tableHtml = ''	
+		for i in range(2):
+			
+			scoreHtml = genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))
+	#		scorePoiHtml.append(genHTMLElement('td',[],[],self._scorePoint[i]))
+			
+			tableRow = tableRow + genHTMLElement('tr',[],[],scoreHtml)
+		
+		tableHtml = genHTMLElement('tbody',[],[],tableRow)
+		
+		return tableHtml

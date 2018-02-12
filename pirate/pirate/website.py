@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Import field and find library objects
-from .gameObjects import Level
+from .gameObjects import Level, ScoreBoard
 from .database import Database
 
 #Import Jinja2 to render website
@@ -22,7 +22,7 @@ class Website(object):
 	"""
 	
 	def __init__(self,params):
-		"""Initialise object
+		"""Initialize object - create the different variables
 		
 		Keyword arguments:
 		params -- a dictonary of parameters submitted from browser
@@ -37,8 +37,6 @@ class Website(object):
 			
 		#Status - default empty line
 		self._status = '<br>'
-		
-		
 		
 		#Parameters
 		self._params = params
@@ -57,6 +55,8 @@ class Website(object):
 			self._score = self._params['score'].value
 		
 		self._maxLevelId = 0
+		# Create the variable fro the score board
+		self._sb = None
 		
 	def run(self):
 		"""Run all actions requested and generate the website"""
@@ -65,6 +65,7 @@ class Website(object):
 		self._maxLevelId = self._db.getMaxLevelId()
 		self._level = self._db.getLevel(self._levelNo)
 		self._db.addObjects(self._level)
+		self._sb = self._db.getScoreBoard()
 		self._db.closeConnection()
 	
 	def __str__(self):
@@ -87,7 +88,7 @@ class Website(object):
 										maxX = self._level.maxX,
 										maxY = self._level.maxY,
 										maxLevelNumber = self._maxLevelId,
-										score = self._score										
+										scoreboard = self._sb
 										)
 		
 	def _getParam(self,key):
