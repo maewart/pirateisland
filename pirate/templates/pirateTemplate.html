@@ -310,7 +310,7 @@ Content-Type: text/html
 		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="url( #lightening)" stroke-width="0.02"/>
 	</svg>
 	<!-- EXPLOSION -->
-	<svg x="5" y="5" width="2" height="2" viewBox="0 0 69.4 56" visibility="hidden">
+	<svg id="explosion" x="5" y="5" width="2" height="2" viewBox="0 0 69.4 56" visibility="hidden">
 		<path class="st0_explosion" d="M69.4,31.9c-1.7-3-4.8-4.6-6.8-7.3c2.1-3.2,5-5.6,6.3-9.5c-5.1-0.6-8.2,0-12.9-0.5
 		c0.4-4.7,1.9-8.4,1.5-13.4c-5.3,2-9.4,5.2-13.6,8.3c-2.1-3-3.7-6.4-5.6-9.5c-4.9,1.4-5.6,7-9.7,9.3C26,5.8,22.2,3.7,20,0h-1.2
 		c-2,3.3-1.7,8.8-3.9,11.9c-3.8-0.5-9.4-2.3-11.9,0c1.8,3.9,3.5,7.8,5.6,11.5c-2.7,2.7-7.2,3.5-8.5,7.5c3.5,2.1,8.9,1.9,11.7,4.1
@@ -488,7 +488,7 @@ Content-Type: text/html
   /*Hide level completed and scoreboard message*/
   document.getElementById('completed-message').style.display = 'none';
 
-  var lvlpoints = 100; // points achievable in current level, is counted down
+  var lvlpoints = 100*(levelId*2); // points achievable in current level, is counted down
   document.getElementById("pointsleft").textContent = lvlpoints; //display initial Points
 
   var onMove = false; // tracks if the user is currently on a move, helps to lock the submission until move was displayed properly
@@ -518,8 +518,10 @@ Content-Type: text/html
     url: "main.py", //change this to submitScore.py
     type: "post",
     datatype:"json",
-    data: {'score': endscore,'name': enteredName},
+    data: {'highScore': endscore,'name': enteredName},
     success: function(response){
+      innerModule=document.getElementById("scoreboard-message");
+      innerModule.innerHTML='<p>Success</p>'
     //console.log(response.message)
     }
   })
@@ -576,7 +578,7 @@ Content-Type: text/html
   function endMove(endAction){
   //console.log(endAction);
   if (endAction==='crash'){
-    //boom();
+    boom();
   }
   else if (endAction==='not_crash') {
     //sink();
@@ -585,6 +587,18 @@ Content-Type: text/html
     //console.log('here');
     reachEnd();
   }
+  }
+
+  function boom(){
+    explosion= document.getElementById("explosion");
+    x = document.getElementById("OurShip").getAttribute('x')-0.5;
+    y = document.getElementById("OurShip").getAttribute('y')-0.5;
+    explosion.setAttributeNS(null, 'x', x);
+    explosion.setAttributeNS(null, 'y', y);
+    explosion.setAttributeNS(null, 'visibility', 'visible');
+    setTimeout(function () {
+      resetBoatPosition();
+    }, 1500);
   }
 
 
@@ -698,6 +712,8 @@ Content-Type: text/html
     ship = document.getElementById("OurShip");
     ship.setAttributeNS(null, 'x', startX);
     ship.setAttributeNS(null, 'y', startY);
+    explosion= document.getElementById("explosion");
+    explosion.setAttributeNS(null, 'visibility', 'hidden');
   }
 
   /*Count down points when level has started*/
