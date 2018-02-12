@@ -103,6 +103,7 @@ Content-Type: text/html
   <!-- EMPTY -->
   <div class="col-xs-3">
   <img class="right_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/Flag.png" alt="PirateFlag" style="width:40%">
+  <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
   </div>
 </div>
   
@@ -238,7 +239,7 @@ Content-Type: text/html
   </div>
   <div class="col-md-3">
   <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
   <div id="form-messages"></div>
   
   <!-- Moves input -->
@@ -339,9 +340,8 @@ Content-Type: text/html
   </div>
   
   <!-- submit details -->
-  <div class="col-md-8">
+  <div class="col-md-6">
   <br><br><br><br>
-  <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
   <br>
   <br>
   <div id="completed-message"><p>Level Completed!</p><br><button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button></div>
@@ -374,6 +374,7 @@ Content-Type: text/html
   var maxX = {{maxX}};
   var maxY = {{maxY}};
   var maxXY = Math.max({{maxX}}, {{maxY}});
+  var music = "{{music}}";
   setMaxSelection();
   document.getElementById("total-score-display").textContent = totalScore; //display initial Points
 
