@@ -600,8 +600,10 @@ class ScoreBoard (object):
 		#self._scoreName = cp.deepcopy(scoreName)
 		#self._scorePoint = cp.deepcopy(scorePoint)
 
+		assert len(scoreName) == len(scorePoint)
 		self._scoreName = scoreName
 		self._scorePoint = scorePoint
+		
 		
 		#self._scoreName = ['A','B','C','D','E']
 		#self._scorePoint = [1,2,3,4,5]
@@ -611,7 +613,7 @@ class ScoreBoard (object):
 		scoreHtml = ''
 		tableRow = ''
 		tableHtml = ''	
-		for i in range(10):
+		for i in range(len(self._scoreName)):
 			
 			scoreHtml = genHTMLElement('td',[],[],str(i+1)) + genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))
 	#		scorePoiHtml.append(genHTMLElement('td',[],[],self._scorePoint[i]))

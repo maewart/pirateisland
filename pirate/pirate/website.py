@@ -53,6 +53,11 @@ class Website(object):
 		#if score param entered then set to that score
 		if 'score' in self._params:
 			self._score = self._params['score'].value
+			
+		self._music = 'on'		
+		#if score param entered then set to that score
+		if 'music' in self._params:
+			self._music = self._params['music'].value
 		
 		self._maxLevelId = 0
 		# Create the variable fro the score board
@@ -89,7 +94,8 @@ class Website(object):
 										maxY = self._level.maxY,
 										maxLevelNumber = self._maxLevelId,
 										score = self._score,
-										scoreBoard = str(self._sb)
+										scoreBoard = str(self._sb),
+										music = self._music
 										)
 		
 	def _getParam(self,key):
