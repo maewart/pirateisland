@@ -326,7 +326,6 @@ Content-Type: text/html
   <div class="col-md-3">
   <div class="row">
   <div class="col-md-6">
-  <div id="form-messages"></div>
 
   <!-- Moves input -->
   <form id="pirateForm"><h2><small>&nbsp;Moves</small></h2><br>
@@ -421,7 +420,8 @@ Content-Type: text/html
   <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
   <br>
   <br>
-  &nbsp;&nbsp;<input class="btn btn-default" id="submit" type="submit">
+  <div id="form-messages"></div>
+  <input class="btn btn-default" id="submit" type="submit">
   </form>
   </div>
 
@@ -492,37 +492,29 @@ Content-Type: text/html
   pointsCountdown(); // called when level starts; should later on be called from a start level button
 
 
+/*Lightning and cloud animations*/
   function lightning(){
     var number=Math.floor((Math.random() * 4) + 1);
     if(number>1){
-    document.getElementById("lightningCover").style.visibility = "visible";
-    }
-
-    setTimeout(function(){
-      if(number>1){
-      document.getElementById("lightningCover").style.visibility = "hidden";
-      }
-    },70);
-    setTimeout(function(){
-      if(number>1){
       document.getElementById("lightningCover").style.visibility = "visible";
-      }
-    },400);
-    setTimeout(function(){
-      if(number>1){
-      document.getElementById("lightningCover").style.visibility = "hidden";
-      }
-    },500);
-    var number=Math.floor((Math.random() * 3) + 1);
-    setTimeout(function(){
-      if(number>2){
-        document.getElementById("cloudCover").style.visibility = "visible";
-      }
-    },550);
-    setTimeout(function(){
-      document.getElementById("cloudCover").style.visibility = "hidden";
-    },(number*1000));
-
+      setTimeout(function(){
+        document.getElementById("lightningCover").style.visibility = "hidden";
+      },70);
+      setTimeout(function(){
+        document.getElementById("lightningCover").style.visibility = "visible";
+      },400);
+      setTimeout(function(){
+        document.getElementById("lightningCover").style.visibility = "hidden";
+      },500);
+      setTimeout(function(){
+        if(number>2){
+          document.getElementById("cloudCover").style.visibility = "visible";
+        }
+      },550);
+      setTimeout(function(){
+        document.getElementById("cloudCover").style.visibility = "hidden";
+      },(number*1000));
+    }
   }
 
 /*fills in the maximum tinto the form*/
@@ -565,13 +557,14 @@ Content-Type: text/html
   {
   var form = $('#pirateForm');
   // Get the messages div.
-  var formMessages = $('#form-messages');
+  var formMessages = document.getElementById("form-messages");
   $(form).submit(function(event) {
   event.preventDefault();
+  formMessages.innerHTML="";
     if (onMove == true){
-    return;
+      formMessages.innerHTML="<p>Don't be so impatient, pirate!</p>";
+      return;
     }
-    onMove=true;
     resetBoatPosition();
 
     var formData = $(form).serializeArray();
@@ -586,6 +579,17 @@ Content-Type: text/html
     }
     });
 
+    if(steps.length != directions.length){
+      formMessages.innerHTML="<p>There is something wrong with your moves. Try again!</p>";
+      return;
+    }
+
+    if(directions.length==0){
+      formMessages.innerHTML="<p>You forgot to lift the anker. Enter your moves!</p>";
+      return;
+    }
+
+    onMove=true;
     steps=JSON.stringify(steps)
     directions=JSON.stringify(directions)
 
@@ -612,7 +616,7 @@ Content-Type: text/html
     boom();
   }
   else if (endAction==='not_crash') {
-    //sink();
+    boom();
   }
   else if (endAction==='end') {
     //console.log('here');
@@ -744,6 +748,7 @@ Content-Type: text/html
     ship.setAttributeNS(null, 'y', startY);
     explosion= document.getElementById("explosion");
     explosion.setAttributeNS(null, 'visibility', 'hidden');
+    //document.getElementById("form-messages").innerHTML="";
   }
 
   function restartGame(){
