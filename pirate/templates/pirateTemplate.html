@@ -432,10 +432,21 @@ Content-Type: text/html
   <div id="scoreboard-modal" class="modal">
     <div class="modal-content">
     <div class="modal-header"><span onclick="closeModal()" class="close">x</span><h2>You are a real pirate!</h2></div>
-    <div class="modal-body"><div id="scoreboard-message">Oops! An error occurred. Can not display scoreboard enter.</div></div>
+    <div class="modal-body">
+      <div id="scoreboard-message">
+        <br>
+        <p>Congratulations pirate! You have completed all {{maxLevelNumber}} levels with a total score of <span id="total-score"></span> points!</p>
+          <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px"><br>
+        <form id="scoreboard-form" method="post">Please enter your pirate ship name for the scoreboard:<br>
+          <input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name...">
+          <br>
+          <br>
+          <input class="btn btn-default" id="submitName" type="submit"><form>
+      </div>
+    </div>
     <div class="modal-footer"></div>
+    </div>
   </div>
-
 
 </div>
 
@@ -491,13 +502,15 @@ Content-Type: text/html
   var enteredName=document.getElementById("playersName").value;
   var endscore = (totalScore+lvlpoints);
   $.ajax({
-    url: "main.py", //change this to submitScore.py
+    url: "highScore.py", //change this to submitScore.py
     type: "post",
     datatype:"json",
     data: {'highScore': endscore,'name': enteredName},
     success: function(response){
       innerModule=document.getElementById("scoreboard-message");
-      innerModule.innerHTML='<p>Success</p>'
+      text='<br><p>Thank you for submitting!<br>Your current pirate rank: '+response+'</p><br>'
+      button='<button class="btn btn-default" onclick="restartGame()">Beat your score</button>'
+      innerModule.innerHTML=text+button;
     //console.log(response.message)
     }
   })
@@ -602,11 +615,10 @@ Content-Type: text/html
 
   function enterScoreBoard(){
     openModal();
+    document.getElementById('total-score').innerHTML = (totalScore+lvlpoints);
     //enter the content into modal
-    element = document.getElementById("scoreboard-message");
-    message = '<p>Congratulations pirate! You have completed all ' + maxLevelNumber + ' levels with a total score of <b>' + (totalScore+lvlpoints) + ' points</b>!</p><img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px"><br>'
-    form = '<form id="scoreboard-form" method="post">Please enter your pirate ship name for the scoreboard:<br><input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name..."><br><br><input class="btn btn-default" id="submitName" type="submit"><form>';
-    element.innerHTML = message+form;
+    //element = document.getElementById("scoreboard-message");
+    //element.innerHTML = message+form;
   }
 
   function openModal() {
@@ -690,6 +702,10 @@ Content-Type: text/html
     ship.setAttributeNS(null, 'y', startY);
     explosion= document.getElementById("explosion");
     explosion.setAttributeNS(null, 'visibility', 'hidden');
+  }
+
+  function restartGame(){
+    document.location="main.py";
   }
 
   /*Count down points when level has started*/
