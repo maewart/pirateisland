@@ -80,7 +80,7 @@ class Website(object):
 		#something = 'Hello Everyone <br><br>' + something	
 		
 		return self._mainTemplate.render(
-										gameDisplay = self._level.render(500,500),
+										gameDisplay = self._level.render(10,10),
 										levelId = self._level.levelId,
 										levelName = self._level.levelName,
 										startX = self._level.startX-0.5,
@@ -88,7 +88,8 @@ class Website(object):
 										maxX = self._level.maxX,
 										maxY = self._level.maxY,
 										maxLevelNumber = self._maxLevelId,
-										scoreboard = self._sb
+										score = self._score,
+										scoreBoard = str(self._sb)
 										)
 		
 	def _getParam(self,key):

@@ -611,13 +611,13 @@ class ScoreBoard (object):
 		scoreHtml = ''
 		tableRow = ''
 		tableHtml = ''	
-		for i in range(2):
+		for i in range(10):
 			
-			scoreHtml = genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))
+			scoreHtml = genHTMLElement('td',[],[],str(i+1)) + genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))
 	#		scorePoiHtml.append(genHTMLElement('td',[],[],self._scorePoint[i]))
 			
 			tableRow = tableRow + genHTMLElement('tr',[],[],scoreHtml)
 		
 		tableHtml = genHTMLElement('tbody',[],[],tableRow)
-		
+
 		return tableHtml
