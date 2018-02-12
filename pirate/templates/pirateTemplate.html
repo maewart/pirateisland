@@ -4,225 +4,365 @@ Content-Type: text/html
 
 <html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Pirate Island</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Pirate Island</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <!-- Styles for Fields and Finds -->
-    <link rel="stylesheet" href="https://www.geos.ed.ac.uk/~s1788971/piratestylesheet.css">
-    <link rel="stylesheet" href="https://www.geos.ed.ac.uk/~s1783947/webmapping/pagestyles.css">
+  <!-- Styles for Fields and Finds -->
+  <link rel="stylesheet" href="https://www.geos.ed.ac.uk/~s1788971/pirateStylesheet/piratestylesheet.css">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- Enable Mobile Support -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Enable Mobile Support -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
+  <style>
 
-    .form-steps{
-      height: 40px;
-      margin-right: 2px;
-      background-color: #cceeff;
-      padding-left: 5px;
-      box-sizing: border-box;
-      border: none;
-      font-size: 16px;
-      width: 40px;
-    }
+  .form-steps{
+  height: 40px;
+  margin-right: 2px;
+  background-color: #E6B0AA;
+  padding-left: 5px;
+  box-sizing: border-box;
+  border: none;
+  font-size: 16px;
+  width: 40px;
+  }
 
-    .form-steps:focus{
-      background-color: lightsteelblue;
-    }
+  .form-steps:focus{
+  background-color: #D98880;
+  }
 
-    .form-dir{
-      height: 40px;
-      margin-left: 5px;
-      margin-right: 0px;
-      background-color: #cceeff;
-      box-sizing: border-box;
-      border: none;
-      font-size: 16px;
-    }
+  .form-dir{
+  height: 40px;
+  margin-left: 5px;
+  margin-right: 1px;
+  background-color: #E6B0AA;
+  box-sizing: border-box;
+  border: none;
+  font-size: 16px;
+  width: 40px;
+  }
 
-    .form-dir:focus{
-      background-color: lightsteelblue;
-    }
+  .form-dir:focus{
+  background-color: #D98880;
+  }
 
-    .btn-default{
-      height: 40px;
-      border-radius: 0px;
-      background-color: #fbf3d4;
-      border: none;
-      font-size: 16px;
-    }
+  .btn-default{
+    height: 40px;
+    border-radius: 0px;
+    background-color: #E6B0AA;
+    border: none;
+    font-size: 16px;
+  }
 
-    .btn-default:hover,
-    .btn-default:focus{
-      background-color: lightsteelblue;
+  .btn-default:hover,
+  .btn-default:focus{
+  background-color: #D98880;
 
-    }
+  }
 
-    .round {
-      border-radius: 50%;
-      height: 30px;
-      margin-left: 10px;
-    }
+  .round {
+  border-radius: 50%;
+  height: 30px;
+  margin-left: 10px;
+  }
+  
+  /* On small screens, set height to 'auto' for content */
+  @media screen and (max-width: 992px) {
+  .row.content {height:auto;} 
+}
 
-    </style>
-
+  </style>
   </head>
-
-  <body>
+  <body class="bg-1">
  <!-- Background Music -->
   <audio id="pirateAudio" autoplay="autoplay">
-      <source src="https://www.geos.ed.ac.uk/~s1790173/music/he_is_a_pirate.mp3" type="audio/mp3">
+  <source src="https://www.geos.ed.ac.uk/~s1790173/music/he_is_a_pirate.mp3" type="audio/mp3">
   </audio>
 
+
+   <!-- HEADER ROW -->
+<div class="container-fluid bg-1">
+<div class="row">
+  <!-- EMPTY -->
+  <div class="col-xs-3">
+  <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/Cannon.png" alt="Cannon" style="width:60%">
+  </div>
+  <!-- TITLE -->
+  <div class="col-xs-6">
+  <h1>{{levelName}}</h1>
+  </div>
+  <!-- EMPTY -->
+  <div class="col-xs-3">
+  <img class="right_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/Flag.png" alt="PirateFlag" style="width:40%">
+  </div>
+</div>
+  
+<!-- GAME BOARD -->  
+<div class="row">
+  <div class="col-md-1"> 
   <!-- SVG Patterns -->
   <svg width=0 height=0>
   <defs>
-	<pattern id="wavepattern" class="wavepattern" x="0" y="0" width="2" height="0.8" patternUnits="userSpaceOnUse" viewBox="-1164 653.8 806.1 95.3">
-      <path d="M-1164,667.9c36.2,52.5,83.8,81.3,134.4,81.3c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3 c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3s98.1-28.8,134.4-81.3v-14l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8 s-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5 c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5L-1164,667.9L-1164,667.9z"/>
+  <pattern id="wavepattern" class="wavepattern" x="0" y="0" width="2" height="0.8" patternUnits="userSpaceOnUse" viewBox="-1164 653.8 806.1 95.3">
+  <path d="M-1164,667.9c36.2,52.5,83.8,81.3,134.4,81.3c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3 c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3s98.1-28.8,134.4-81.3v-14l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8 s-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5 c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5L-1164,667.9L-1164,667.9z"/>
+  </pattern>
+  <pattern id="sandpattern" x="0" y="0" width="0.2" height="0.2" patternUnits="userSpaceOnUse" viewBox="0 0 10 10">
+  <rect class="islandbackground" id="1" x="0" y="0" width="10" height="10"/>
+  <circle class="islandsand" id="3" cx="5" cy="5" r="1.5"/>
+  </pattern>
+  <!-- LIGHTENING PATTERN -->
+	<pattern id="lightening" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" fill="#0667B7" viewBox="0 0 283.5 283.5">
+	<polygon class="st0_lightening" points="283.5,4.3 271.5,14 279,24.6 260.8,36.2 266,44.4 221.8,56.5 249.7,34.1 244.9,29.7 
+		263.5,17.5 258.5,12.7 268,0 283.5,0 "/>
+	<polygon class="st0_lightening" points="16.3,44.4 21.5,36.2 3.3,24.6 10.8,14 0,5.3 0,0 14.3,0 23.8,12.7 18.8,17.5 37.4,29.7 
+		32.7,34.1 60.5,56.5 "/>
+	<polygon class="st0_lightening" points="283.5,283.4 283.5,283.5 264.8,283.5 258.5,275 263.5,270.3 244.9,258.1 249.7,253.6 
+		221.8,231.3 266,243.3 260.8,251.5 279,263.1 271.5,273.7 "/>
+	<polygon class="st0_lightening" points="37.4,258.1 18.8,270.3 23.8,275 17.5,283.5 0,283.5 0,282.5 10.8,273.7 3.3,263.1 
+		21.5,251.5 16.3,243.3 60.5,231.3 32.7,253.6 "/>    
 	</pattern>
-	<pattern id="sandpattern" x="0" y="0" width="0.2" height="0.2" patternUnits="userSpaceOnUse" viewBox="0 0 10 10">
-      <rect class="islandbackground" id="1" x="0" y="0" width="10" height="10"/>
-	  <circle class="islandsand" id="3" cx="5" cy="5" r="1.5"/>
-	</pattern>
+		
+	<!-- CLOUDS PATTERN -->   
+	<pattern id="clouds" x="0" y="0" width="4" height="2" patternUnits="userSpaceOnUse" fill="#0667B7" viewBox="0 0 280 130.4">   
+	<path class="st0_cluds" d="M99.2,111c6.5-3.7-0.7-28.9-16-14.7c-0.3-1.3-1.9-2.3-3.3-2.3c10.3-7.3-14.5-24-16.5-16.4
+		c-2.6,0-6.7-2.6-6.6-2.3c-5.2-2.5-7.8-2.5-13.2,0.6c-4.6,2.6-10.2,6.5-8.5,13.5c-3.5-4.8-27-3.4-20.3,17
+		c-9.2-0.1-3.4,25.5,11.3,16.4c2.1,13.1,18.6,6.1,19.8,2.3c2,4.2,16.2,2.4,17.9-1.8c5.7,5.7,15,5.5,21.2,1.8
+		C90.8,127.7,109.1,127.3,99.2,111z"/>
+	<path class="st0_cluds" d="M102.9,63.8c0,0,9.7-19.3,27-17c17.3,2.3,20.6,17.2,20.6,17.2s10.1-8,15.7-2.3
+		c5.5,5.7,4.9,9.8,4.9,9.8s6.3-2,9.6,4.2c2.9,5.5-0.8,10.9-5.5,12.7c0.5,8.6-11.2,13.5-15.5,9.3c0,0-8.4,16.6-23.2,14.6
+		c-14.8-2-17.7-14.7-17.7-14.7s-8.7,6.9-13.5,2c-4.8-4.9-4.2-8.4-4.2-8.4s-5.4,1.7-8.3-3.6c-0.5-1-0.8-2-0.9-3
+		c-4.1-2.1-6.3-4.9-6.9-8.7C83.3,65,97.8,58.6,102.9,63.8z"/>
+	<path class="st0_cluds" d="M95.6,29c0.7-1.7,1-3.4,1-5.3c0-9.3-9-16.8-20-16.8c-6.5,0-12.3,2.6-15.9,6.7
+		c-3-2.7-7.3-4.4-12.1-4.4c-6.4,0-12,3.1-14.7,7.6c-1.7-0.6-3.6-0.9-5.6-0.9c-4.7,0-8.9,1.8-11.7,4.6C9.2,20.8,3.2,25.9,3.2,32.3
+		c0,4.2,2.6,7.9,6.5,10C8.7,44.1,8,46.2,8,48.4c0,7.7,7.4,13.9,16.6,13.9c6.5,0,12-3.1,14.8-7.6c1.4,0.4,2.8,0.7,4.4,0.7
+		c5.1,0,9.4-2.5,11.2-6c0,0.2,0,0.3,0,0.5c0,6.1,5.9,11.1,13.2,11.1c6.3,0,11.6-3.7,12.9-8.7c2.8,2,6.4,3.2,10.3,3.2
+		c8.8,0,16-6,16-13.4C107.4,35.7,102.4,30.5,95.6,29z"/>
+	<path class="st0_cluds" d="M267,84.3c-0.9-0.2-1.8-0.2-2.7-0.2c0.7-7.3-3.9-14-10.6-15.1c-1.3-0.2-2.6-0.2-3.9,0
+		c0.3-0.8,0.5-1.7,0.6-2.5c1.1-7.5-3.6-14.6-10.5-15.8c-5.9-1-11.4,2.6-13.6,8.3c-1.2-0.7-2.4-1.1-3.8-1.4c-6-1-11.6,2.7-13.7,8.6
+		c-1.4-0.9-2.9-1.5-4.6-1.8c-6.9-1.2-13.3,3.9-14.4,11.4c-0.5,3.4,0.2,6.8,1.8,9.5c-3.8,1.8-6.7,5.7-7.4,10.5
+		c-1.1,7.5,3.6,14.6,10.5,15.8c1.6,0.3,3.1,0.2,4.6-0.1c-1.1,7.5,3.6,14.5,10.5,15.7c4.5,0.8,8.7-1.1,11.5-4.6
+		c1.8,1.9,4.2,3.3,6.9,3.8c4.4,0.8,8.6-1.1,11.4-4.4c1.9,3.1,4.9,5.3,8.5,5.9c6.9,1.2,13.3-3.9,14.4-11.4c0.3-1.7,0.2-3.4-0.1-5
+		c0.3,0.1,0.5,0.1,0.8,0.2c6.9,1.2,13.3-3.9,14.4-11.4C278.5,92.5,273.8,85.5,267,84.3z"/>
+	<path class="st0_cluds" d="M147.3,30.2c0.9,13.8,27.1,20.4,35.9,12c9.1,6.7,33.1,1.2,34.9-6.7c1.6,10.2,33.2,15.3,39.5,1.1
+		c9.1,2.3,15.5,0.5,19.2-5.3c4.4-17-11.3-21.2-26-17.7c2.7-8.2-36.7-23.5-50.5-4.6c-3.4-5.5-20.2-9-26,1.4
+		c-20.9-9.7-25.4,4.1-26.5,4.8C125,3.8,116.8,38.4,147.3,30.2z"/> 
+	</pattern>   
+		
+	<pattern id="wave2" class="wavePattern" x="0" y="0" width="2" height="1" patternUnits="userSpaceOnUse" fill="#0667B7" viewBox="-1164 653.8 806.1 95.3">
+		<path d="M-1164,667.9c36.2,52.5,83.8,81.3,134.4,81.3c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3 c50.5,0,98.1-28.8,134.4-81.3c36.2,52.5,83.8,81.3,134.4,81.3s98.1-28.8,134.4-81.3v-14l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8 s-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5l-2.3,3.5 c-35.3,52.8-82.1,81.8-132,81.8c-49.9,0-96.7-29.1-132-81.8l-2.3-3.5L-1164,667.9L-1164,667.9z"/>
+		</pattern>
   </defs>
   </svg>
    <!-- End Patterns -->
-
-   <div class="container">
-     <div class="row">
-       <div class="col-xs-7">
-  <p>Arrrrr me hearties, welcome to Pirate Island</p>
-  <br>
-  <br>
-  {{gameDisplay}}
-  <div id="form-messages"></div>
-  <form id="pirateForm"> Moves:<br>
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" size="1" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <br>
-    <br>
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <select class="form-dir" name="direction">
-      <option selected disabled>&#8634;</option>
-      <option value="u">&#8679;</option>
-      <option value="d">&#8681;</option>
-      <option value="l">&#8678;</option>
-      <option value="r">&#8680;</option>
-    </select>
-    <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
-    <br>
-    <br>
-    <input class="btn btn-default" id="submit" type="submit">
-  </form>
-  <br>
+   </div>
+  <div class="col-md-2">
+  <h2>TIMER</h2>
+    <tbody>
+    <tr><td>
+      <h2><small>Level points remaining: <span id="pointsleft"></span></small></h2>
+      <h2><small>Total score: <span id="total-score-display"></span></small></h2>
+    </td></tr>
+    </tbody>
+  <h2>HIGH SCORES</h2>
+  <table class='table table-borderless' id='myTable'>
+    <thead>
+    <tr>
+      <th> POS </th>
+      <th> PLAYER </th>
+      <th> SCORES </th>
+    </tr>
+    </thead>
+    {{scoreBoard}}
+  </table>
   </div>
-  <div class="col-xs-5">
-    <br>
-    <br>
-    <h2>Level name : {{levelName}}</h2>
-  <!--button class="btn btn-default" onclick="resetBoatPosition()">Reset Boat Position</button-->
-
-  <h1><span id="pointsleft"></span> Points</h1>
-  <h1>Your score: <span id="total-score-display"></span></h1>
+  <!--GAME -->
+  <div class="col-md-6">
+  <div class="row content">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+	<!-- SVG surround for game -->
+  <svg class="svg-1" width=100% height=100% viewBox="0 0 14 14">
+    <rect x="0" y="0" width="100%" height="100%" fill="none" fill-opacity="1"></rect> 
+    <svg id="obj_scimitarra" x="0" y="0" height="14" width="14">
+    <svg version="1.1" viewBox="-773.5 1011.5 128.2 124.2" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+      <g>
+      <path d="M-755,1135.2c1-0.4,1.5-1.3,1.5-2.3c0-1.1-0.6-2.2-1.5-2.6c-0.6-0.3-1.3-0.2-1.7,0.3c-0.1,0.1-0.2,0.4-0.2,0.6
+        c0,0.3,0.1,0.7,0.6,1.2c0,0-0.4,0.7-1.7-0.7c-1.3-1.4-2.2-6.7-2.2-6.7s-4.6-2.9-5.4-4.7c-0.3-0.6-0.4-1-0.4-1.2
+        c0-0.6,0.4-0.6,0.4-0.6c0.6,1,1.2,1.2,1.5,1.1c0.6-0.1,0.9-0.6,0.9-1.3l0,0c-0.1-2-3.1-3.6-4.6-1.9c-0.8,0.8-1,1.5-1,2.2
+        c0,0.8,0.4,1.3,0.4,1.3l4.2,7.5l5.4,6.7C-758.7,1134-757.7,1135.8-755,1135.2z"/>
+      <path d="M-759.6,1125.3c0.1,0.8,0.4,1.7,0.6,2.6c38.3-28.8,117.5-101.8,113.5-116.5c0,0,0.4,3.7-8.2,6.3c0,0-15.6,27.8-108.4,105.2
+        c0.7,0.5,1.4,1,2.1,1.4l0.4,0.3V1125.3z"/>
+      <path d="M-769.8,1135.4l0.5-0.4c0.4-0.3,0.5-0.9,0.3-1.3l0,0l9.2-6.3l-1-1.2l-0.1-0.1l-0.1-0.1l-1.1-2l-9.2,6.3l-0.1-0.1
+        c-0.3-0.4-0.8-0.5-1.2-0.3l-0.5,0.4c-0.4,0.3-0.5,1-0.3,1.3l2.2,3.4C-770.9,1135.7-770.4,1135.7-769.8,1135.4z"/>
+      </g>
+      <g>
+      <path d="M-660,1134.1l5.4-6.7l4.2-7.5c0,0,0.4-0.6,0.4-1.3c0-0.7-0.3-1.4-1-2.2c-1.5-1.7-4.6-0.1-4.6,1.9l0,0
+        c0,0.6,0.3,1.2,0.9,1.3c0.4,0.1,1-0.1,1.5-1.1c0,0,0.4,0,0.4,0.6c0,0.3-0.1,0.6-0.4,1.2c-0.8,1.7-5.4,4.7-5.4,4.7s-1,5.3-2.2,6.7
+        c-1.3,1.4-1.7,0.7-1.7,0.7c0.4-0.5,0.6-1,0.6-1.2c0-0.2-0.1-0.4-0.2-0.6c-0.4-0.4-1.1-0.5-1.7-0.3c-0.9,0.4-1.5,1.5-1.5,2.6
+        c0,1,0.4,1.9,1.5,2.3C-661.2,1135.8-660.1,1134-660,1134.1z"/>
+      <path d="M-659.2,1124.7l0.4-0.3c0.6-0.4,1.3-0.9,2.1-1.4c-92.8-77.4-108.4-105.2-108.4-105.2c-8.6-2.6-8.2-6.3-8.2-6.3
+        c-4,14.7,75.2,87.7,113.5,116.5c0.3-0.9,0.5-1.9,0.6-2.6V1124.7z"/>
+      <path d="M-647.7,1135.2l2.2-3.4c0.3-0.4,0.1-1-0.3-1.3l-0.5-0.4c-0.4-0.3-1-0.1-1.2,0.3l-0.1,0.1l-9.2-6.3l-1.1,2l-0.1,0.1
+        l-0.1,0.1l-1,1.2l9.2,6.3l0,0c-0.3,0.4-0.1,1,0.3,1.3l0.5,0.4C-648.5,1135.7-648,1135.7-647.7,1135.2z"/>
+      </g> 
+    </svg>
+    </svg>
+    <svg x="1.15" y="1" width="11.7" height="11.7" viewBox="0 0 10 10">
+    <rect x="0" y="0" width="10" height="10" fill="url(#wavepattern)" fill-opacity="1"></rect>
+    <rect x="0" y="0" width="10" height="10" fill="#cceeff" fill-opacity="0.5"></rect>
+    <rect x="0" y="0" width="10" height="10" fill="white" fill-opacity="1" stroke="black" stroke-width="0.02"></rect>
+    {{gameDisplay}}
+	<!-- CLOUDS COVER -->     
+	<svg id="cloudCover" width="10" height="10" viewBox="0 0 20 20" visibility="hidden">
+		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="lightgrey" stroke-width="0.02" fill-opacity="0"/>
+		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="url( #clouds)" stroke-width="0.02"/>
+	</svg>
+	<!-- LIGHTENING COVER -->      
+	<svg id="lightningCover" width="10" height="10" viewBox="0 0 20 20" visibility="hidden">
+		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="url( #lightening)" stroke-width="0.02"/>
+	</svg>
+    </svg>
+  </svg>
+  </div>
+  <div class="col-md-1"></div>
+  </div>
+  </div>
+  <div class="col-md-3">
+  <div class="row">
+  <div class="col-md-4">
+  <div id="form-messages"></div>
+  
+  <!-- Moves input -->
+  <form id="pirateForm"><h2><small>&nbsp;Moves</small></h2><br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" size="1" min="1" name="step" value="" placeholder="0">
   <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <select class="form-dir" name="direction">
+  <option selected disabled>&#8634;</option>
+  <option value="u">&#8679;</option>
+  <option value="d">&#8681;</option>
+  <option value="l">&#8678;</option>
+  <option value="r">&#8680;</option>
+  </select>
+  <input class="form-steps" type="number" min="1" name="step" value="" placeholder="0">
+  <br>
+  <br>
+  &nbsp;&nbsp;<input class="btn btn-default" id="submit" type="submit">
+  </form>
+  </div>
+  
+  <!-- submit details -->
+  <div class="col-md-8">
+  <br><br><br><br>
   <button class="btn-default round" onclick="document.getElementById('pirateAudio').pause()">&#9835;</button>
   <br>
   <br>
   <div id="completed-message"><p>Level Completed!</p><br><button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button></div>
   <br>
   <div id="scoreboard-message">
-  <form id="scoreboard-form" method="post"> Enter your name for the scoreboard:<br>
+    <form id="scoreboard-form" method="post"> Enter your name for the scoreboard:<br>
     <input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name...">
     <input class="btn btn-default" id="submitName" type="submit">
-  <form>
-  </div>
-
-
-<br>
-  <br>
-
+    <form>
+   </div>
   </div>
   </div>
+  </div>
+  </div>
+</div>
+  
+  
+   <!---------------------------------------------------------------------------------------------->
+   
+   
+  
   <!-- control Script for sending information to python code -->
   <script>
 
@@ -252,212 +392,212 @@ Content-Type: text/html
 
 /*fills in the maximum tinto the form*/
   function setMaxSelection(){
-    fields = document.getElementsByClassName("form-steps")
-    for (var i = 0; i < fields.length; i++) {
-      fields[i].setAttribute("max", maxXY);
-    }
+  fields = document.getElementsByClassName("form-steps")
+  for (var i = 0; i < fields.length; i++) {
+  fields[i].setAttribute("max", maxXY);
+  }
   }
 
 
 /*function to submit new score to the scoreboard*/
   $(function()
   {
-    var form = $('#scoreboard-form');
-    $(form).submit(function(event) {
-      event.preventDefault();
-        //var formData = $(form).serialize();
-        var enteredName=document.getElementById("playersName").value;
-        var endscore = (totalScore+lvlpoints);
-        $.ajax({
-          url: "main.py", //change this to submitScore.py
-          type: "post",
-          datatype:"json",
-          data: {'score': endscore,'name': enteredName},
-          success: function(response){
-          //console.log(response.message)
-          }
-        })
-    });
+  var form = $('#scoreboard-form');
+  $(form).submit(function(event) {
+  event.preventDefault();
+  //var formData = $(form).serialize();
+  var enteredName=document.getElementById("playersName").value;
+  var endscore = (totalScore+lvlpoints);
+  $.ajax({
+    url: "main.py", //change this to submitScore.py
+    type: "post",
+    datatype:"json",
+    data: {'score': endscore,'name': enteredName},
+    success: function(response){
+    //console.log(response.message)
+    }
+  })
+  });
   });
 
 
 /*Submits the pirate moves*/
-    $(function()
-    {
-      var form = $('#pirateForm');
-      // Get the messages div.
-      var formMessages = $('#form-messages');
-      $(form).submit(function(event) {
-        event.preventDefault();
-          if (onMove == true){
-            return;
-          }
-          onMove=true;
-          resetBoatPosition();
-
-          var formData = $(form).serializeArray();
-          var steps=[]
-          var directions=[]
-          $.each(formData, function(i, field){
-            if(field.name==='step' & field.value.length>0){
-              steps.push(parseInt(field.value));
-            }
-            else if(field.name==='direction' & field.value.length>0){
-              directions.push(field.value);
-            }
-          });
-
-          steps=JSON.stringify(steps)
-          directions=JSON.stringify(directions)
-
-          $.ajax({
-            url: "validate.py",
-            type: "post",
-            datatype:"json",
-            data: {'level':levelId,'steps': steps,'direction': directions},
-            success: function(response){
-            //console.log(response.message)
-            console.log('actions: '+response.data['endactionarray']);
-            //console.log('dir: '+response.data['direction']);
-            console.log('dir: '+response.data['endaction']);
-            moveObject(response.data['steps'], response.data['direction'], response.data['endaction']);
-            }
-          })
-      });
+  $(function()
+  {
+  var form = $('#pirateForm');
+  // Get the messages div.
+  var formMessages = $('#form-messages');
+  $(form).submit(function(event) {
+  event.preventDefault();
+    if (onMove == true){
+    return;
+    }
+    onMove=true;
+    resetBoatPosition();
+    
+    var formData = $(form).serializeArray();
+    var steps=[]
+    var directions=[]
+    $.each(formData, function(i, field){
+    if(field.name==='step' & field.value.length>0){
+    steps.push(parseInt(field.value));
+    }
+    else if(field.name==='direction' & field.value.length>0){
+    directions.push(field.value);
+    }
     });
 
+    steps=JSON.stringify(steps)
+    directions=JSON.stringify(directions)
 
-      function turn(arr){
-        var elem = document.getElementById("OurShip");
-        if(arr[1]==='y'){ // determine turn direction
-          var degree=90*arr[0];
-        }else if(arr[0]===1){
-          var degree=0;
-        }else{
-          var degree=0;
-        }
-        elem.style.transform='rotate('+degree+'deg)';
-        //elem.setAttribute('transform','translate(30,100)');
-        //elem.setAttributeNS(null, 'transform', 'translate(30,100)');
-      }
-
-      /*Animates the end of the move path*/
-      function endMove(endAction){
-        //console.log(endAction);
-        if (endAction==='crash'){
-          //boom();
-        }
-        else if (endAction==='not_crash') {
-          //sink();
-        }
-        else if (endAction==='end') {
-          //console.log('here');
-          reachEnd();
-        }
-      }
+    $.ajax({
+    url: "validate.py",
+    type: "post",
+    datatype:"json",
+    data: {'level':levelId,'steps': steps,'direction': directions},
+    success: function(response){
+    //console.log(response.message)
+    console.log('actions: '+response.data['endactionarray']);
+    //console.log('dir: '+response.data['direction']);
+    console.log('dir: '+response.data['endaction']);
+    moveObject(response.data['steps'], response.data['direction'], response.data['endaction']);
+    }
+    })
+  });
+  });
 
 
-      function reachEnd(){
-        levelCompleted=true;
-        displayLevelCompleted();
-      }
+  function turn(arr){
+  var elem = document.getElementById("OurShip");
+  if(arr[1]==='y'){ // determine turn direction
+    var degree=90*arr[0];
+  }else if(arr[0]===1){
+    var degree=0;
+  }else{
+    var degree=0;
+  }
+  elem.style.transform='rotate('+degree+'deg)';
+  //elem.setAttribute('transform','translate(30,100)');
+  //elem.setAttributeNS(null, 'transform', 'translate(30,100)');
+  }
 
-      /*Displays that the level is completed*/
-      function displayLevelCompleted(){
-        if(levelId===5){
-          enterScoreBoard();
-          return;
-        }
-        element = document.getElementById("completed-message");
-        //TODO display level completed modal
-        element.style.display = 'block';
-      }
-
-      function getNextLevel(){
-        nextLevel = levelId+1;
-        endscore = totalScore + lvlpoints;
-        post('main.py', {"level": nextLevel, "score": endscore}, 'post'); //send as post
-      }
-
-      function enterScoreBoard(){
-        element = document.getElementById("scoreboard-message");
-        //TODO display Scoreboard modal
-        element.style.display = 'block';
-      }
-
-
-      /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
-      function moveObject(steps, dirArr, endAction) {
-        var endAction = endAction;
-        var elem = document.getElementById("OurShip"); // get element to move
-        var position = Number.parseInt(elem.getAttribute(dirArr[0]));
-        var arrived = position + steps[0]; //end position
-        var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
-        //turn([dir, dirArr[0]]);
-        var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
-        function step() { //small
-          if (position == arrived) { // check if element has arrived
-            clearInterval(moving); // stop the element from moving
-            dirArr.shift(); // remove first element of array
-            steps.shift(); // remove second element of array
-            if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
-              moveObject(steps, dirArr, endAction); // calls itself with new array
-               }else{
-              endMove(endAction)
-              onMove=false; //not locked for next move anymore
-            }
-          } else {
-            position+=dir*0.05; //dir increment (either +1 or -1)
-            position= Math.round(position*100)/100;
-            elem.setAttributeNS(null, dirArr[0], position); //change attributes
-          }
-        }
-      }
-
-      function enableMute() {
-        document.getElementById("pirateAudio").muted = true;
-      }
+  /*Animates the end of the move path*/
+  function endMove(endAction){
+  //console.log(endAction);
+  if (endAction==='crash'){
+    //boom();
+  }
+  else if (endAction==='not_crash') {
+    //sink();
+  }
+  else if (endAction==='end') {
+    //console.log('here');
+    reachEnd();
+  }
+  }
 
 
-      function resetBoatPosition(){
-          ship = document.getElementById("OurShip");
-          ship.setAttributeNS(null, 'x', startX);
-          ship.setAttributeNS(null, 'y', startY);
-      }
+  function reachEnd(){
+  levelCompleted=true;
+  displayLevelCompleted();
+  }
 
-      /*Count down points when level has started*/
-      function pointsCountdown(){
-        var timer = setInterval(function(){
-          lvlpoints--;
-          document.getElementById("pointsleft").textContent = lvlpoints;
-          if((lvlpoints <= 0) || (levelCompleted==true))
-              clearInterval(timer);
-          },1000);
-      }
+  /*Displays that the level is completed*/
+  function displayLevelCompleted(){
+  if(levelId===5){
+    enterScoreBoard();
+    return;
+  }
+  element = document.getElementById("completed-message");
+  //TODO display level completed modal
+  element.style.display = 'block';
+  }
 
-      /*Helper function to submit data with POST*/
-      function post(path, params, method) {
-            method = method || "post"; // Set method to post by default if not specified.
+  function getNextLevel(){
+  nextLevel = levelId+1;
+  endscore = totalScore + lvlpoints;
+  post('main.py', {"level": nextLevel, "score": endscore}, 'post'); //send as post
+  }
 
-            // The rest of this code assumes you are not using a library.
-            var form = document.createElement("form");
-            form.setAttribute("method", method);
-            form.setAttribute("action", path);
+  function enterScoreBoard(){
+  element = document.getElementById("scoreboard-message");
+  //TODO display Scoreboard modal
+  element.style.display = 'block';
+  }
 
-            for(var key in params) {
-                if(params.hasOwnProperty(key)) {
-                    var hiddenField = document.createElement("input");
-                    hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", key);
-                    hiddenField.setAttribute("value", params[key]);
-                    form.appendChild(hiddenField);
-                }
-            }
 
-            document.body.appendChild(form);
-            console.log(form)
-            form.submit();
-        }
+  /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
+  function moveObject(steps, dirArr, endAction) {
+  var endAction = endAction;
+  var elem = document.getElementById("OurShip"); // get element to move
+  var position = Number.parseInt(elem.getAttribute(dirArr[0]));
+  var arrived = position + steps[0]; //end position
+  var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
+  //turn([dir, dirArr[0]]);
+  var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
+  function step() { //small
+    if (position == arrived) { // check if element has arrived
+    clearInterval(moving); // stop the element from moving
+    dirArr.shift(); // remove first element of array
+    steps.shift(); // remove second element of array
+    if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
+    moveObject(steps, dirArr, endAction); // calls itself with new array
+     }else{
+    endMove(endAction)
+    onMove=false; //not locked for next move anymore
+    }
+    } else {
+    position+=dir*0.05; //dir increment (either +1 or -1)
+    position= Math.round(position*100)/100;
+    elem.setAttributeNS(null, dirArr[0], position); //change attributes
+    }
+  }
+  }
+
+  function enableMute() {
+  document.getElementById("pirateAudio").muted = true;
+  }
+
+
+  function resetBoatPosition(){
+    ship = document.getElementById("OurShip");
+    ship.setAttributeNS(null, 'x', startX);
+    ship.setAttributeNS(null, 'y', startY);
+  }
+
+  /*Count down points when level has started*/
+  function pointsCountdown(){
+  var timer = setInterval(function(){
+    lvlpoints--;
+    document.getElementById("pointsleft").textContent = lvlpoints;
+    if((lvlpoints <= 0) || (levelCompleted==true))
+    clearInterval(timer);
+    },1000);
+  }
+
+  /*Helper function to submit data with POST*/
+  function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+    if(params.hasOwnProperty(key)) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", key);
+      hiddenField.setAttribute("value", params[key]);
+      form.appendChild(hiddenField);
+    }
+    }
+
+    document.body.appendChild(form);
+    console.log(form)
+    form.submit();
+  }
 
 
 
