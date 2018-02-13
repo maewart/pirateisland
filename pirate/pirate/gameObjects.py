@@ -161,9 +161,12 @@ class Level(object):
 					
 		#Explosion graphics
 		explosion = Icon(-999,'explosion',5,5,7,7).render()
+		
+		#Sink
+		sink = Icon(-998,'sink',5,5,6,6).render()
 
 		# Combination of all the SVGs code generated so far in the variable "combined"
-		combined = sea + lines + objects + ship + boundary + explosion
+		combined = sea + lines + objects + ship + boundary + explosion + sink
 
 		# Creation of the final HTML code that wraps all the SVGs elements previously created
 		svgRoot = genHTMLElement('svg',
@@ -236,6 +239,10 @@ class Icon(object):
 		elif self._fill == 'explosion':
 			icon = self._explosion()
 			self._htmlId = 'explosion'
+			visibility = 'hidden'
+		elif self._fill == 'sink':
+			icon = self._sink()
+			self._htmlId = 'splash'
 			visibility = 'hidden'
 
 		# Get the SVGs code for an obstacle, generated with the specific method, wrapped in an outer general <SVG>
@@ -593,8 +600,37 @@ class Icon(object):
 								['0 0 69.4 56'],
 								combine)
 		return svgExp
+		
+	def _sink(self):
+		partA = genHTMLElement('path',
+								['class','d'],
+								['st0_splash','M11.2,34.7c-2.3,0.1-5.4,1-5,3.3c0.4,2.3,4.8,2.1,7.5,2.7c2.8,0.5,7.7,1.5,13.6,6.8\
+								c-2.4-5.4-5.8-8.3-7.9-9.8c-0.8-0.6-1.8-1.2-2.9-1.6C14.7,35.2,12.7,34.6,11.2,34.7z'])
+		partB = genHTMLElement('path',
+								['class','d'],
+								['st0_splash','M70.8,34.7c-1.4-0.1-3.5,0.5-5.3,1.3c-1.1,0.5-2.1,1.1-2.9,1.6c-2.1,1.6-5.5,4.4-7.9,9.8\
+								c5.9-5.3,10.8-6.3,13.6-6.8c2.8-0.5,7.1-0.4,7.5-2.7C76.2,35.7,73.1,34.8,70.8,34.7z'])
+								
+		partC = genHTMLElement('path',
+								['class','d'],
+								['st0_splash','M12.1,46C9.9,46,7.8,46.4,6,47c-3.7,1.3-7.3,4.3-5.5,6.4s7.8,0.1,11.9,0.1S23.7,53.3,34,58\
+								c-5.2-6.1-9.3-8.9-14.6-10.7C16.8,46.4,14.4,46,12.1,46z'])
+		partD = genHTMLElement('path',
+								['class','d'],
+								['st0_splash','M69.9,46c-2.3,0-4.7,0.4-7.3,1.3C57.3,49.1,53.2,52,48,58c10.4-4.7,17.6-4.4,21.7-4.4\
+								c4.1,0,10.1,2,11.9-0.1c1.8-2.1-1.8-5.1-5.5-6.4C74.2,46.4,72.1,46,69.9,46z'])
+		partE = genHTMLElement('path',
+								['class','d'],
+								['st0_splash','M41,0c-3.8,15.5-15.1,20-15.1,31c0,7.8,5.8,15.5,15.1,15.5c10,0,15.1-7.8,15.1-15.5\
+								C55.9,19.7,44.8,15.5,41,0z'])
+		
+		combine = partA + partB + partC + partD + partE
 
-
+		svgSink = genHTMLElement('svg',
+								['viewBox'],
+								['0 0 82 58'],
+								combine)	
+		return svgSink
 
 class Island(object):
 	"""Create an Island
@@ -658,7 +694,6 @@ class ScoreBoard (object):
 		for i in range(len(self._scoreName)):
 			
 			scoreHtml = genHTMLElement('td',[],[],str(i+1)) + genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))
-	#		scorePoiHtml.append(genHTMLElement('td',[],[],self._scorePoint[i]))
 			
 			tableRow = tableRow + genHTMLElement('tr',[],[],scoreHtml)
 		
