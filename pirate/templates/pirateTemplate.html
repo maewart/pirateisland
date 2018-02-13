@@ -319,6 +319,13 @@ Content-Type: text/html
 	</svg>
     </svg>
   </svg>
+  <br>
+  <form id="pirateForm-quick">Enter moves quicker:<br>
+    <input class="form-name" type="text" size="35" id="quickMoves" name="moves" placeholder="d2r3d5...">
+    <br>
+    <div id="quick-form-messages"></div>
+    <br>
+  <input class="btn btn-default" id="submitQuick" type="submit"></form>
   </div>
   <div class="col-md-1"></div>
   </div>
@@ -423,6 +430,10 @@ Content-Type: text/html
   <div id="form-messages"></div>
   <input class="btn btn-default" id="submit" type="submit">
   </form>
+  <br>
+  <br>
+
+
   </div>
 
   <!-- submit details -->
@@ -449,7 +460,7 @@ Content-Type: text/html
           <input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name...">
           <br>
           <br>
-          <input class="btn btn-default" id="submitName" type="submit"><form>
+          <input class="btn btn-default" id="submitName" type="submit"></form>
       </div>
     </div>
     <div class="modal-footer"></div>
@@ -552,6 +563,111 @@ Content-Type: text/html
   });
 
 
+  function isEven(n) {
+    return n % 2 == 0;
+  }
+
+  function isNumber(n) {
+    return !isNaN(parseInt(n)) && isFinite(n);
+  }
+
+  function isDirection(n){
+    return ((n==='d')||(n==='u')||(n==='l')||(n==='r'));
+  }
+
+
+  /*function to submit new score to the scoreboard*/
+    $(function()
+    {
+    var form = $('#scoreboard-form');
+    $(form).submit(function(event) {
+    event.preventDefault();
+    //var formData = $(form).serialize();
+    var enteredName=document.getElementById("playersName").value;
+    var endscore = (totalScore+lvlpoints);
+    $.ajax({
+      url: "highScore.py", //change this to submitScore.py
+      type: "post",
+      datatype:"json",
+      data: {'highScore': endscore,'name': enteredName},
+      success: function(response){
+        innerModule=document.getElementById("scoreboard-message");
+        text='<br><p>Thank you for submitting!<br>Your current pirate rank: '+response+'</p><br>'
+        button='<button class="btn btn-default" onclick="restartGame()">Beat your score</button>'
+        innerModule.innerHTML=text+button;
+      //console.log(response.message)
+      }
+    })
+    });
+    });
+
+
+  /*Submits the pirate moves quick*/
+    $(function()
+    {
+    var formq = $('#pirateForm-quick');
+    // Get the messages div.
+    var formMessagesq = document.getElementById("quick-form-messages");
+    $(formq).submit(function(event) {
+    event.preventDefault();
+    formMessagesq.innerHTML="";
+      if (onMove == true){
+        formMessagesq.innerHTML="<p>Don't be so impatient, pirate!</p>";
+        return;
+      }
+      resetBoatPosition();
+      var str = document.getElementById("quickMoves").value;
+      str = str.replace(/\s+/g, ''); //delete spaces
+      var steps=[]
+      var directions=[]
+
+      for (i = 0; i < str.length; i++) {
+        if (isEven(i)){
+          if(isDirection(str.charAt(i).toLowerCase())){
+            directions.push(str.charAt(i).toLowerCase());
+          }else{
+            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+i+" should be amongst ['u', 'd', 'l', 'r']!</p>";
+            return;
+          }
+        }else{
+            if (isNumber(str.charAt(i))){
+              steps.push(parseInt(str.charAt(i)));
+          }else{
+            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+i+" should be a number!</p>";
+            return;
+          }
+        }
+      }
+      //console.log(directions+ " hh " + steps);
+      if(steps.length != directions.length){
+        formMessagesq.innerHTML="<p>You didn't enter the same number of directions and steps. Try again!</p>";
+        return;
+      }
+      if(directions.length==0){
+        formMessagesq.innerHTML="<p>You forgot to lift the anker. Enter your moves!</p>";
+        return;
+      }
+      onMove=true;
+      steps=JSON.stringify(steps)
+      directions=JSON.stringify(directions)
+
+      $.ajax({
+      url: "validate.py",
+      type: "post",
+      datatype:"json",
+      data: {'level':levelId,'steps': steps,'direction': directions},
+      success: function(response){
+      //console.log(response.message)
+      console.log('actions: '+response.data['endactionarray']);
+      //console.log('dir: '+response.data['direction']);
+      console.log('dir: '+response.data['endaction']);
+      moveObject(response.data['steps'], response.data['direction'], response.data['endaction']);
+      }
+      })
+    });
+    });
+
+
 /*Submits the pirate moves*/
   $(function()
   {
@@ -566,7 +682,6 @@ Content-Type: text/html
       return;
     }
     resetBoatPosition();
-
     var formData = $(form).serializeArray();
     var steps=[]
     var directions=[]
@@ -578,21 +693,17 @@ Content-Type: text/html
     directions.push(field.value);
     }
     });
-
     if(steps.length != directions.length){
       formMessages.innerHTML="<p>There is something wrong with your moves. Try again!</p>";
       return;
     }
-
     if(directions.length==0){
       formMessages.innerHTML="<p>You forgot to lift the anker. Enter your moves!</p>";
       return;
     }
-
     onMove=true;
     steps=JSON.stringify(steps)
     directions=JSON.stringify(directions)
-
     $.ajax({
     url: "validate.py",
     type: "post",
