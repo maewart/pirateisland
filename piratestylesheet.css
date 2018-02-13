@@ -1,0 +1,122 @@
+/* */
+/* All styles for SVGs */
+.st0_seagull{fill:#4d4d4d;}
+
+.st0_octopus{fill:#C62405;}
+.st1_octopus{fill:#5B5959;}
+
+.st0_pirateship{fill:#383838;}
+.st1_pirateship{fill:#642D10;}
+.st2_pirateship{fill:#000000;}
+
+.st0_iceberg{fill:#005F94;}
+
+.st0_diamond{fill:#FFCB05;}
+
+.st0_island{fill:#4BB749;}
+.st1_island{fill:#FAEE39;}
+.st2_island{fill:#2D419A;}
+
+.wavepattern{fill:#0667B7;}
+
+.islandbackground{fill:lightyellow;}
+.islandsand{fill:#D2B48C;}
+
+.st0_maelstrom{fill:#0000CC;}
+
+.st0_treasure{fill:#997F60;}
+.st1_treasure{fill:#FF0000;}
+.st2_treasure{fill:#FFCC00;}
+.st3_treasure{fill:#000000;}
+
+.st0_splash{fill:#36328A;}
+
+.bg-1 { 
+    background-color: #fbf3d4; /* Sand color*/
+    color: #000000;
+}
+.bg-2 { 
+    background-color: #ffffff; /* Sand color*/
+    color: #000000;
+}
+@font-face {
+    font-family: 'OldBook'; /*name of the Font*/
+    src: url("https://www.geos.ed.ac.uk/~s1788971/pirateFont/OLD.ttf"); /*URL to font*/
+}
+h1 {
+    text-align:center;
+    vertical-align:top;
+    color: darkred;
+    text-shadow: 2px 2px 5px grey;
+    font-family: OldBook;
+    font-size: 380%;
+}
+/* Not working at the moment with the <small> */  
+h2 { 
+    text-align:left;
+    color: darkred;
+    text-shadow: 2px 2px 5px grey;
+    font-family: OldBook;
+    font-size: 240%;    
+}
+/* Tables in the "table" page */
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+	border: none;
+	font-family: Papyrus;
+	font-weight: bold;
+	text-align:center;
+}
+.table-intro > tbody > tr > td, 
+.table-intro > tbody > tr > th,
+.table-intro > tfoot > tr > td,
+.table-intro > tfoot > tr > th,
+.table-intro > thead > tr > td,
+.table-intro > thead > tr > th {
+	border: none;
+	font-family: Papyrus;
+	font-weight: bold;
+	text-align:left;
+	margin: auto;
+    float: none;
+}
+#table-intro2
+{
+	font-family: Papyrus;
+	text-align:center;
+}
+p, form, btn{
+font-family: Papyrus;
+}
+.left_img {
+    display: block;
+    max-width: auto;
+    margin-left: auto;
+    margin-right: 3%;
+    float: right;
+    padding: 2%;
+}
+.right_img {
+    display: block;
+    max-width: auto;
+    margin-left: 3%;
+    margin-right: auto;
+    float: left;
+    padding: 2%;
+}
+#svg-1
+{
+  margin: 0 auto;
+  display: block;
+}
+.st0_cluds{fill:#5B5959;
+    opacity:0.90
+    }
+.st0_lightening{fill:#FFED00;}
+
+.st0_explosion{fill:#F9B233;}
+.st1_explosion{fill:#E30613;}
