@@ -452,7 +452,7 @@ Content-Type: text/html
     <p><b>Example:</b> 'L4 U7' executes '4 left, 7 up'</p>
     <p>Input is case insensitive and accepted with or without whitspaces</p>
   </div>
-  <form margin-left="10px" id="pirateForm-quick">
+  <form margin-left="10px" id="pirateForm-quick" autocomplete="off">
     <input class="form-name" type="text" size="22" id="quickMoves" name="moves" placeholder="D2 R3 U1 L8 ...">
     <br>
     <div id="quick-form-messages"></div>
@@ -753,7 +753,7 @@ Content-Type: text/html
     boom("explosion");
   }
   else if (endAction==='not_crash') {
-    boom("splash");
+    sink("splash");
   }
   else if (endAction==='end') {
     //console.log('here');
@@ -761,34 +761,49 @@ Content-Type: text/html
   }
   }
 
-
+/*Displays the boat crashing animation*/
   function boom(animation){
-    explosion= document.getElementById(animation);
+    anim= document.getElementById(animation);
     x = document.getElementById("OurShip").getAttribute('x')-0.5;
     y = document.getElementById("OurShip").getAttribute('y')-0.5;
-    explosion.setAttributeNS(null, 'x', x);
-    explosion.setAttributeNS(null, 'y', y);
-    explosion.setAttributeNS(null, 'visibility', 'visible');
+    anim.setAttributeNS(null, 'x', x);
+    anim.setAttributeNS(null, 'y', y);
+    anim.setAttributeNS(null, 'visibility', 'visible');
     setTimeout(function () {
+      anim.setAttributeNS(null, 'visibility', 'hidden');
       resetBoatPosition();
+    }, 1500);
+  }
+
+/*Displays the boat sinking animation*/
+  function sink(animation){
+    anim= document.getElementById(animation);
+    ship=document.getElementById("OurShip")
+    x = ship.getAttribute('x');
+    y = ship.getAttribute('y');
+    anim.setAttributeNS(null, 'x', x);
+    anim.setAttributeNS(null, 'y', y);
+    anim.setAttributeNS(null, 'visibility', 'visible');
+    ship.setAttributeNS(null, 'visibility', 'hidden'); //hide the ship
+    setTimeout(function () {
+      anim.setAttributeNS(null, 'visibility', 'hidden');
+      resetBoatPosition();
+      ship.setAttributeNS(null, 'visibility', 'visible');
     }, 1500);
   }
 
 
   function reachEnd(){
   levelCompleted=true;
+  if(levelId===5){
+    enterScoreBoard();
+    return;
+  }
   displayLevelCompleted();
   }
 
   /*Displays that the level is completed*/
   function displayLevelCompleted(){
-  if(levelId===5){
-    enterScoreBoard();
-    return;
-  }
-  //element = document.getElementById("completed-message");
-  //TODO display level completed modal
-  //element.style.display = 'block';
   openModal("nextlevel-modal");
   }
 
@@ -801,10 +816,8 @@ Content-Type: text/html
   function enterScoreBoard(){
     openModal("scoreboard-modal");
     document.getElementById('total-score').innerHTML = (totalScore+lvlpoints);
-    //enter the content into modal
-    //element = document.getElementById("scoreboard-message");
-    //element.innerHTML = message+form;
   }
+
 
   function openModal(id) {
     modal = document.getElementById(id); //get module by id
@@ -887,8 +900,6 @@ Content-Type: text/html
     ship = document.getElementById("OurShip");
     ship.setAttributeNS(null, 'x', startX);
     ship.setAttributeNS(null, 'y', startY);
-    explosion= document.getElementById("explosion");
-    explosion.setAttributeNS(null, 'visibility', 'hidden');
     //document.getElementById("form-messages").innerHTML="";
   }
 
