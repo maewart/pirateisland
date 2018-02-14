@@ -25,6 +25,11 @@ Content-Type: text/html
 
   <style>
 
+  .container-fluid.bg-1{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .form-steps{
   height: 30px;
   margin-right: 2px;
@@ -35,6 +40,8 @@ Content-Type: text/html
   font-size: 16px;
   width: 40px;
   }
+
+
 
   .form-steps:focus{
   background-color: #D98880;
@@ -534,7 +541,13 @@ Content-Type: text/html
   /*Hide level completed and scoreboard message*/
   //document.getElementById('completed-message').style.display = 'none';
 
-  var lvlpoints = 100*(levelId*2); // points achievable in current level, is counted down
+  // points achievable in current level, is counted down
+  if(levelId>=0){
+    var lvlpoints = 100*(levelId*0.5);
+  }else{
+    var lvlpoints = 300; //levelpoints for extra levels with id's <1
+  }
+
   document.getElementById("pointsleft").textContent = lvlpoints; //display initial Points
 
   var onMove = false; // tracks if the user is currently on a move, helps to lock the submission until move was displayed properly
