@@ -594,7 +594,7 @@ Content-Type: text/html
   }
 
   function isNumber(n) {
-    return !isNaN(parseInt(n)) && isFinite(n);
+    return !isNaN(parseInt(n)) && isFinite(n) &&parseInt(n)>0;
   }
 
   function isDirection(n){
@@ -652,14 +652,14 @@ Content-Type: text/html
           if(isDirection(str.charAt(i).toLowerCase())){
             directions.push(str.charAt(i).toLowerCase());
           }else{
-            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+i+" should be amongst ['u', 'd', 'l', 'r']!</p>";
+            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be amongst ['u', 'd', 'l', 'r']!</p>";
             return;
           }
         }else{
             if (isNumber(str.charAt(i))){
               steps.push(parseInt(str.charAt(i)));
           }else{
-            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+i+" should be a number!</p>";
+            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be a number between 1 and 9!</p>";
             return;
           }
         }
