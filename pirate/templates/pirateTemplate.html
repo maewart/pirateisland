@@ -628,7 +628,7 @@ Content-Type: text/html
     });
 
 
-  /*Submits the pirate moves quick*/
+  /*Submits the pirate moves from type input*/
     $(function()
     {
     var formq = $('#pirateForm-quick');
@@ -676,6 +676,7 @@ Content-Type: text/html
       onMove=true;
       steps=JSON.stringify(steps)
       directions=JSON.stringify(directions)
+      document.body.style.cursor  = 'wait';
 
       $.ajax({
       url: "validate.py",
@@ -688,13 +689,14 @@ Content-Type: text/html
       //console.log('dir: '+response.data['direction']);
       console.log('dir: '+response.data['endaction']);
       moveObject(response.data['steps'], response.data['direction'], response.data['endaction']);
+      document.body.style.cursor  = 'default';
       }
       })
     });
     });
 
 
-/*Submits the pirate moves*/
+/*Submits the pirate moves with dropdown form*/
   $(function()
   {
   var form = $('#pirateForm');
@@ -730,6 +732,7 @@ Content-Type: text/html
     onMove=true;
     steps=JSON.stringify(steps)
     directions=JSON.stringify(directions)
+    document.body.style.cursor  = 'wait';
     $.ajax({
     url: "validate.py",
     type: "post",
@@ -741,6 +744,7 @@ Content-Type: text/html
     //console.log('dir: '+response.data['direction']);
     console.log('dir: '+response.data['endaction']);
     moveObject(response.data['steps'], response.data['direction'], response.data['endaction']);
+    document.body.style.cursor  = 'default';
     }
     })
   });
