@@ -63,6 +63,7 @@ Content-Type: text/html
     font-size: 16px;
     margin-left: 5px;
     font-family: Papyrus;
+    padding-top: 10px;
   }
 
   .btn-small{
@@ -270,7 +271,7 @@ Content-Type: text/html
   <h2>TIMER</h2>
     <tbody>
     <tr><td>
-      <h2><small>Level points remaining: <span id="pointsleft"></span></small></h2>
+      <h2><small>Level points: <span id="pointsleft"></span></small></h2>
       <h2><small>Total score: <span id="total-score-display"></span></small></h2>
     </td></tr>
     </tbody>
@@ -749,10 +750,10 @@ Content-Type: text/html
   function endMove(endAction){
   //console.log(endAction);
   if (endAction==='crash'){
-    boom();
+    boom("explosion");
   }
   else if (endAction==='not_crash') {
-    boom();
+    boom("splash");
   }
   else if (endAction==='end') {
     //console.log('here');
@@ -760,8 +761,9 @@ Content-Type: text/html
   }
   }
 
-  function boom(){
-    explosion= document.getElementById("explosion");
+
+  function boom(animation){
+    explosion= document.getElementById(animation);
     x = document.getElementById("OurShip").getAttribute('x')-0.5;
     y = document.getElementById("OurShip").getAttribute('y')-0.5;
     explosion.setAttributeNS(null, 'x', x);
