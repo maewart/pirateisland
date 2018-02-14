@@ -95,7 +95,9 @@ Content-Type: text/html
   .round {
   border-radius: 50%;
   height: 30px;
-  margin-left: 10px;
+  float: right;
+  padding-top: 7px;
+  margin-right: 10%;
   }
 
   /* On small screens, set height to 'auto' for content */
@@ -203,7 +205,6 @@ Content-Type: text/html
   <!-- EMPTY -->
   <div class="col-xs-3">
   <img class="right_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/Flag.png" alt="PirateFlag" style="width:40%">
-  <button class="btn-default round" id="audio-button" >&#128266;</button>
   </div>
 </div>
 
@@ -335,15 +336,7 @@ Content-Type: text/html
 	</svg>
     </svg>
   </svg>
-  <br>
-
-
-
-
-
-
-
-
+<button class="btn-default round" id="audio-button" >&#128266;</button>
 
 
   </div>
@@ -355,7 +348,7 @@ Content-Type: text/html
   <div class="col-md-6">
 
   <!-- Moves input -->
-  <form id="pirateForm"><h2><small>Fill in Moves</small></h2>
+  <form id="pirateForm"><h2><small>Enter Moves</small></h2>
   <select class="form-dir" name="direction">
   <option selected disabled>&#8634;</option>
   <option value="u">&#8679;</option>
@@ -449,7 +442,7 @@ Content-Type: text/html
   <br>
   <div id="form-messages"></div>
   <input class="btn btn-default" id="submit" type="submit">
-  <h2><small>Enter Moves</small></h2>
+  <h2><small>Type Moves (Pros)</small></h2>
   </form>
   <button class="btn btn-small" onclick="showSyntax()"><span id="syntax-btn">Show syntax  &#9661;</span></button>
   <div id="syntax" style="display: none;">
