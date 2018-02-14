@@ -453,10 +453,13 @@ Content-Type: text/html
   </form>
   <button class="btn btn-small" onclick="showSyntax()"><span id="syntax-btn">Show syntax  &#9661;</span></button>
   <div id="syntax" style="display: none;">
-    <p>This is the syntax</p>
+    <p><b>Directions:</b> U=up D=down L=left R=right</p>
+    <p><b>Steps:</b> Any number between 1 and 9</p>
+    <p><b>Example:</b> 'L4 U7' executes '4 left, 7 up'</p>
+    <p>Input is case insensitive and accepted with or without whitspaces</p>
   </div>
   <form margin-left="10px" id="pirateForm-quick">
-    <input class="form-name" type="text" size="30" id="quickMoves" name="moves" placeholder="d2 r3 u1 l8 ...">
+    <input class="form-name" type="text" size="22" id="quickMoves" name="moves" placeholder="D2 R3 U1 L8 ...">
     <br>
     <div id="quick-form-messages"></div>
     <br>
