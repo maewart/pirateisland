@@ -812,9 +812,11 @@ Content-Type: text/html
   }
 
   function getNextLevel(){
-  nextLevel = levelId+1;
-  endscore = totalScore + lvlpoints;
-  post('main.py', {"level": nextLevel, "score": endscore, "music" : music}, 'post'); //send as post
+    nextLevel = levelId+1;
+    endscore = totalScore + lvlpoints;
+    if (levelId<maxLevelNumber){
+      post('main.py', {"level": nextLevel, "score": endscore, "music" : music}, 'post'); //send as post
+    }
   }
 
   function enterScoreBoard(){
@@ -835,14 +837,9 @@ Content-Type: text/html
     for (var i = 0; i < modals.length; i++) {
       modals[i].style.display = "none";
     }
-  }
-
-  /* When the user clicks anywhere outside of the modal, close the modal*/
-  window.onclick = function(event) {
-    modal = document.getElementById("scoreboard-modal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+    if (levelId<maxLevelNumber){
+      getNextLevel();
+    }
   }
 
 
