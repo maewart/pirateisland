@@ -25,6 +25,84 @@ Content-Type: text/html
 
   <style>
 
+  .form-steps{
+  height: 30px;
+  margin-right: 2px;
+  background-color: #E6B0AA;
+  padding-left: 5px;
+  box-sizing: border-box;
+  border: none;
+  font-size: 16px;
+  width: 40px;
+  }
+
+  .form-steps:focus{
+  background-color: #D98880;
+  }
+
+  .form-dir{
+  height: 30px;
+  margin-left: 5px;
+  margin-right: 1px;
+  background-color: #E6B0AA;
+  box-sizing: border-box;
+  border: none;
+  font-size: 16px;
+  width: 40px;
+  }
+
+  .form-dir:focus{
+  background-color: #D98880;
+  }
+
+  .btn-default{
+    height: 35px;
+    border-radius: 0px;
+    background-color: #E6B0AA;
+    border: none;
+    font-size: 16px;
+    margin-left: 5px;
+    font-family: Papyrus;
+  }
+
+  .btn-small{
+    height: 25px;
+    border-radius: 0px;
+    background-color: #e0dabe;
+    border: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: Papyrus;
+  }
+
+  .btn-small:hover,
+  .btn-small:focus{
+  background-color: lightgrey;
+  }
+
+
+
+  .btn-default:hover,
+  .btn-default:focus{
+  background-color: #D98880;
+
+  }
+
+  .round {
+  border-radius: 50%;
+  height: 30px;
+  margin-left: 10px;
+  }
+
+  /* On small screens, set height to 'auto' for content */
+  @media screen and (max-width: 992px) {
+  .row.content {height:auto;}
+}
+
 /******MODAL*******/
 
     /* Modal (background) */
@@ -191,8 +269,8 @@ Content-Type: text/html
   <h2>TIMER</h2>
     <tbody>
     <tr><td>
-      <h3>Level points remaining: <span id="pointsleft"></span></h3>
-      <h3>Total score: <span id="total-score-display"></span></h3>
+      <h2><small>Level points remaining: <span id="pointsleft"></span></small></h2>
+      <h2><small>Total score: <span id="total-score-display"></span></small></h2>
     </td></tr>
     </tbody>
   <h2>HIGH SCORES</h2>
@@ -251,19 +329,23 @@ Content-Type: text/html
 		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="url( #clouds)" stroke-width="0.02"/>
     </g>
 	</svg>
-	<!-- LIGHTENING COVER -->
+	<!-- LIGHTNING COVER -->
 	<svg id="lightningCover" width="10" height="10" viewBox="0 0 20 20" visibility="hidden">
 		<rect x="0" y="0" height="20" width="20" style="stroke:#000000"; fill="url( #lightening)" stroke-width="0.02"/>
 	</svg>
     </svg>
   </svg>
   <br>
-  <form id="pirateForm-quick">Enter moves quicker:<br>
-    <input class="form-name" type="text" size="35" id="quickMoves" name="moves" placeholder="d2r3d5...">
-    <br>
-    <div id="quick-form-messages"></div>
-    <br>
-  <input class="btn btn-default" id="submitQuick" type="submit"></form>
+
+
+
+
+
+
+
+
+
+
   </div>
   <div class="col-md-1"></div>
   </div>
@@ -273,7 +355,7 @@ Content-Type: text/html
   <div class="col-md-6">
 
   <!-- Moves input -->
-  <form id="pirateForm"><h2><small>&nbsp;Moves</small></h2><br>
+  <form id="pirateForm"><h2><small>Fill in Moves</small></h2>
   <select class="form-dir" name="direction">
   <option selected disabled>&#8634;</option>
   <option value="u">&#8679;</option>
@@ -367,20 +449,25 @@ Content-Type: text/html
   <br>
   <div id="form-messages"></div>
   <input class="btn btn-default" id="submit" type="submit">
+  <h2><small>Enter Moves</small></h2>
   </form>
-  <br>
-  <br>
+  <button class="btn btn-small" onclick="showSyntax()"><span id="syntax-btn">Show syntax  &#9661;</span></button>
+  <div id="syntax" style="display: none;">
+    <p>This is the syntax</p>
+  </div>
+  <form margin-left="10px" id="pirateForm-quick">
+    <input class="form-name" type="text" size="30" id="quickMoves" name="moves" placeholder="d2 r3 u1 l8 ...">
+    <br>
+    <div id="quick-form-messages"></div>
+    <br>
+    <input class="btn btn-default" id="submitQuick" type="submit">
+  </form>
 
 
   </div>
 
   <!-- submit details -->
   <div class="col-md-6">
-  <br><br><br><br>
-  <br>
-  <br>
-  <div id="completed-message"><p>Level Completed!</p><br><button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button></div>
-  <br>
   </div>
   </div>
   </div>
@@ -394,12 +481,29 @@ Content-Type: text/html
         <br>
         <p>Congratulations pirate! You have completed all {{maxLevelNumber}} levels with a total score of <span id="total-score"></span> points!</p>
           <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px"><br>
-        <form id="scoreboard-form" method="post">Please enter your pirate ship name for the scoreboard:<br>
+        <form id="scoreboard-form" method="post">Please enter your pirate name for the scoreboard:<br>
           <input class="form-name" type="text" size="35" id="playersName" name="name" placeholder="Enter name...">
           <br>
           <br>
           <input class="btn btn-default" id="submitName" type="submit"></form>
       </div>
+    </div>
+    <div class="modal-footer"></div>
+    </div>
+  </div>
+
+  <div id="nextlevel-modal" class="modal">
+    <div class="modal-content">
+    <div class="modal-header"><span onclick="closeModal()" class="close">x</span><h2>Level completed!</h2></div>
+    <div class="modal-body">
+      <div id="completed-message">
+        <br>
+        <p>Congratulations pirate! You have completed "{{levelName}}" and collected {{lvlpoints}} treasure points! New adventures await in the waters of the next level.</p>
+        <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px">
+        <br>
+        <button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button>
+      </div>
+      <br>
     </div>
     <div class="modal-footer"></div>
     </div>
@@ -431,7 +535,7 @@ Content-Type: text/html
   //document.getElementById("lightningCover").style.visibility = 'visible';
   //document.getElementById("cloudCover").style.visibility = 'visible';
   /*Hide level completed and scoreboard message*/
-  document.getElementById('completed-message').style.display = 'none';
+  //document.getElementById('completed-message').style.display = 'none';
 
   var lvlpoints = 100*(levelId*2); // points achievable in current level, is counted down
   document.getElementById("pointsleft").textContent = lvlpoints; //display initial Points
@@ -468,37 +572,24 @@ Content-Type: text/html
 
 /*fills in the maximum tinto the form*/
   function setMaxSelection(){
-    fields = document.getElementsByClassName("form-steps")
+    fields = document.getElementsByClassName("form-steps");
     for (var i = 0; i < fields.length; i++) {
       fields[i].setAttribute("max", maxXY);
     }
   }
 
-
-/*function to submit new score to the scoreboard*/
-  $(function()
-  {
-  var form = $('#scoreboard-form');
-  $(form).submit(function(event) {
-  event.preventDefault();
-  //var formData = $(form).serialize();
-  var enteredName=document.getElementById("playersName").value;
-  var endscore = (totalScore+lvlpoints);
-  $.ajax({
-    url: "highScore.py", //change this to submitScore.py
-    type: "post",
-    datatype:"json",
-    data: {'highScore': endscore,'name': enteredName},
-    success: function(response){
-      innerModule=document.getElementById("scoreboard-message");
-      text='<br><p>Thank you for submitting!<br>Your current pirate rank: '+response+'</p><br>'
-      button='<button class="btn btn-default" onclick="restartGame()">Beat your score</button>'
-      innerModule.innerHTML=text+button;
-    //console.log(response.message)
+  function showSyntax(){
+    var syntax = document.getElementById("syntax");
+    if (syntax.style.display==="none"){
+      document.getElementById("syntax").style.display="block";
+      document.getElementById("syntax-btn").innerHTML="Hide syntax  &#9651;";
+    }else{
+      document.getElementById("syntax").style.display="none";
+      document.getElementById("syntax-btn").innerHTML="Show syntax  &#9661;";
     }
-  })
-  });
-  });
+
+  }
+
 
 
   function isEven(n) {
@@ -524,7 +615,7 @@ Content-Type: text/html
     var enteredName=document.getElementById("playersName").value;
     var endscore = (totalScore+lvlpoints);
     $.ajax({
-      url: "highScore.py", //change this to submitScore.py
+      url: "highScore.py",
       type: "post",
       datatype:"json",
       data: {'highScore': endscore,'name': enteredName},
@@ -697,9 +788,10 @@ Content-Type: text/html
     enterScoreBoard();
     return;
   }
-  element = document.getElementById("completed-message");
+  //element = document.getElementById("completed-message");
   //TODO display level completed modal
-  element.style.display = 'block';
+  //element.style.display = 'block';
+  openModal("nextlevel-modal");
   }
 
   function getNextLevel(){
@@ -709,23 +801,25 @@ Content-Type: text/html
   }
 
   function enterScoreBoard(){
-    openModal();
+    openModal("scoreboard-modal");
     document.getElementById('total-score').innerHTML = (totalScore+lvlpoints);
     //enter the content into modal
     //element = document.getElementById("scoreboard-message");
     //element.innerHTML = message+form;
   }
 
-  function openModal() {
-    modal = document.getElementById("scoreboard-modal"); //get module by id
+  function openModal(id) {
+    modal = document.getElementById(id); //get module by id
     modal.style.display = "block"; // display module
   }
 
 
   /*closes the modals*/
   function closeModal() {
-    modal = document.getElementById("scoreboard-modal");
-    modal.style.display = "none";
+    modals = document.getElementsByClassName("modal");
+    for (var i = 0; i < modals.length; i++) {
+      modals[i].style.display = "none";
+    }
   }
 
   /* When the user clicks anywhere outside of the modal, close the modal*/
@@ -740,30 +834,30 @@ Content-Type: text/html
 
   /*Recursive function; takes an array with numbers and 'x'/'y' direction strings*/
   function moveObject(steps, dirArr, endAction) {
-  var endAction = endAction;
-  var elem = document.getElementById("OurShip"); // get element to move
-  var position = Number.parseInt(elem.getAttribute(dirArr[0]));
-  var arrived = position + steps[0]; //end position
-  var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
-  //turn([dir, dirArr[0]]);
-  var moving = setInterval(step, 30); // call inner function within 10 milliseconds intervals
-  function step() { //small
-    if (position == arrived) { // check if element has arrived
-    clearInterval(moving); // stop the element from moving
-    dirArr.shift(); // remove first element of array
-    steps.shift(); // remove second element of array
-    if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
-    moveObject(steps, dirArr, endAction); // calls itself with new array
-     }else{
-    endMove(endAction)
-    onMove=false; //not locked for next move anymore
+    var endAction = endAction;
+    var elem = document.getElementById("OurShip"); // get element to move
+    var position = Number.parseInt(elem.getAttribute(dirArr[0]));
+    var arrived = position + steps[0]; //end position
+    var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
+    //turn([dir, dirArr[0]]);
+    var moving = setInterval(step, (110/maxXY)); // call inner function within intervals (smaller intervall in higher levels)
+    function step() { //small
+      if (position == arrived) { // check if element has arrived
+        clearInterval(moving); // stop the element from moving
+        dirArr.shift(); // remove first element of array
+        steps.shift(); // remove second element of array
+        if(dirArr.length >0 && steps.length >0){ // check if more moves left in arrays
+        moveObject(steps, dirArr, endAction); // calls itself with new array
+         }else{
+          endMove(endAction)
+          onMove=false; //not locked for next move anymore
+        }
+      } else {
+        position+=dir*0.05; //dir increment (either +1 or -1)
+        position= Math.round(position*100)/100;
+        elem.setAttributeNS(null, dirArr[0], position); //change attributes
+      }
     }
-    } else {
-    position+=dir*0.05; //dir increment (either +1 or -1)
-    position= Math.round(position*100)/100;
-    elem.setAttributeNS(null, dirArr[0], position); //change attributes
-    }
-  }
   }
 
   document.getElementById('audio-button').addEventListener("click", function(){
