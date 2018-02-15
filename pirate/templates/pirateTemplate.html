@@ -23,189 +23,6 @@ Content-Type: text/html
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-
-  .container-fluid.bg-1{
-    padding-top: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 15px;
-    border: 5px solid black;
-    border-top-left-radius: 20em 7em;
-    border-top-right-radius: 7em 60em;
-    border-bottom-right-radius: 40em 7em;
-    border-bottom-left-radius: 6em 90em;
-    background-color: #fbf3d4;
-    background: radial-gradient(#fbf3d4, #fbf3d4, grey);
-  }
-
-  .bg-1 {
-    background-color: black;
-  }
-
-
-
-  .form-steps{
-  height: 30px;
-  margin-right: 2px;
-  background-color: #E6B0AA;
-  padding-left: 5px;
-  box-sizing: border-box;
-  border: none;
-  font-size: 16px;
-  width: 40px;
-  }
-
-
-
-  .form-steps:focus{
-  background-color: #D98880;
-  }
-
-  .form-dir{
-  height: 30px;
-  margin-left: 5px;
-  margin-right: 1px;
-  background-color: #E6B0AA;
-  box-sizing: border-box;
-  border: none;
-  font-size: 16px;
-  width: 40px;
-  }
-
-  .form-dir:focus{
-  background-color: #D98880;
-  }
-
-  .btn-default{
-    height: 35px;
-    border-radius: 0px;
-    background-color: #E6B0AA;
-    border: none;
-    font-size: 16px;
-    margin-left: 5px;
-    font-family: Papyrus;
-    padding-top: 10px;
-  }
-
-  .btn-small{
-    height: 25px;
-    border-radius: 0px;
-    background-color: #e0dabe;
-    border: none;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding-top: 5px;
-    padding-bottom: 2px;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-family: Papyrus;
-  }
-
-  .btn-small:hover,
-  .btn-small:focus{
-  background-color: lightgrey;
-  }
-
-
-
-  .btn-default:hover,
-  .btn-default:focus{
-  background-color: #D98880;
-
-  }
-
-  .round {
-  border-radius: 50%;
-  height: 30px;
-  float: right;
-  padding-top: 7px;
-  margin-right: 10%;
-  }
-
-  /* On small screens, set height to 'auto' for content */
-  @media screen and (max-width: 992px) {
-  .row.content {height:auto;}
-}
-
-/******MODAL*******/
-
-    /* Modal (background) */
-    .modal {
-    display: none; /* Hidden */
-    position: fixed; /* Stay in the same place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Scroll if needed */
-    background-color: rgba(0,0,0,0.5); /* Black background with 0.5 opacity */
-    }
-
-    /* Modal Content */
-    .modal-content {
-    position: relative;
-    max-width: 600px;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #585858;
-    width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop; /* Animation of modal content box */
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-    }
-
-    /* Add Animation that the box seems to be falling down and fading in*/
-    @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-    }
-
-    /* Safari and Chrome*/
-    @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-    }
-
-
-    /* Style of the modal close button */
-    .close {
-    color: white;
-    font-size: 35px;
-    }
-
-    /* style of the close button on hover */
-    .close:hover,
-    .close:focus {
-    color: lightgrey;
-    cursor: pointer;
-    }
-
-
-    /* Modal Header */
-    .modal-header {
-    padding: 7px 20px;
-    background-color: #585858;
-    }
-
-    /* Modal Body */
-    .modal-body {
-    padding: 10px 20px;
-    background-color: #fbf3d4;
-    }
-
-    /* Modal Footer */
-    .modal-footer {
-    padding: 20px 10px;
-    background-color: #585858;
-    }
-
-  </style>
   </head>
   <body class="bg-1">
  <!-- Background Music -->
@@ -292,10 +109,12 @@ Content-Type: text/html
   <div class="col-md-2">
   <h2>TIMER</h2>
     <tbody>
-    <tr><td>
-      <h2><small>Level points: <span id="pointsleft">00</span></small><br>
+    <tr>
+    <td>
+      <h2><small>Level points: <span id="pointsleft">00</span></small><br></h2>
       <h2><small>Total score: <span id="total-score-display"></span></small></h2>
-    </td></tr>
+    </td>    
+    </tr>
     </tbody>
   <h2>HIGH SCORES</h2>
   <table class='table table-borderless' id='myTable'>
@@ -360,6 +179,7 @@ Content-Type: text/html
 	</svg>
     </svg>
   </svg>
+
   <button class="btn-default round" id="audio-button" >&#128266;</button>
 
 
@@ -481,8 +301,14 @@ Content-Type: text/html
     <br>
     <input class="btn btn-default" id="submitQuick" type="submit">
   </form>
-
-
+<br/> 
+<br/>
+<div>
+  <p title="Click here to start the game">
+  <a href="../../pirate/index.html">
+  <img height="50" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/Button3.png" alt="Start Game"></a>
+  </p>
+</div>
   </div>
 
 
