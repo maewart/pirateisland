@@ -113,7 +113,7 @@ Content-Type: text/html
     <td>
       <h2><small>Level points: <span id="pointsleft">00</span></small><br></h2>
       <h2><small>Total score: <span id="total-score-display"></span></small></h2>
-    </td>    
+    </td>
     </tr>
     </tbody>
   <h2>HIGH SCORES</h2>
@@ -301,7 +301,7 @@ Content-Type: text/html
     <br>
     <input class="btn btn-default" id="submitQuick" type="submit">
   </form>
-<br/> 
+<br/>
 <br/>
 <div>
   <p title="Click here to start the game">
@@ -339,7 +339,7 @@ Content-Type: text/html
     <div class="modal-body">
       <div id="completed-message">
         <br>
-        <p>Congratulations pirate! You have completed "{{levelName}}" and collected {{lvlpoints}} treasure points! New adventures await in the waters of the next level.</p>
+        <p>Congratulations pirate! You have completed "{{levelName}}" and collected <span id="level-score"></span> treasure points! New adventures await in the waters of the next level.</p>
         <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px">
         <br>
         <button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button>
@@ -371,7 +371,6 @@ Content-Type: text/html
   setMaxSelection();
   setGameMusic();
   document.getElementById("total-score-display").textContent = totalScore; //display initial Points
-
   setInterval(lightning, 8000);
   //document.getElementById("lightningCover").style.visibility = 'visible';
   //document.getElementById("cloudCover").style.visibility = 'visible';
@@ -460,12 +459,11 @@ Content-Type: text/html
     event.preventDefault();
     //var formData = $(form).serialize();
     var enteredName=document.getElementById("playersName").value;
-    var endscore = (totalScore+lvlpoints);
     $.ajax({
       url: "highScore.py",
       type: "post",
       datatype:"json",
-      data: {'highScore': endscore,'name': enteredName},
+      data: {'highScore': totalScore,'name': enteredName},
       success: function(response){
         innerModule=document.getElementById("scoreboard-message");
         text='<br><p>Thank you for submitting!<br>Your current pirate rank: '+response+'</p><br>'
@@ -658,6 +656,7 @@ Content-Type: text/html
 
   /*Displays that the level is completed*/
   function displayLevelCompleted(){
+  document.getElementById('level-score').innerHTML = lvlpoints;
   openModal("nextlevel-modal");
   }
 
@@ -670,8 +669,9 @@ Content-Type: text/html
   }
 
   function enterScoreBoard(){
+    totalScore=(totalScore+lvlpoints);
     openModal("scoreboard-modal");
-    document.getElementById('total-score').innerHTML = (totalScore+lvlpoints);
+    document.getElementById('total-score').innerHTML = totalScore;
   }
 
 
@@ -702,7 +702,7 @@ Content-Type: text/html
     var arrived = position + steps[0]; //end position
     var dir = steps[0]/Math.abs(steps[0]); //increment: -1 when negative, +1 when positive
     //turn([dir, dirArr[0]]);
-    var moving = setInterval(step, (110/maxXY)); // call inner function within intervals (smaller intervall in higher levels)
+    var moving = setInterval(step, (150/maxXY)); // call inner function within intervals (smaller intervall in higher levels)
     function step() { //small
       if (position == arrived) { // check if element has arrived
         clearInterval(moving); // stop the element from moving
