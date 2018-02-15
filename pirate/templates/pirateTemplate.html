@@ -26,9 +26,24 @@ Content-Type: text/html
   <style>
 
   .container-fluid.bg-1{
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 15px;
+    border: 5px solid black;
+    border-top-left-radius: 20em 7em;
+    border-top-right-radius: 7em 60em;
+    border-bottom-right-radius: 40em 7em;
+    border-bottom-left-radius: 6em 90em;
+    background-color: #fbf3d4;
+    background: radial-gradient(#fbf3d4, #fbf3d4, grey);
   }
+
+  .bg-1 {
+    background-color: black;
+  }
+
+
 
   .form-steps{
   height: 30px;
@@ -278,7 +293,7 @@ Content-Type: text/html
   <h2>TIMER</h2>
     <tbody>
     <tr><td>
-      <h2><small>Level points: <span id="pointsleft"></span></small></h2>
+      <h2><small>Level points: <span id="pointsleft">00</span></small><br>
       <h2><small>Total score: <span id="total-score-display"></span></small></h2>
     </td></tr>
     </tbody>
@@ -293,6 +308,7 @@ Content-Type: text/html
     </thead>
     {{scoreBoard}}
   </table>
+  <br><br><br><br><br><br><br>
   </div>
   <!--GAME -->
   <div class="col-md-6">
@@ -344,7 +360,7 @@ Content-Type: text/html
 	</svg>
     </svg>
   </svg>
-<button class="btn-default round" id="audio-button" >&#128266;</button>
+  <button class="btn-default round" id="audio-button" >&#128266;</button>
 
 
   </div>
@@ -352,8 +368,7 @@ Content-Type: text/html
   </div>
   </div>
   <div class="col-md-3">
-  <div class="row">
-  <div class="col-md-6">
+
 
   <!-- Moves input -->
   <form id="pirateForm"><h2><small>Enter Moves</small></h2>
@@ -470,11 +485,7 @@ Content-Type: text/html
 
   </div>
 
-  <!-- submit details -->
-  <div class="col-md-6">
-  </div>
-  </div>
-  </div>
+
   </div>
 <!--Modals-------------------------------------------------------------------------------------------->
   <div id="scoreboard-modal" class="modal">
@@ -925,7 +936,7 @@ Content-Type: text/html
   function pointsCountdown(){
   var timer = setInterval(function(){
     lvlpoints--;
-    document.getElementById("pointsleft").textContent = lvlpoints;
+    document.getElementById("pointsleft").innerHTML = lvlpoints;
     if((lvlpoints <= 0) || (levelCompleted==true))
     clearInterval(timer);
     },1000);
