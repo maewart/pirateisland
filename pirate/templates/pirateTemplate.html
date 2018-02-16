@@ -342,7 +342,7 @@ Content-Type: text/html
     <div class="modal-body">
       <div id="completed-message">
         <br>
-        <p>Congratulations pirate! You have completed "{{levelName}}" and collected <span id="level-score"></span> treasure points! New adventures await in the waters of the next level.</p>
+        <p>Congratulations pirate! You have completed "{{levelName}}" and collected treasure points! New adventures await in the waters of the next level.</p>
         <img class="left_img" src="https://www.geos.ed.ac.uk/~s1788971/pirateImages/TruePirate.png" alt="Cannon" style="width:100px">
         <br>
         <button class="btn btn-default" id="nextLevel" onclick="getNextLevel()">Next level</button>
@@ -503,14 +503,14 @@ Content-Type: text/html
           if(isDirection(str.charAt(i).toLowerCase())){
             directions.push(str.charAt(i).toLowerCase());
           }else{
-            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be amongst ['u', 'd', 'l', 'r']!</p>";
+            formMessagesq.innerHTML="<br><p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be amongst ['u', 'd', 'l', 'r']!</p>";
             return;
           }
         }else{
             if (isNumber(str.charAt(i))){
               steps.push(parseInt(str.charAt(i)));
           }else{
-            formMessagesq.innerHTML="<p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be a number between 1 and 9!</p>";
+            formMessagesq.innerHTML="<br><p>There is something wrong with your moves: Char '"+str.charAt(i)+"' at position "+(i+1)+" should be a number between 1 and 9!</p>";
             return;
           }
         }
@@ -659,7 +659,6 @@ Content-Type: text/html
 
   /*Displays that the level is completed*/
   function displayLevelCompleted(){
-  document.getElementById('level-score').innerHTML = lvlpoints;
   openModal("nextlevel-modal");
   }
 
