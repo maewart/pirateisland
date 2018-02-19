@@ -12,7 +12,7 @@ class MoveValidation(object):
 	"""The Pirate Validation Class
 
 	The validation class contains all information needed to:
-    	1) Connect to the database
+    1) Connect to the database
 	2) Submit moves for validation to the database and receive results
 	3) Result contain information about move distances and if user reaches the end or not
 	4) Generate an output JSON
@@ -24,10 +24,10 @@ class MoveValidation(object):
 
 		Keyword arguments:
 		inp -- a set of user defined moves as cgiFieldStorage params
-        	    level -- the current levelNumber
+        	level -- the current levelNumber
 		    direction -- array (as string), containing the directions of each move
 		    steps -- array (as string), containing the steps of each move
-		    
+
 		"""
 
 		#Setup DB Connection
@@ -52,12 +52,14 @@ class MoveValidation(object):
 			#converting the input into an array
 			self._steps = ast.literal_eval(inp['steps'].value)
 
-			
-			
+
+
 	def validate(self):
-		"""Opens database Connection and runs all validations
+		"""Runs all validations
+		opens database connection, converts the input path to line coordinates, and validates the path through the database
+
 		"""
-		
+
 		self._db.openConnection()
 		startPoint = self._db.getLevel(self._levelNo).startPoint
 		self._coords = [[None for x in range(4)] for y in range(len(self._directions))]
@@ -70,7 +72,7 @@ class MoveValidation(object):
 
 	def __str__(self):
 		"""returns JSON with the validated path
-		
+
 		The returned data contains the following infromation:
 		direction - array with validated directions (x or y)
 		steps – array with a number for each move
@@ -89,16 +91,16 @@ class MoveValidation(object):
 	def _toLineCoords(self, dire, steps, start):
 		"""Recursive function to convert a direction array and a step array into line coordinates
 		Each iteration takes the start point, calculates the line coordinates [x1, y1, x2, y2] of the start point and the first element of dire and steps set the end point of the created line as the new start point, remove the first element of dire and steps and finally call itself with the new values.
-		
-		Example: 
-		1. Iteration:   _toLineCoords([1, 3], [d, r], (1,1)) --> [1, 1, 1, 2] 
-		2. Interation:  _toLineCoords([3], [r], (1,2)) --> [1, 2, 4, 2] 
-		
+
+		Example:
+		1. Iteration:   _toLineCoords([1, 3], [d, r], (1,1)) --> [1, 1, 1, 2]
+		2. Interation:  _toLineCoords([3], [r], (1,2)) --> [1, 2, 4, 2]
+
 		Keyword arguments:
 		dire -- an array of a direction for each move [l, r, u, d]
 		steps -- an array of a step for each move
 		start -- where the calculation starts for each iteration, should be actual start point of a level in the first iteration
-		
+
 		"""
 		assert len(dire) == len(steps)
 		col=len(self._coords)-len(dire)
@@ -125,12 +127,12 @@ class MoveValidation(object):
 
 	def _validatePaths(self):
 		""" Validates the lines in self._coords using the Database class
-		
+
 		Sends line by line of self._coords to the Database() class and converts the result to instructions for the JavaScript
 		When a crash or an end is returned from the Database class, the iteration stops.
-		
+
 		"""
-		
+
 		assert len(self._coords)>0
 		for line in self._coords:
 			validatedPath = self._db.validatePath(self._levelNo,line[0], line[1], line[2], line[3])
@@ -148,8 +150,8 @@ class MoveValidation(object):
 
 		Keyword arguments:
 		line -- original not validated array with the four coordinates: start_x, start_y, end_x, end_y
-        	distance -- a positive number with the validated distance from the start point to where the ship arrives for a certain action. Can be smaller or equal the distance between start and endpoint of the line
-		
+        distance -- a positive number with the validated distance from the start point to where the ship arrives for a certain action. Can be smaller or equal the distance between start and endpoint of the line
+
 		"""
 		if (line[0]!=line[2]): #indicates change in x direction
 			self._validatedDirections.append('x')
