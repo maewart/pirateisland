@@ -73,23 +73,28 @@ class Level(object):
 	def startPoint(self):
 			return (self._startX, self._startY)
 
-	def addIsland(self,objectId,fill,polygon): ##Comments waiting the wiring up!!
+	def addIsland(self,objectId,fill,polygon):
 		"""Attach finds to area
 
 		Keyword arguments:
-		obstacleList -- list of obstacles
-		type --
+		objectId -- Id
+		fill -- The fill pattern
+		type -- Type of object
 
 		"""
 		obj = Island(objectId,fill,polygon)
 		self._objectList.append(obj)
 
-	def addIcon(self,objectId,fill,lowX,lowY,highX,highY): ##Comments waiting the wiring up!!
+	def addIcon(self,objectId,fill,lowX,lowY,highX,highY):
 		"""Attach finds to area
 
 		Keyword arguments:
-		obstacleList -- list of obstacles
-		type --
+		objectId -- Id
+		fill -- The fill pattern
+		lowX -- X position of the left lower corner
+		lowY -- Y position of the left lower corner
+		highX -- X position of the right upper corner
+		highY -- Y position of the right upper corner
 
 		"""
 		obj = Icon(objectId,fill,lowX,lowY,highX,highY)
@@ -162,13 +167,13 @@ class Level(object):
 		#Explosion graphics
 		explosion = Icon(-999,'explosion',5,5,7,7).render()
 		
-		#Sink
+		#Sink graphics
 		sink = Icon(-998,'sink',5,5,6,6).render()
 
-		# Combination of all the SVGs code generated so far in the variable "combined"
+		#Combination of all the SVGs code generated so far in the variable "combined"
 		combined = sea + lines + objects + ship + boundary + explosion + sink
 
-		# Creation of the final HTML code that wraps all the SVGs elements previously created
+		#Creation of the final HTML code that wraps all the SVGs elements previously created
 		svgRoot = genHTMLElement('svg',
 								['width','height','viewBox'],
 								[width,height,viewBox],combined)
@@ -189,14 +194,13 @@ class Icon(object):
 		"""Initialize object
 
 		Keyword arguments:
-		id,fill,x,y,width,height
-		where:
-		id: Id of the obstacle (e.g. 1,2,3,..)
-		fill: type of filling. It can be "island, icon, end"
-		x: X position of the left upper corner
-		y: Y position of the left upper corner
-		width: size of the svg
-		height:  size of the svg
+		id -- Id of the obstacle (e.g. 1,2,3,..)
+		fill -- type of filling. It can be "island, icon, end"
+		lowX -- X position of the left lower corner
+		lowY -- Y position of the left lower corner
+		highX -- X position of the right upper corner
+		highY -- Y position of the right upper corner
+		
 		"""
 
 		self._id = int(id)
@@ -311,7 +315,6 @@ class Icon(object):
 		Seagullpath = 'm-220.1 378.5c0 0.6-0.5 1.1-1.1 1.1s-1.1-0.5-1.1-1.1 0.5-1.1 1.1-1.1 1.1 0.5 1.1 1.1zm67.1 44.4c-3 1.8-8.4 0.6-11.8 0.3-4.4-0.3-8.7-0.9-13.1-1.4-3.5-0.4-7-0.9-10.5-1.3-1.7-0.1-3.3-0.3-4-1.4-0.3-0.5-0.4-1.1-0.5-1.7-0.1-0.5-0.2-1.1-0.4-1.6-0.5-1.4-1.7-2.4-2.9-3.3l-0.5-0.4c-4.3-3.2-8.8-6.6-10.5-11.5-0.5-1.3 0.3-3.2-0.2-4.3-0.5-1.3-1.5-0.6-1.8 0.5-0.3 1.3 0.3 3.1 0.8 4.3 1.9 5.3 6.5 8.8 11 12.1l0.5 0.4c1.1 0.8 2.1 1.6 2.5 2.7 0.2 0.4 0.2 0.8 0.3 1.3 0.1 0.7 0.3 1.5 0.7 2.2 0.5 0.8 1.3 1.3 2.2 1.6-1.6 0.5-3.2 1-4.8 1.4-1.2 0.3-2.5 0.6-3.7 0.8 0 0.1-0.1 0.2-0.1 0.3-0.5 1.4-0.2 2.9-0.5 4.4-0.3 1.4-0.7 2.6-0.7 4 0 1.6-0.1 3.1-0.1 4.7 0 1.1 0 2.3 0.1 3.4 0.3 2.5 1.2 5 2.7 7.1-1.6 0.9-2.6-0.5-4.3-0.5-1.3 0-2.1 1-3.2 1.2s-0.8-0.8-1.6-0.9c-1.1-0.2-2.2 0.7-3.4 0.4-0.2-0.1-0.3-0.1-0.5-0.2-1 0.4-2 0.8-2.9 0.3-0.1-0.1-0.2-0.1-0.2-0.2-0.1-0.2 0-0.4-0.1-0.5-0.1-0.2-0.3-0.4-0.6-0.4h-0.1-0.7c-1.8-0.1-0.5-0.9 0.3-1.2 1-0.3 2-0.5 3-0.9 1.3-0.6 2.8-1.2 3.5-2.5 1-1.8 1-4.6 1.2-6.5 0.2-2.4 0.1-4.5-0.6-6.8-0.4-1.3-0.1-2.7-0.3-4 0-0.3-0.1-0.6-0.2-0.9-3.3-0.4-6.4-1.5-9.4-3.5-3.8-2.6-6.7-5.9-8.5-9.6-2-2.8-3.3-6.4-3.3-10.5 0-2.1 0.3-4.2 1-6.2s2.8-4.2 2.1-6.4c-0.5-1.7-1.8-2.7-3.6-2.6-1.7 0.1-2.9 0.9-4.6 1.4-1.6 0.4-3.2 0.6-4.8 0.7s-2.1-0.8-1.5-2.2c0.3-0.6 0.7-1.2 1.2-1.7 1.1-1.3 3.1-1.7 4.7-2.2 1.5-0.4 3-1.1 4.5-1.7 2.9-1.2 3.1-2.9 4.3-5.2 1.3-2.3 4.1-3.9 6.6-4.6 4-1.1 8.7 0.1 11 3.5 2.2 3.2 2.5 7.6 2.7 11.3 0.1 0.9 0.2 1.7 0.6 2.5 2.7 0.3 5.3 0.9 7.8 1.7 3.9 1.3 7.3 3.1 9.8 5.2 4.4 3.8 9.3 6.2 14.1 9.4 3 2 6 4 9.3 5.5 2.8 1.3 5.7 2.4 8.7 3.2 0.6 0.2 1.2 0.4 1.3 1 0 0.7-0.8 1-1.5 1.1-3.4 0.5-6.8 0.8-10.1 1.5-1.7 0.4-3.4 0.4-5.1 0.6 3 0.8 6 1.5 9 2.1 0.8 0.5 14.4 1.9 9.7 4.7zm-67.9-46.3c-0.9 0-3.2 1.9-2.1 2.8 0.7 0.7 1.5 1.4 2.5 1 0.8-0.3 1.4-0.9 1.8-1.6 0.1-0.1 0.1-0.2 0.1-0.3 0.5-0.9-1.5-1.9-2.3-1.9zm14.2 65.6c0.1 0.7 0.3 1.3 0.7 1.9 0.1 0.2 0.2 0.3 0.2 0.5 0.3-0.2 0.6-0.3 0.8-0.6 1.6-1.6 1.1-4.3 1.3-6.3 0.2-1.8 0.2-3.6 0.1-5.5v-2.3c-0.1-1.4-0.3-2.5-0.1-3.9 0.1-0.6 0.1-1.3 0-1.9-0.8 0.1-1.5 0.1-2.3 0.1 0.1 1.2 0.5 2.4 0.4 3.7 0 1.4-0.4 2.8-0.6 4.2-0.3 2.7-0.5 5.4-0.7 8.1 0.1 0.6 0.1 1.3 0.2 2z'
 
 		#Generation of the html code for the different elements that make up the svg
-
 		pathSeagull = genHTMLElement('path',
 							['class','d'],
 							['st0_seagull',Seagullpath])
@@ -566,7 +569,13 @@ class Icon(object):
 		return svgTreasure
 		
 	def _explosion(self):
+		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
+
+		Type of svg end point: explosion
+
+		"""
 		
+		#Generation of the html code for the different elements that make up the svg
 		partA = genHTMLElement('path',
 								['class','d'],
 								['st0_explosion','M69.4,31.9c-1.7-3-4.8-4.6-6.8-7.3c2.1-3.2,5-5.6,6.3-9.5c-5.1-0.6-8.2,0-12.9-0.5\
@@ -595,6 +604,7 @@ class Icon(object):
 		
 		combine = partA + partB
 
+		#Create outer SVG viewbox
 		svgExp = genHTMLElement('svg',
 								['viewBox'],
 								['0 0 69.4 56'],
@@ -602,6 +612,13 @@ class Icon(object):
 		return svgExp
 		
 	def _sink(self):
+		"""Renders the specific SVG obstacle wrapping the html code for all the icon elements
+
+		Type of svg end point: sink
+
+		"""
+		
+		#Generation of the html code for the different elements that make up the svg
 		partA = genHTMLElement('path',
 								['class','d'],
 								['st0_splash','M11.2,34.7c-2.3,0.1-5.4,1-5,3.3c0.4,2.3,4.8,2.1,7.5,2.7c2.8,0.5,7.7,1.5,13.6,6.8\
@@ -626,6 +643,7 @@ class Icon(object):
 		
 		combine = partA + partB + partC + partD + partE
 
+		#Create outer SVG viewbox
 		svgSink = genHTMLElement('svg',
 								['viewBox'],
 								['0 0 82 58'],
@@ -642,20 +660,16 @@ class Island(object):
 	def __init__(self,id,fill,path):
 		"""Keyword arguments:
 
-		id,fill,path
-		where:
-		id: Id of the island (e.g. 1,2,3,..)
-		fill: type of filling. It can be "#sandpattern"
-		path: polygon path
+		Keyword arguments:
+		id -- Id of the island (e.g. 1,2,3,..)
+		fill -- type of filling. i.e. "#sandpattern"
+		path -- polygon path
 
 		"""
 		self._id = int(id)
 		self._fill = 'url(#' + str(fill) +')'
 		self._htmlId = 'obj_' + str(self._id)
 
-		#pathTemp = str(path).replace(',',' ')
-		#pathTemp = pathTemp.replace(';',' L ')
-		#pathTemp = 'M ' + pathTemp + ' Z'
 		self._path = path
 
 	def render(self):
@@ -671,26 +685,25 @@ class Island(object):
 		return island
 
 class ScoreBoard (object):
+	"""Scoreboard information
+
+	The ScoreBoard class renders the top 10 scoreboard table
+
+	"""
 
 	def __init__(self,scoreName,scorePoint):
 		
-		#cp.deepcopy to create a copy of the list and not pass only the pointer
-		#self._scoreName = cp.deepcopy(scoreName)
-		#self._scorePoint = cp.deepcopy(scorePoint)
-
 		assert len(scoreName) == len(scorePoint)
 		self._scoreName = scoreName
 		self._scorePoint = scorePoint
 		
-		
-		#self._scoreName = ['A','B','C','D','E']
-		#self._scorePoint = [1,2,3,4,5]
-
 	def __str__(self):
-		#10 reiteration are hard coded
+
 		scoreHtml = ''
 		tableRow = ''
-		tableHtml = ''	
+		tableHtml = ''
+
+		#For each item in scoreboard, add to list
 		for i in range(len(self._scoreName)):
 			
 			scoreHtml = genHTMLElement('td',[],[],str(i+1)) + genHTMLElement('td',[],[],str(self._scoreName[i])) + genHTMLElement('td',[],[],str(self._scorePoint[i]))

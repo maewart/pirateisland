@@ -2,7 +2,13 @@
 Library of Classes:
 	Website
 	Database
+	Level
+	Icon
+	Island
+	ScoreBoard
 	HTMLHelper
+	MoveValidation
+	HighScore
 """
 
 from .database import *

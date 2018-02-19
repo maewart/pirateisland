@@ -73,7 +73,7 @@ class MoveValidation(object):
 	def __str__(self):
 		"""returns JSON with the validated path
 
-		The returned data contains the following infromation:
+		The returned data contains the following information:
 		direction - array with validated directions (x or y)
 		steps – array with a number for each move
 		endaction – action at the end of the path [crash, not_crash, end]
@@ -94,7 +94,7 @@ class MoveValidation(object):
 
 		Example:
 		1. Iteration:   _toLineCoords([1, 3], [d, r], (1,1)) --> [1, 1, 1, 2]
-		2. Interation:  _toLineCoords([3], [r], (1,2)) --> [1, 2, 4, 2]
+		2. Iteration:  _toLineCoords([3], [r], (1,2)) --> [1, 2, 4, 2]
 
 		Keyword arguments:
 		dire -- an array of a direction for each move [l, r, u, d]

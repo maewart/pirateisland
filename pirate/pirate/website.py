@@ -14,10 +14,9 @@ class Website(object):
 	"""The Pirate Website
 	
 	The website class contains all information needed to:
-	1) Load and submit data from database
-	2) Perform any actions - filter or add data
-	3) Generate the SVG
-	4) Generate the webpage using a Jinja2 html template
+	1) Load data from database
+	2) Generate the SVG
+	3) Generate the webpage using a Jinja2 html template
 	
 	"""
 	
@@ -67,10 +66,19 @@ class Website(object):
 		"""Run all actions requested and generate the website"""
 	
 		self._db.openConnection()
+		
+		#Get the number of levels so know when have completed the game
 		self._maxLevelId = self._db.getMaxLevelId()
+		
+		#Get the level information
 		self._level = self._db.getLevel(self._levelNo)
+		
+		#Add objects for level
 		self._db.addObjects(self._level)
+		
+		#Get the scoreboard
 		self._sb = self._db.getScoreBoard()
+		
 		self._db.closeConnection()
 	
 	def __str__(self):
@@ -78,12 +86,7 @@ class Website(object):
 		
 		assert self._level != None
 		
-		#Demonstration purposes for reading params
-		#something = ''
-		#for i in self._params:
-		#	something  =  i +' '+ self._params[i].value + '<br>' + something
-		#something = 'Hello Everyone <br><br>' + something	
-		
+		#Render the website
 		return self._mainTemplate.render(
 										gameDisplay = self._level.render(10,10),
 										levelId = self._level.levelId,
@@ -96,25 +99,5 @@ class Website(object):
 										score = self._score,
 										scoreBoard = str(self._sb),
 										music = self._music
-										)
-		
-	def _getParam(self,key):
-		"""This checks if parameter exists and return and errors if doesn't exist"""
-		
-		if key not in self._params:
-			raise Exception(key + ' cannot be blank')
-		return self._params[key].value
-			
-	def _allowBlank(self,key):
-		"""This checks if parameter exists and return blank if doesn't exists """
-		
-		val = '' #This allows the value to be blank
-		if key in self._params:
-			val = self._params[key].value
-		return val
-	
-
-		
-
-		
+										)	
 	

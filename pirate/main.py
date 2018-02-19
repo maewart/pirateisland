@@ -19,27 +19,27 @@ import pirate as pLib
 params = cgi.FieldStorage()
 
 #Try catch block around website - don't want website to crash if anything goes wrong
-#try:
+try:
 	#Initialise website
-website = pLib.Website(params)
+	website = pLib.Website(params)
 	
 	#Perform actions and create website
-website.run()
+	website.run()
 	
 	#Print to screen
-print(website)
+	print(website)
 	
-#except Exception as e:
+except Exception as e:
 	#Create basic error display in case website experiences a major failure such as the database being offline
-#	print("Content-Type: text/html\n")
-#	print("<!DOCTYPE html>")
-#	print("<head>")
-#	print("<title>Error</title>")
-#	print("</head>")
-#	print('<body><br><center>Ooops !!! Something went wrong: <br><br><font color="red">')
-#	print(e)
-#	print("</font><br><br>Please contact s1783947@sms.ed.ac.uk</center></body>")
-#	print("</html>")
+	print("Content-Type: text/html\n")
+	print("<!DOCTYPE html>")
+	print("<head>")
+	print("<title>Error</title>")
+	print("</head>")
+	print('<body><br><center>Ooops !!! Something went wrong: <br><br><font color="red">')
+	print(e)
+	print("</font><br><br>Please contact s1783947@sms.ed.ac.uk</center></body>")
+	print("</html>")
 
 
 

@@ -40,7 +40,7 @@ class HighScore(object):
 
 
 	def addHighScore(self):
-		"""Opens database Connection and runs all validations"""
+		"""Opens database Connection and adds the high score"""
 		self._db.openConnection()
 		self._position=self._db.addHighScore(self._name,self._highScore)
 		self._db.closeConnection()

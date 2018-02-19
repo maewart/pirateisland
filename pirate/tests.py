@@ -69,6 +69,7 @@ class TestDatabase:
 class TestValidate:
 	#8
 	def test_boundMaxX(self):
+		""" Test returns crash if boundary hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(1,7.5,7.5,11.5,7.5)
@@ -78,6 +79,7 @@ class TestValidate:
 	
 	#9
 	def test_boundMaxY(self):
+		""" Test returns crash if boundary hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,7.2,11.3,7.2,25.1)
@@ -87,6 +89,7 @@ class TestValidate:
 	
 	#10
 	def test_boundZeroX(self):
+		""" Test returns crash if boundary hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,3.5,2.5,-0.05,2.5)
@@ -96,6 +99,7 @@ class TestValidate:
 	
 	#11
 	def test_boundZeroY(self):
+		""" Test returns crash if boundary hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,3.5,2.5,3.5,-37)
@@ -105,6 +109,7 @@ class TestValidate:
 	
 	#12
 	def test_End(self):
+		""" Test returns end if treasure hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(1,8.5,5.5,8.5,9.5)
@@ -114,6 +119,7 @@ class TestValidate:
 	
 	#13
 	def test_EndBeyondBound(self):
+		""" Test returns end if treasure hit but then boundary would be hit beyond it """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(1,8.5,5.5,8.5,11.5)
@@ -123,6 +129,7 @@ class TestValidate:
 
 	#14			
 	def test_Icon(self):
+		""" Test returns crash if icon hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,2.5,0.5,2.5,14)
@@ -132,6 +139,7 @@ class TestValidate:
 	
 	#15
 	def test_Island(self):
+		""" Test returns crash if island hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,2.5,3.5,46,3.5)
@@ -141,6 +149,7 @@ class TestValidate:
 	
 	#16
 	def test_Island2(self):
+		""" Test returns crash if island hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,14.5,5.5,0.5,5.5)
@@ -150,6 +159,7 @@ class TestValidate:
 	
 	#17
 	def test_Island3(self):
+		""" Test returns crash if island hit """
 		db = pp.Database()
 		db.openConnection()
 		output = db.validatePath(2,14.5,6.5,0.5,6.5)
@@ -157,8 +167,10 @@ class TestValidate:
 		db.closeConnection()
 		assert_equals(output,expected)
 
+class TestMainDisplay:
 	#18	
 	def test_PointsScore(self):
+		""" Check Scoreboard can be loaded"""
 		db = pp.Database()
 		db.openConnection()
 		output = db.getScoreBoard()
@@ -168,6 +180,7 @@ class TestValidate:
 	
 	#19
 	def test_NameScore(self):
+		""" Check Scoreboard can be loaded"""
 		db = pp.Database()
 		db.openConnection()
 		output = db.getScoreBoard()
@@ -177,6 +190,7 @@ class TestValidate:
 
 	#20
 	def test_GameBoard(self):
+		""" Check can render gameboard"""
 		db = pp.Database()
 		db.openConnection()
 		sb = db.getScoreBoard()
