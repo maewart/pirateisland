@@ -1,7 +1,5 @@
 # Pirate Island Game
 
-1
-
 **Developers:** Martin Ewart, Livia Jakob, Marco Pizzo, Callum Crawford
 
 **Project Summary:** The primary objective of this project was to implement a database in Oracle Spatial to store spatial data, and execute spatial queries and computations. This was achieved by building a game platform. This project contains a number of spatial operations and data structures, allowing us to improve our knowledge of Oracle Spatial, while creating something fun and interactive.
